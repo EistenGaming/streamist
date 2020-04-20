@@ -34,7 +34,7 @@ function createWindow () {
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
     },
-      frame: false
+    frame: false
   })
 
   mainWindow.loadURL(process.env.APP_URL)

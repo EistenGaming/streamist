@@ -21,6 +21,13 @@ const routes = [
     ]
   },
   {
+    path: '/analyticsDashboard',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/AnalyticsDashboard.vue') }
+    ]
+  },
+  {
     path: '/about',
     component: () => import('layouts/MainLayout.vue'),
     children: [

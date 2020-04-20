@@ -73,6 +73,14 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item to="/analyticsDashboard" exact clickable v-ripple>
+          <q-item-section side>
+            <q-avatar :style="{ color: localTextColor1 }" icon="insert_chart" size="48px" />
+            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
+               <div style="font-size:medium">Analytics Dashboard</div>
+             </q-tooltip>
+          </q-item-section>
+        </q-item>
         <div v-if="uiEnableDeveloperMode === true">
         <q-item to="/devtools" exact clickable v-ripple>
           <q-item-section side>
