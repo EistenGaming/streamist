@@ -11,15 +11,13 @@ import Vue from 'vue'
 /*
 * Set the App and NXS versions here, until we find a better (automated) solution
 */
-Vue.prototype.$appName = 'NX Client'
-Vue.prototype.$nxsVersion = '0.9'
-Vue.prototype.$nxsServerVersion = '0.1'
+Vue.prototype.$appName = 'Streamist'
 Vue.prototype.$appVersion = '1.0'
-Vue.prototype.$copyright = 'Copyright (c) 2019 - 2020 by Blackzendo AG'
+Vue.prototype.$copyright = 'Copyright (c) by Michael "Zen" Boeni'
 
 /** Define the DARK UI theme colors */
-Vue.prototype.$darkPrimary = '#364552'
-Vue.prototype.$darkSecondary = '#6A7C89'
+Vue.prototype.$darkPrimary = '#2F3136' /** '#364552' */
+Vue.prototype.$darkSecondary = '#36393F' /** '#6A7C89' */
 Vue.prototype.$darkAccent = '#ad2bc4'
 Vue.prototype.$darkPositive = '#21BA45'
 Vue.prototype.$darkNegative = '#e84a3f'
