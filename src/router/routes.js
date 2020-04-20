@@ -36,8 +36,8 @@ const routes = [
         component: () => import('pages/Devtools.vue'),
         children: [
           {
-            path: 'debug',
-            component: () => import('pages/Debug.vue')
+            path: 'debugLog',
+            component: () => import('pages/DebugLog.vue')
           }
         ]
       }

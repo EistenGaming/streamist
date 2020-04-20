@@ -27,7 +27,7 @@
           @click="registerButtonPressed"
           flat
           size="10px"
-          color="secondary"
+          color="localTextColor1"
           label="Register"
         />
         <q-toggle
@@ -71,21 +71,6 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>Home</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/ivechat" exact clickable v-ripple>
-          <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="chat" size="48px">
-              <div v-if="uiEenableChatMessageBadge === true && uiUnreadChatMessageCount > 0 && getCurrentRoute() !== '/ivechat'">
-                <q-badge class="badgePosition" color="accent" text-color="white" floating transparent>{{uiUnreadChatMessageCount}}</q-badge>
-              </div>
-            </q-avatar>
-            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
-               <div style="font-size:medium">IVE Chat</div>
-             </q-tooltip>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label text-color="blue-grey-1">IVE Chat</q-item-label>
           </q-item-section>
         </q-item>
         <q-item to="/settings" exact clickable v-ripple>

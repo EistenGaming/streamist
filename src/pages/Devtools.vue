@@ -17,12 +17,12 @@
                   <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-uppercase" :style="{ color: localTextColor1 }" >DEV TOOLS</q-item-label>
                 </div>
                 <q-route-tab
-                  name="iveDebug"
+                  name="log"
                   icon="library_books"
-                  label="IVE Debugging"
+                  label="Log"
                   style="justify-content:initial"
                   :style="{ color: localTextColor2 }"
-                  to="/devtools/ivedebug"
+                  to="/devtools/DebugLog"
                   exact
                 />
               </q-tabs>
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       // Vars go here
-      selectedTab: 'iveDebug',
+      selectedTab: 'log',
       localTextColor1: '',
       localTextColor2: '',
       uiEnableDarkMode: false

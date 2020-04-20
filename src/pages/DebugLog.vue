@@ -1,36 +1,7 @@
 <template>
       <q-page class="flex flex-start bg-secondary">
-        <div style="width:100%">
-          <q-splitter
-            :value="160"
-            disable
-            unit="px"
-          >
-            <template v-slot:before>
-              <q-tabs
-                v-model="selectedTab"
-                vertical
-                dense
-                inline-label
-                >
-                <div class="q-pa-sm">
-                  <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-uppercase" :style="{ color: localTextColor1 }" >DEV TOOLS</q-item-label>
-                </div>
-                <q-route-tab
-                  name="debug"
-                  icon="library_books"
-                  label="Debugging"
-                  style="justify-content:initial"
-                  :style="{ color: localTextColor2 }"
-                  to="/devtools/debug"
-                  exact
-                />
-              </q-tabs>
-            </template>
-            <template v-slot:after>
-              <router-view />
-            </template>
-          </q-splitter>
+        <div style="width:100%" class="q-pa-sm" :style="{ color: localTextColor1 }">
+          The log goes here :)
         </div>
       </q-page>
 </template>
@@ -41,7 +12,7 @@ export default {
   data () {
     return {
       // Vars go here
-      selectedTab: 'debug',
+      selectedTab: 'log',
       localTextColor1: '',
       localTextColor2: '',
       uiEnableDarkMode: false
