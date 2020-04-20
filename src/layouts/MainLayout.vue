@@ -73,6 +73,31 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
+        <div v-if="uiEnableDeveloperMode === true">
+        <q-item to="/devtools" exact clickable v-ripple>
+          <q-item-section side>
+            <q-avatar :style="{ color: localTextColor1 }" icon="developer_mode" size="48px">
+              <div v-if="uiEnableLogEntryBadge === true && uiUnresolvedLogEntryCount > 0">
+                  <q-badge class="badgePosition" color="accent" text-color="white" floating transparent>{{uiUnresolvedLogEntryCount}}</q-badge>
+              </div>
+            </q-avatar>
+            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
+               <div style="font-size:medium">Developer Tools</div>
+             </q-tooltip>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label text-color="blue-grey-1">Developer Mode</q-item-label>
+          </q-item-section>
+        </q-item>
+        </div>
+        <q-item to="/about" exact clickable v-ripple>
+          <q-item-section side>
+            <q-avatar :style="{ color: localTextColor1 }" icon="info_outline" size="48px" />
+            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
+               <div style="font-size:medium">About</div>
+             </q-tooltip>
+          </q-item-section>
+        </q-item>
         <q-item to="/settings" exact clickable v-ripple>
           <q-item-section side>
             <q-avatar :style="{ color: localTextColor1 }" icon="settings" size="48px" />
@@ -84,31 +109,6 @@
             <q-item-label text-color="blue-grey-1">Settings</q-item-label>
           </q-item-section>
         </q-item>
-        <div v-if="uiEnableDeveloperMode === true">
-        <q-item to="/devtools" exact clickable v-ripple>
-          <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="developer_mode" size="48px">
-              <div v-if="uiEnableIveReportBadge === true && uiUnresolvedIveReportCount > 0">
-                  <q-badge class="badgePosition" color="accent" text-color="white" floating transparent>{{uiUnresolvedIveReportCount}}</q-badge>
-              </div>
-            </q-avatar>
-            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
-               <div style="font-size:medium">Developer Tools</div>
-             </q-tooltip>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label text-color="blue-grey-1">Developer Mode</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/about" exact clickable v-ripple>
-          <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="info_outline" size="48px" />
-            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
-               <div style="font-size:medium">About</div>
-             </q-tooltip>
-          </q-item-section>
-        </q-item>
-        </div>
       </q-list>
     </q-drawer>
       <!-- *** User Alert Dialog *** -->
@@ -257,10 +257,9 @@ export default {
       localTextColor2: '',
       progressValue: 0,
       uiEnableDeveloperMode: false,
-      uiEenableChatMessageBadge: false,
-      uiEnableIveReportBadge: false,
+      uiEnableLogEntryBadge: false,
       uiUnreadChatMessageCount: 0,
-      uiUnresolvedIveReportCount: 0
+      uiUnresolvedLogEntryCount: 0
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -272,12 +271,9 @@ export default {
     this.$root.$on('themeChange', this.changeTheme)
     this.$root.$on('showProgress', this.showProgress)
     this.$root.$on('developerMode', this.enableDevMode)
-    this.$root.$on('chatMessageBadge', this.enableChatMessageBadge)
-    this.$root.$on('iveReportBadge', this.enableIveReportBadge)
-    this.$root.$on('unreadChatMessages', this.setUnreadMessageCount)
-    this.$root.$on('unresolvedIveReports', this.setUnresolvedIveReportCount)
-    this.uiEnableChatMessageBadge = this.$q.localStorage.getItem('uiEnableChatMessageBadge')
-    this.uiEnableIveReportBadge = this.$q.localStorage.getItem('uiEnableIVEReportBadge')
+    this.$root.$on('iveLogEntryBadge', this.enableLogEntryBadge)
+    this.$root.$on('unresolvedLogEntries', this.setUnresolvedLogEntryCount)
+    this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
     document.addEventListener('keydown', this.keyListener)
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       this.changeTheme('dark')
@@ -289,17 +285,12 @@ export default {
     } else {
       this.uiEnableDeveloperMode = false
     }
-    var debugAIMLReports = this.$q.localStorage.getItem('debugAIMLReports')
-    if (debugAIMLReports !== null) {
-      this.uiUnresolvedIveReportCount = debugAIMLReports.length
+    var debugLog = this.$q.localStorage.getItem('debugLog')
+    if (debugLog !== null) {
+      this.uiUnresolvedLogEntryCount = debugLog.length
     } else {
-      this.uiUnresolvedIveReportCount = 0
+      this.uiUnresolvedLogEntryCount = 0
     }
-
-    // Use this syntax to emit an event:
-    // this.$root.$emit('userAlert', 'fatal', 'A message from the president', 'Obey the president!')
-    // this.$root.$emit('userNotify', 'Ivey sent you a new message', '5 min ago.', 'notifications_active')
-    // this.$root.$emit('showProgress', 0.65)
   },
   watch: {
     loginToggleState: function () {
@@ -348,7 +339,7 @@ export default {
       if (e.key === '1' && (e.ctrlKey || e.metaKey)) {
         this.$root.$emit('userAlert', 'fatal', 'A message from the president', 'Obey the president!')
       } else if (e.key === '2' && (e.ctrlKey || e.metaKey)) {
-        this.$root.$emit('userNotify', 'Ivey sent you a new message', '5 min ago.', 'notifications_active')
+        this.$root.$emit('userNotify', 'Here\'s a new notification', '5 min ago.', 'notifications_active')
       } else if (e.key === '3' && (e.ctrlKey || e.metaKey)) {
         this.$root.$emit('showProgress', 0.35)
       } else if (e.key === '4' && (e.ctrlKey || e.metaKey)) {
@@ -450,20 +441,20 @@ export default {
         this.uiEenableChatMessageBadge = false
       }
     },
-    enableIveReportBadge: function (showBadge) {
+    enableLogEntryBadge: function (showBadge) {
       if (showBadge) {
-        this.uiEnableIveReportBadge = true
+        this.uiEnableLogEntryBadge = true
       } else {
-        this.uiEnableIveReportBadge = false
+        this.uiEnableLogEntryBadge = false
       }
     },
     setUnreadMessageCount: function (noOfMessages) {
       // TODO: Implement
       this.uiUnreadChatMessageCount = noOfMessages
     },
-    setUnresolvedIveReportCount: function (noOfReports) {
+    setUnresolvedLogEntryCount: function (noOfReports) {
       // TODO: Implement
-      this.uiUnresolvedIveReportCount = noOfReports
+      this.uiUnresolvedLogEntryCount = noOfReports
     },
     getCurrentRoute: function () {
       // console.log('ROUTE: ' + this.$router.currentRoute.path)

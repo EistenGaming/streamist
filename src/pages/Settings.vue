@@ -24,7 +24,6 @@
           <q-tab name="appearance" icon="palette" label="Appearance" style="justify-content:initial" :style="{ color: localTextColor2 }"/>
           <q-tab name="notifications" icon="notifications" label="Notifications" style="justify-content:initial" :style="{ color: localTextColor2 }"/>
           <q-tab name="connectivity" icon="cast_connected" label="Connectivity" style="justify-content:initial"  :style="{ color: localTextColor2 }"/>
-          <q-tab name="ive" icon="visibility" label="IVES" style="justify-content:initial"  :style="{ color: localTextColor2 }"/>
         </q-tabs>
       </template>
       <template v-slot:after>
@@ -230,27 +229,15 @@
 
           <q-tab-panel name="notifications">
             <div class="text-h5 q-mb-md" :style="{ color: localTextColor2 }">NOTIFICATIONS</div>
-            <div class="q-pt-sm text-caption q-mb-md" :style="{ color: localTextColor2 }">CHAT</div>
+             <div class="q-pt-md text-caption q-mb-md" :style="{ color: localTextColor2 }">DEV MODE</div>
               <div class="bg-primary">
                 <q-item tag="label" v-ripple>
                   <q-item-section>
-                    <q-item-label :style="{ color: localTextColor1 }">Enable Unread Message Badge</q-item-label>
-                    <q-item-label caption  :style="{ color: localTextColor2 }">Shows a badge when you have unread chat messages.</q-item-label>
+                    <q-item-label :style="{ color: localTextColor1 }">Show badges for new log entries</q-item-label>
+                    <q-item-label caption  :style="{ color: localTextColor2 }">Shows a badge when there is a new log entry.</q-item-label>
                   </q-item-section>
                   <q-item-section avatar>
-                    <q-toggle color="accent" v-model="uiEnableChatMessageBadge" />
-                  </q-item-section>
-                </q-item>
-            </div>
-            <div class="q-pt-md text-caption q-mb-md" :style="{ color: localTextColor2 }">DEV MODE</div>
-              <div class="bg-primary">
-                <q-item tag="label" v-ripple>
-                  <q-item-section>
-                    <q-item-label :style="{ color: localTextColor1 }">Show IVE Feedback Report Badges</q-item-label>
-                    <q-item-label caption  :style="{ color: localTextColor2 }">Shows a badge when there are unresolved IVE feedback reports.</q-item-label>
-                  </q-item-section>
-                  <q-item-section avatar>
-                    <q-toggle color="accent" v-model="uiEnableIVEReportBadge" />
+                    <q-toggle color="accent" v-model="uiEnableLogEntryBadge" />
                   </q-item-section>
                 </q-item>
             </div>
@@ -266,32 +253,6 @@
                 </q-item-section>
                 <q-item-section avatar>
                   <q-toggle color="accent" v-model="loginAtStartup" />
-                </q-item-section>
-              </q-item>
-              <q-item tag="label" v-ripple>
-                <q-item-section>
-                  <q-item-label :style="{ color: localTextColor1 }">NX Proxy Server</q-item-label>
-                  <q-item-label caption :style="{ color: localTextColor2 }">Select the NX proxy server to connect to. It is recommended to choose one in or close to your region.</q-item-label>
-                </q-item-section>
-                <q-item-section avatar>
-                  <div :style="{ color: localTextColor1 }">
-                    <q-select v-model="nxProxySelected" dense bg-color="secondary" outlined :options="nxProxyOptions" label="Select NX Proxy" style="width:150px"/>
-                  </div>
-                </q-item-section>
-              </q-item>
-            </div>
-          </q-tab-panel>
-
-          <q-tab-panel name="ive">
-            <div class="q-pa-md text-h5 q-mb-md" :style="{ color: localTextColor2 }">Intelligent Virtual Entities</div>
-            <div class="bg-primary">
-              <q-item tag="label" v-ripple>
-                <q-item-section>
-                  <q-item-label :style="{ color: localTextColor1 }">Select IVE</q-item-label>
-                  <q-item-label caption :style="{ color: localTextColor2 }">Select the Intelligent Virtual Entity you want to connect to. The list shows all the IVEs you have access to.</q-item-label>
-                </q-item-section>
-                <q-item-section avatar>
-                  <q-select v-model="iveSelected" dense bg-color="secondary" outlined :options="iveOptions" label="Select IVE" style="width:150px"/>
                 </q-item-section>
               </q-item>
             </div>
@@ -330,15 +291,9 @@ export default {
       uiEnableDarkMode: false,
       uiEnableDeveloperMode: false,
       uiEnableChatMessageBadge: false,
-      uiEnableIVEReportBadge: false,
+      uiEnableLogEntryBadge: false,
       localTextColor1: '',
-      localTextColor2: '',
-      nxProxySelected: 'eu-central',
-      nxProxyOptions: ['eu-central'
-      ],
-      iveSelected: 'Lena',
-      iveOptions: ['Lena', 'Derek', 'Galatea'
-      ]
+      localTextColor2: ''
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -350,8 +305,7 @@ export default {
     this.nxProxySelected = this.$q.localStorage.getItem('nxProxySelected')
     this.uiEnableDarkMode = this.$q.localStorage.getItem('uiEnableDarkMode')
     this.uiEnableDeveloperMode = this.$q.localStorage.getItem('uiEnableDeveloperMode')
-    this.uiEnableChatMessageBadge = this.$q.localStorage.getItem('uiEnableChatMessageBadge')
-    this.uiEnableIVEReportBadge = this.$q.localStorage.getItem('uiEnableIVEReportBadge')
+    this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
     if (this.uiEnableDarkMode) {
       this.localTextColor1 = this.$darkTextColor1
       this.localTextColor2 = this.$darkTextColor2
@@ -359,7 +313,6 @@ export default {
       this.localTextColor1 = this.$lightTextColor1
       this.localTextColor2 = this.$lightTextColor2
     }
-    // console.log('SETTINGS - show report badge: ' + this.uiEnableIVEReportBadge)
   },
   watch: {
     loginAtStartup: function () {
@@ -399,12 +352,12 @@ export default {
         this.$root.$emit('chatMessageBadge', false)
       }
     },
-    uiEnableIVEReportBadge: function () {
-      this.$q.localStorage.set('uiEnableIVEReportBadge', this.uiEnableIVEReportBadge)
-      if (this.uiEnableIVEReportBadge) {
-        this.$root.$emit('iveReportBadge', true)
+    uiEnableLogEntryBadge: function () {
+      this.$q.localStorage.set('uiEnableLogEntryBadge', this.uiEnableLogEntryBadge)
+      if (this.uiEnableLogEntryBadge) {
+        this.$root.$emit('logEntryBadge', true)
       } else {
-        this.$root.$emit('iveReportBadge', false)
+        this.$root.$emit('logEntryBadge', false)
       }
     }
   },
