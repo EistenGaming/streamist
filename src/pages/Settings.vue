@@ -16,7 +16,7 @@
           <div class="q-pa-sm" >
             <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-uppercase" :style="{ color: localTextColor1 }" >USER SETTINGS</q-item-label>
           </div>
-          <q-tab name="myAccount" icon="account_box" label="My Account" style="justify-content:initial" :style="{ color: localTextColor2 }"/>
+          <q-tab name="accounts" icon="account_box" label="Accounts" style="justify-content:initial" :style="{ color: localTextColor2 }"/>
 
           <div class="q-pa-sm">
           <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-uppercase" :style="{ color: localTextColor1 }">APP SETTINGS</q-item-label>
@@ -34,168 +34,77 @@
           transition-next="jump-up"
           class="bg-secondary"
         >
-          <q-tab-panel name="myAccount" style="min-width:500px">
-            <div class="q-pa-md text-h5 q-mb-md" :style="{ color: localTextColor2 }">MY ACCOUNT</div>
+          <q-tab-panel name="accounts" style="min-width:500px">
+            <div class="q-pa-md text-h5 q-mb-md" :style="{ color: localTextColor2 }">ACCOUNTS</div>
             <form autofocus @submit.prevent='saveAccountDataButtonPressed' @reset.prevent='cancelAccountDataButtonPressed'>
-            <div class="bg-primary" :style="{ color: localTextColor2 }" style="min-width:500px; max-width:500px">
-            <div class="row q-pa-sm" >
-              <div class="col-auto q-pt-md avatarAlignment">
-                  <q-item class='bg-primary' :style="{ color: localTextColor2 }">
-                    <q-item-section avatar class="q-pa-xs">
-                        <q-avatar size='100px'>
-                          <img :src="customAvatarPath">
-                        </q-avatar>
-                        <div v-if="userDataEdit === true">
-                          <q-btn @click='changeAvatarButtonPressed' class="avatarEditButtonPosition avatarEditButtonBGColor" round text-color="blue-grey-8" icon="image_search" size="xl"/>
-                        </div>
-                    </q-item-section>
-                  </q-item>
+              <div v-if="addAccount !== true">
+                <div class="col-auto addAccountButtonAlignment">
+                  <q-btn @click='addAccountButtonPressed' unelevated :text-color='buttonTextColor'  color='blue-grey-7' label='Add New' size='sm' />
                 </div>
-                <div class="q-pa-md col userDataAlignment" >
-                  <q-item>
-                    <q-item-section>
-                        <q-item-label class='text-caption' :style="{ color: localTextColor2 }" lines="1">USERNAME</q-item-label>
-                          <div v-if="userDataEdit === true">
-                            <div class="q-pt-xs"/>
-                              <q-input
-                                ref='usernameField'
-                                outlined
-                                dense
-                                dark
-                                color="accent"
-                                bg-color="secondary"
-                                v-model="username"
-                                error-message="Please use minimum of 3 characters."
-                                :error="!isUsernameValid"
-                              />
-                          </div>
-                          <div v-else>
-                            <div class="q-pt-xs"/>
-                            <q-item-label class='text-subtitle' :style="{ color: localTextColor1 }" lines="1">{{username}}</q-item-label>
-                          </div>
-                        <div class="q-pa-md"/>
-                        <q-item-label class='text-caption' :style="{ color: localTextColor2 }" lines="1">EMAIL</q-item-label>
-                          <div v-if="userDataEdit === true">
-                            <div class="q-pt-xs"/>
-                            <q-input
-                            ref='useremailField'
-                               outlined
-                               dense
-                               dark
-                               color="accent"
-                               bg-color="secondary"
-                               v-model="useremail"
-                               error-message="Please enter a valid email address."
-                               :error="!isUseremailValid"
-                            />
-                          </div>
-                          <div v-else>
-                            <div class="q-pt-xs"/>
-                            <q-item-label class='text-subtitle' :style="{ color: localTextColor1 }" lines="1">{{useremail}}</q-item-label>
-                          </div>
-                        <div class="q-pa-md"/>
-                          <div v-if="userDataEdit === true">
-                          <q-item-label class='text-caption' :style="{ color: localTextColor2 }" lines="1">CURRENT PASSWORD</q-item-label>
-                            <div class="q-pt-xs"/>
-                            <q-input
-                              outlined
-                              dense
-                              dark
-                              bottom-slots
-                              ref = "currentPasswordField"
-                              color="accent"
-                              bg-color="secondary"
-                              :type=" isPwdVisible ? 'password' : 'text' "
-                              v-model="currentPassword"
-                            >
-                              <template v-slot:append>
-                                <q-icon
-                                  :name="isPwdVisible ? 'visibility_off' : 'visibility'"
-                                  class="cursor-pointer"
-                                  @click="isPwdVisible = !isPwdVisible"
-                                />
-                              </template>
-                            </q-input>
-                            <q-item-label @click='changePasswordButtonPressed' class="linkStyle" lines="1">
-                              <span class="cursor-pointer">Change Password?</span>
-                            </q-item-label>
-                          </div>
-                        <div class="q-pa-md"/>
-                        <div v-if="userDataEdit === true && changePassword === true">
-                          <q-item-label class='text-caption' :style="{ color: localTextColor2 }" lines="1">NEW PASSWORD</q-item-label>
-                            <div class="q-pt-xs"/>
-                            <q-input
-                              outlined
-                              dense
-                              dark
-                              color="accent"
-                              bg-color="secondary"
-                              :type=" isNewPwdVisible ? 'password' : 'text' "
-                              v-model="newPassword"
-                            >
-                              <template v-slot:append>
-                                <q-icon
-                                  :name="isNewPwdVisible ? 'visibility_off' : 'visibility'"
-                                  class="cursor-pointer"
-                                  @click="isNewPwdVisible = !isNewPwdVisible"
-                                />
-                              </template>
-                            </q-input>
-                            <div class="q-pt-xs"/>
-                            <q-item-label class='text-caption' :style="{ color: localTextColor2 }" lines="1">NEW PASSWORD (REPEAT)</q-item-label>
-                            <div class="q-pt-xs"/>
-                            <q-input
-                              outlined
-                              dense
-                              dark
-                              color="accent"
-                              bg-color="secondary"
-                              :type=" isNewPwdVisible ? 'password' : 'text' "
-                              v-model="newPasswordRepeat"
-                            >
-                              <template v-slot:append>
-                                <q-icon
-                                  :name="isNewPwdVisible ? 'visibility_off' : 'visibility'"
-                                  class="cursor-pointer"
-                                  @click="isNewPwdVisible = !isNewPwdVisible"
-                                />
-                              </template>
-                            </q-input>
-                        </div>
-                    </q-item-section>
-                  </q-item>
-                </div>
-                  <div v-if="userDataEdit !== true">
-                    <div class="col-auto editButtonAlignment">
-                      <q-btn @click='editAccountDataButtonPressed' unelevated :text-color="localTextColor2"  color='secondary' label='edit' size='sm' />
+              </div>
+              <div v-if="addAccount === true">
+                <div class="row">
+                  <div class="column">
+                    <q-input
+                      ref='accountName'
+                      label='Account Name'
+                      outlined
+                      dense
+                      dark
+                      color="accent"
+                      bg-color="secondary"
+                      v-model="accountName"
+                      error-message="Please use minimum of 3 characters."
+                      :error="!isAccountNameValid"
+                    />
+                  </div>
+                  <div class="column q-ml-md">
+                    <q-input
+                      ref='accountClientID'
+                      label='Account Client ID'
+                      outlined
+                      dense
+                      dark
+                      color="accent"
+                      bg-color="secondary"
+                      v-model="accountClientID"
+                      error-message="Please enter a valid client ID."
+                      :error="!isAccountClientIDValid"
+                    />
+                  </div>
+                  <div class="column q-ml-md">
+                    <q-input
+                      ref='accountClientSecret'
+                      label='Account Client Secret'
+                      outlined
+                      dense
+                      dark
+                      bottom-slots
+                      color="accent"
+                      bg-color="secondary"
+                      :type=" isClientSecretVisible ? 'password' : 'text' "
+                      v-model="accountClientSecret"
+                      error-message="Please enter a valid client secret."
+                      :error="!isAccountClientSecretValid"
+                      >
+                        <template v-slot:append>
+                          <q-icon
+                            :name="isClientSecretVisible ? 'visibility_off' : 'visibility'"
+                            class="cursor-pointer"
+                            @click="isClientSecretVisible = !isClientSecretVisible"
+                          />
+                        </template>
+                    </q-input>
+                  </div>
+                  <div class="column q-ma-xs">
+                    <div class="row q-ml-md">
+                        <q-btn @click='cancelAccountDataButtonPressed' type="reset" unelevated outline color='negative' icon="cancel" size='sm' />
+                        <div class="q-ml-sm"/>
+                        <q-btn @click='saveAccountDataButtonPressed' type="submit" unelevated color='positive' icon="check_circle" size='sm' />
                     </div>
                   </div>
-            </div>
-            <div v-if="userDataEdit === true">
-              <div class="row justify-end q-pa-sm">
-                <q-btn @click='deleteAccountButtonPressed' unelevated outline color='negative' label='delete account' size='sm' />
-                <div class="q-pr-xl"/><div class="q-pr-xl"/><div class="q-pr-xl"/><div class="q-pr-xl"/>
-                <q-btn @click='cancelAccountDataButtonPressed' type="reset" unelevated outline :text-color="localTextColor2"  color='secondary' label='cancel' size='sm' />
-                <div class="q-pr-md"/>
-                <q-btn @click='saveAccountDataButtonPressed' type="submit" unelevated color='positive' label='save' size='sm' />
+                </div>
               </div>
-            </div>
-            <div v-if="userDeleteAccount === true">
-                  <q-dialog v-model="userDeleteAccount" persistent>
-                  <q-card>
-                    <q-card-section class="row items-center">
-                      <q-avatar icon="warning" text-color="negative" font-size="36px" />
-                      <span class="q-ml-sm">This will permanently delete your account. Are you sure?</span>
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn @click='accountDeleteCancelButtonPressed' flat label="Cancel" color="primary" v-close-popup />
-                      <q-btn @click='accountDeleteConfirmButtonPressed' flat label="Delete" color="negative" v-close-popup />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
-            </div>
-            </div>
             </form>
           </q-tab-panel>
 
@@ -271,29 +180,21 @@ export default {
   name: 'Settings',
   data () {
     return {
-      selectedTab: 'myAccount',
-      username: '',
-      usernamePrevious: '',
-      useremail: '',
-      useremailPrevious: '',
-      currentPassword: '',
-      currentPasswordHash: '',
-      newPassword: '',
-      newPasswordRepeat: '',
-      userDeleteAccount: false,
-      userDeleteAccountConfirm: false,
-      isPwdVisible: true,
-      isNewPwdVisible: true,
-      userDataEdit: false,
-      changePassword: false,
-      customAvatarPath: '',
+      selectedTab: 'accounts',
+      accountName: '',
+      accountClientID: '',
+      accountClientSecret: '',
+      isClientSecretVisible: true,
+      addAccount: false,
       loginAtStartup: false,
       uiEnableDarkMode: false,
       uiEnableDeveloperMode: false,
       uiEnableChatMessageBadge: false,
       uiEnableLogEntryBadge: false,
       localTextColor1: '',
-      localTextColor2: ''
+      localTextColor2: '',
+      buttonTextColor: 'blue-grey-3',
+      buttonBgColor: 'blue-grey-7'
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -362,10 +263,10 @@ export default {
     }
   },
   methods: {
-    editAccountDataButtonPressed: function () {
+    addAccountButtonPressed: function () {
       this.usernamePrevious = this.username
       this.useremailPrevious = this.useremail
-      this.userDataEdit = true
+      this.addAccount = true
       if (this.$refs.usernameField) {
         this.$nextTick(() => this.$refs.usernameField.resetValidation())
         this.$nextTick(() => this.$refs.usernameField.focus())
@@ -377,7 +278,7 @@ export default {
       this.useremail = this.useremailPrevious
       // Set edit mode to false
       this.changePassword = false
-      this.userDataEdit = false
+      this.addAccount = false
       this.currentPassword = ''
       this.newPassword = ''
       this.newPasswordRepeat = ''
@@ -403,7 +304,7 @@ export default {
       // Do the password change checking
 
       // Reset conditional rendering flags
-      this.userDataEdit = false
+      this.addAccount = false
     },
     deleteAccountButtonPressed: function () {
       // Ask for confirmation
@@ -444,22 +345,33 @@ export default {
     // visible to another user.
   },
   computed: {
-    isUsernameValid () {
-      if (this.username) {
-        return this.username.length >= 3
+    isAccountNameValid () {
+      if (this.accountName) {
+        return this.accountName.length >= 3
       } else {
         return false
       }
     },
-    isUseremailValid () {
-      return util.validateEmail(this.useremail)
+    isAccountClientIDValid () {
+      if (this.accountClientID) {
+        return this.accountClientID.length === 30
+      } else {
+        return false
+      }
+    },
+    isAccountClientSecretValid () {
+      if (this.accountClientSecret) {
+        return this.accountClientSecret.length === 30
+      } else {
+        return false
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .editButtonAlignment {
+  .addAccountButtonAlignment {
     display: flex;
     flex-direction: column;
     justify-content: right;

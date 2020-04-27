@@ -41,3 +41,7 @@ export function websocketHelloWorld () {
     console.log('* Connection error: ' + error.message)
   }
 }
+
+/* Twitch Messaging Interface */
+/* const tmi = require('tmi.js') */
+/* twitch api: github.com/stateford/twitch-api */
