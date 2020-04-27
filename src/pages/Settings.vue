@@ -38,15 +38,25 @@
             <div class="q-pa-md text-h5 q-mb-md" :style="{ color: localTextColor2 }">ACCOUNTS</div>
             <form autofocus @submit.prevent='saveAccountDataButtonPressed' @reset.prevent='cancelAccountDataButtonPressed'>
               <div v-if="addAccount !== true">
-                <div class="col-auto addAccountButtonAlignment">
+                <div>
                   <q-btn @click='addAccountButtonPressed' unelevated :text-color='buttonTextColor'  color='blue-grey-7' label='Add New' size='sm' />
                 </div>
               </div>
               <div v-if="addAccount === true">
                 <div class="row">
-                  <div class="column">
+                <div class="column">
+                  <q-select
+                    v-model="accountTypeSelected"
+                    dark
+                    dense
+                    bg-color="secondary"
+                    outlined
+                    :options="accountTypeOptions"
+                    style="width:100px"/>
+                </div>
+                  <div class="column q-ml-md">
                     <q-input
-                      ref='accountName'
+                      ref='accountNameField'
                       label='Account Name'
                       outlined
                       dense
@@ -60,7 +70,7 @@
                   </div>
                   <div class="column q-ml-md">
                     <q-input
-                      ref='accountClientID'
+                      ref='accountClientIDField'
                       label='Account Client ID'
                       outlined
                       dense
@@ -74,7 +84,7 @@
                   </div>
                   <div class="column q-ml-md">
                     <q-input
-                      ref='accountClientSecret'
+                      ref='accountClientSecretField'
                       label='Account Client Secret'
                       outlined
                       dense
@@ -181,6 +191,8 @@ export default {
   data () {
     return {
       selectedTab: 'accounts',
+      accountTypeOptions: ['Twitch', 'Mixer', 'Youtube'],
+      accountTypeSelected: 'Twitch',
       accountName: '',
       accountClientID: '',
       accountClientSecret: '',
@@ -264,12 +276,12 @@ export default {
   },
   methods: {
     addAccountButtonPressed: function () {
-      this.usernamePrevious = this.username
-      this.useremailPrevious = this.useremail
       this.addAccount = true
-      if (this.$refs.usernameField) {
-        this.$nextTick(() => this.$refs.usernameField.resetValidation())
-        this.$nextTick(() => this.$refs.usernameField.focus())
+      if (this.$refs.accountNameField) {
+        this.$nextTick(() => this.$refs.accountNameField.resetValidation())
+        this.$nextTick(() => this.$refs.accountNameField.focus())
+      } else {
+        console.log('accountFieldName reference is broken.')
       }
     },
     cancelAccountDataButtonPressed: function () {
