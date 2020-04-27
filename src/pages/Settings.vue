@@ -37,12 +37,12 @@
           <q-tab-panel name="accounts" style="min-width:500px">
             <div class="q-pa-md text-h5 q-mb-md" :style="{ color: localTextColor2 }">ACCOUNTS</div>
             <form autofocus @submit.prevent='saveAccountDataButtonPressed' @reset.prevent='cancelAccountDataButtonPressed'>
-              <div v-if="addAccount !== true">
+              <div v-if="addAccountState !== true">
                 <div>
                   <q-btn @click='addAccountButtonPressed' unelevated :text-color='buttonTextColor'  color='blue-grey-7' label='Add New' size='sm' />
                 </div>
               </div>
-              <div v-if="addAccount === true">
+              <div v-if="addAccountState === true">
                 <div class="row">
                 <div class="column">
                   <q-select
@@ -116,6 +116,51 @@
                 </div>
               </div>
             </form>
+            <div class="q-pt-md" >
+                <q-list bordered class="rounded-borders" v-bind:class="{'accountListStyleDark':(uiEnableDarkMode === true), 'accountListStyleLight':(uiEnableDarkMode !== true) }" >
+                <q-item dark>
+                  <q-item-section>
+                    <q-item-label :style="{ color: localTextColor2 }">Platform</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label :style="{ color: localTextColor2 }">Account Name</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label :style="{ color: localTextColor2 }">Client ID</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label :style="{ color: localTextColor2 }">Client Secret</q-item-label>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label :style="{ color: localTextColor2 }"></q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <div v-for='account in accounts' v-bind:key='account.type'>
+                  <q-item dark dense clickable @click='selectedAccountType = account.type' v-bind:class="{'accountItemStyleDark':(uiEnableDarkMode === true), 'accountItemStyleLight':(uiEnableDarkMode !== true) }">
+                    <q-item-section>
+                      <q-item-label :style="{ color: localTextColor1 }">{{account.type}}</q-item-label>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label :style="{ color: localTextColor1 }">{{account.name}}</q-item-label>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label :style="{ color: localTextColor1 }">{{account.id}}</q-item-label>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label :style="{ color: localTextColor1 }">{{account.secret}}</q-item-label>
+                    </q-item-section>
+                    <q-item-section>
+                    <div class="row q-ml-md">
+                        <q-btn @click='editAccountButtonPressed' color='secondary' icon="edit" size='sm' />
+                        <div class="q-ml-sm"/>
+                        <q-btn @click='removeAccountButtonPressed' color='negative' icon="delete_forever" size='sm' />
+                    </div>
+                    </q-item-section>
+                  </q-item>
+                </div>
+              </q-list>
+            </div>
           </q-tab-panel>
 
           <q-tab-panel name="appearance">
@@ -185,7 +230,7 @@
 </template>
 
 <script>
-var util = require('src/utils/utility')
+// var util = require('src/utils/utility')
 export default {
   name: 'Settings',
   data () {
@@ -196,8 +241,11 @@ export default {
       accountName: '',
       accountClientID: '',
       accountClientSecret: '',
+      accounts: [],
+      newAccount: null,
+      selectedAccountType: '',
       isClientSecretVisible: true,
-      addAccount: false,
+      addAccountState: false,
       loginAtStartup: false,
       uiEnableDarkMode: false,
       uiEnableDeveloperMode: false,
@@ -211,6 +259,7 @@ export default {
   },
   mounted () { // This allows you to do stuff 'on page load'
     // Read the locally stored values
+    // this.$q.localStorage.remove('accounts')
     this.username = this.$q.localStorage.getItem('username')
     this.useremail = this.$q.localStorage.getItem('useremail')
     this.customAvatarPath = this.$q.localStorage.getItem('customAvatarPath')
@@ -225,6 +274,13 @@ export default {
     } else {
       this.localTextColor1 = this.$lightTextColor1
       this.localTextColor2 = this.$lightTextColor2
+    }
+    if (this.$q.localStorage.getItem('accounts')) {
+      try {
+        this.accounts = JSON.parse(this.$q.localStorage.getItem('accounts'))
+      } catch (e) {
+        this.$q.localStorage.remove('accounts')
+      }
     }
   },
   watch: {
@@ -276,7 +332,7 @@ export default {
   },
   methods: {
     addAccountButtonPressed: function () {
-      this.addAccount = true
+      this.addAccountState = true
       if (this.$refs.accountNameField) {
         this.$nextTick(() => this.$refs.accountNameField.resetValidation())
         this.$nextTick(() => this.$refs.accountNameField.focus())
@@ -286,75 +342,57 @@ export default {
     },
     cancelAccountDataButtonPressed: function () {
       // Revert changes, if any
-      this.username = this.usernamePrevious
-      this.useremail = this.useremailPrevious
-      // Set edit mode to false
-      this.changePassword = false
-      this.addAccount = false
-      this.currentPassword = ''
-      this.newPassword = ''
-      this.newPasswordRepeat = ''
+      this.addAccountState = false
     },
     saveAccountDataButtonPressed: function () {
       // Do the saving - The validation is done on the field itself
-
-      if (this.$refs.usernameField.error === false) {
-        this.$q.localStorage.set('username', this.username)
+      if (this.accountTypeSelected !== '' && this.$refs.accountNameField.error === false && this.$refs.accountClientIDField.error === false && this.$refs.accountClientSecretField.error === false) {
+        this.newAccount = {
+          type: this.accountTypeSelected,
+          name: this.accountName,
+          id: this.accountClientID,
+          secret: this.accountClientSecret
+        }
+        this.addAccount()
       } else {
-        // Log or display an error ?
+        console.log('Could not save the account data.')
       }
-      if (this.$refs.useremailField.error === false) {
-        this.$q.localStorage.set('useremail', this.useremail)
-      }
-      // Do proper avatar handling
-      // Do proper password handling (hashing?)
-      if (this.currentPassword.length > 0) {
-        this.currentPasswordHash = util.hashSHA512(this.currentPassword)
-        this.$q.localStorage.set('currentPasswordHash', this.currentPasswordHash)
-        this.currentPassword = ''
-      }
-      // Do the password change checking
-
       // Reset conditional rendering flags
-      this.addAccount = false
+      this.addAccountState = false
     },
-    deleteAccountButtonPressed: function () {
-      // Ask for confirmation
-      this.userDeleteAccount = true
-      // Do the account deletion
-    },
-    accountDeleteCancelButtonPressed: function () {
-      // Todo cancel the action
-      this.userDeleteAccount = false
-      this.userDeleteAccountConfirm = false
-    },
-    accountDeleteConfirmButtonPressed: function () {
-      // Todo DO the deletion
-      // Reset settings
-      this.userDeleteAccount = false
-      this.userDeleteAccountConfirm = false
-    },
-    changePasswordButtonPressed: function () {
-      this.changePassword = true
-      this.$nextTick(() => this.$refs.currentPasswordField.focus())
-    },
-    changeAvatarButtonPressed: function () {
-      // this.$refs.avatarFileInput.$el.click() // this is the 'web-ready' version
-      const remote = require('electron').remote
-      const result = remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-        properties: ['openFile'],
-        filters: [
-          { name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-      })
-      var newAvatarPath = 'file://' + result
-      if (result !== undefined && newAvatarPath.length > 8) {
-        this.$q.localStorage.set('customAvatarPath', newAvatarPath)
-        this.customAvatarPath = newAvatarPath
+    addAccount: function () {
+      // add new if type is not existent, overwrite if already there.
+      if (this.accounts.indexOf(this.newAccount) >= 0) {
+        // Entry already exists
+        this.removeAccount(this.newAccount)
+        this.accounts.push(this.newAccount)
+        console.log('account already EXISTS and has been updated')
+      } else {
+        this.accounts.push(this.newAccount)
+        console.log('account did NOT exist alredy and has been added')
       }
-    }
-    // The avatar should probably be uploadd as part of the profile. Ideally reachable via https.
-    // So it will be available on all platforms and could be made
-    // visible to another user.
+      this.newAccount = ''
+      this.saveAccounts()
+    },
+    removeAccount: function (account) {
+      this.accounts.splice(account, 1)
+      this.saveAccounts()
+    },
+    saveAccounts: function () {
+      const parsed = JSON.stringify(this.accounts)
+      this.$q.localStorage.set('accounts', parsed)
+      console.log('Accounts: ' + parsed)
+    },
+    editAccountButtonPressed: function () {
+      /** TODO Implement */
+      console.log('Edit account button pressed for platform: ')
+    },
+    removeAccountButtonPressed: function () {
+      /** TODO Implement */
+      this.accounts = this.accounts.filter(item => item.type !== this.selectedAccountType)
+      this.saveAccounts()
+      console.log('Remove account button pressed for platform: ' + this.selectedAccountType)
+    } // The avatar should probably be uploadd as part of the profile. Ideally reachable via https.
   },
   computed: {
     isAccountNameValid () {
@@ -425,4 +463,18 @@ export default {
   .fileSelectionField {
     margin-left: 1px
 }
+  .accountListStyleDark {
+    background: #2F3136
+  }
+  .accountListStyleLight {
+    background: #E6EDF2
+  }
+  .accountItemStyleLight:hover {
+    background: #D4D6D8;
+    color: white
+  }
+    .accountItemStyleDark:hover {
+    background: #36393F;
+    color: white
+  }
 </style>
