@@ -119,10 +119,10 @@
             <div class="q-pt-md" >
                 <q-list bordered class="rounded-borders" v-bind:class="{'accountListStyleDark':(uiEnableDarkMode === true), 'accountListStyleLight':(uiEnableDarkMode !== true) }" >
                 <q-item dark>
-                  <q-item-section>
+                  <q-item-section class="col-1">
                     <q-item-label :style="{ color: localTextColor2 }">Platform</q-item-label>
                   </q-item-section>
-                  <q-item-section>
+                  <q-item-section class="col-2">
                     <q-item-label :style="{ color: localTextColor2 }">Account Name</q-item-label>
                   </q-item-section>
                   <q-item-section>
@@ -137,11 +137,16 @@
                 </q-item>
 
                 <div v-for='account in accounts' v-bind:key='account.type'>
-                  <q-item dark dense clickable @click='selectedAccountType = account.type' v-bind:class="{'accountItemStyleDark':(uiEnableDarkMode === true), 'accountItemStyleLight':(uiEnableDarkMode !== true) }">
-                    <q-item-section>
+                  <q-item
+                    dark
+                    dense
+                    clickable
+                    @click='accountTypeSelected = account.type; accountName = account.name; accountClientID = account.id; accountClientSecret = account.secret; selectedAccountType = account.type'
+                    v-bind:class="{'accountItemStyleDark':(uiEnableDarkMode === true), 'accountItemStyleLight':(uiEnableDarkMode !== true) }">
+                    <q-item-section class="col-1">
                       <q-item-label :style="{ color: localTextColor1 }">{{account.type}}</q-item-label>
                     </q-item-section>
-                    <q-item-section>
+                    <q-item-section class="col-2">
                       <q-item-label :style="{ color: localTextColor1 }">{{account.name}}</q-item-label>
                     </q-item-section>
                     <q-item-section>
@@ -152,7 +157,12 @@
                     </q-item-section>
                     <q-item-section>
                     <div class="row q-ml-md">
-                        <q-btn @click='editAccountButtonPressed' color='secondary' icon="edit" size='sm' />
+                        <q-btn
+                          @click='editAccountButtonPressed'
+                          color='secondary'
+                          icon="edit"
+                          size='sm'
+                        />
                         <div class="q-ml-sm"/>
                         <q-btn @click='removeAccountButtonPressed' color='negative' icon="delete_forever" size='sm' />
                     </div>
@@ -244,6 +254,7 @@ export default {
       accounts: [],
       newAccount: null,
       selectedAccountType: '',
+      selectedAccount: null,
       isClientSecretVisible: true,
       addAccountState: false,
       loginAtStartup: false,
@@ -385,7 +396,8 @@ export default {
       console.log('Accounts: ' + parsed)
     },
     editAccountButtonPressed: function () {
-      /** TODO Implement */
+      console.log(this.newAccount)
+      this.addAccountState = true
       console.log('Edit account button pressed for platform: ')
     },
     removeAccountButtonPressed: function () {
