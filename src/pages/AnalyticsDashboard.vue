@@ -174,13 +174,10 @@ export default {
   methods: {
     // Methods go here
     runQuery: function () {
-      var twAccountData = this.accounts.find(item => item.type === 'Twitch')
-      var id = twAccountData.id
-      var secret = twAccountData.secret
-      var twitch = twLib.connect(id, secret)
+      var twitch = twLib.connect()
       /** Handle User Data */
       if (this.queryTypeSelected === 'User Data') {
-        if (this.$refs.streamerName.error === false) {
+        if (this.$refs.streamerNameField.error === false) {
           twitch.getUser(this.streamerName)
             .then(data => {
               if (data.stream === null) {

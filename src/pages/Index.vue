@@ -19,15 +19,17 @@
             class="col q-ma-sm tileBGColor"
             style="border-radius: 7px; height: 300px; width: 300px; min-width: 300px; max-width: 300px">
             <div v-if="infoBlock.title.length > 3">
-              <q-img
-                :src='infoBlock.image'
-                basic
-                :ratio="1.5"
-              >
-                <div class="absolute-bottom text-h6">
-                  {{infoBlock.title}}
-                </div>
-              </q-img>
+              <div v-if="infoBlocks.image !== '' ">
+                <q-img
+                  :src='infoBlock.image'
+                  basic
+                  :ratio="1.5"
+                >
+                  <div class="absolute-bottom text-h6">
+                    {{infoBlock.title}}
+                  </div>
+                </q-img>
+              </div>
               <q-card-section class="q-gutter-xs">
                 {{infoBlock.text}}
               </q-card-section>
@@ -40,6 +42,7 @@
 </template>
 
 <script>
+var twLib = require('src/utils/twitch-utils')
 export default {
   name: 'PageIndex',
   data () {
@@ -49,8 +52,9 @@ export default {
       contentActiveStyle: { background: 'secondary' }, // used when cursor IS over chat area
       localTextColor1: '',
       localTextColor2: '',
+      topGameImageURL: '',
       infoBlocks: [
-        { id: this.createUUID(), image: 'https://nxs.blackzendo.com/wp-content/uploads/2019/12/iStock-162685822-scaled.jpg', title: 'Breaking News!', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { id: this.createUUID(), image: this.topGameImageURL, title: 'Top Game', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
         { id: this.createUUID(), image: '', title: '', text: '' },
         { id: this.createUUID(), image: '', title: '', text: '' },
         { id: this.createUUID(), image: '', title: '', text: '' },
@@ -60,6 +64,8 @@ export default {
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
+    this.topGameImageURL = twLib.getTopGameImageURL()
+    console.log('URL Index: ' + this.topGameImageURL)
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       this.localTextColor1 = this.$darkTextColor1
       this.localTextColor2 = this.$darkTextColor2

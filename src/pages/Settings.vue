@@ -272,11 +272,6 @@ export default {
   mounted () { // This allows you to do stuff 'on page load'
     // Read the locally stored values
     // this.$q.localStorage.remove('accounts')
-    this.username = this.$q.localStorage.getItem('username')
-    this.useremail = this.$q.localStorage.getItem('useremail')
-    this.customAvatarPath = this.$q.localStorage.getItem('customAvatarPath')
-    this.loginAtStartup = this.$q.localStorage.getItem('loginAtStartup')
-    this.nxProxySelected = this.$q.localStorage.getItem('nxProxySelected')
     this.uiEnableDarkMode = this.$q.localStorage.getItem('uiEnableDarkMode')
     this.uiEnableDeveloperMode = this.$q.localStorage.getItem('uiEnableDeveloperMode')
     this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
