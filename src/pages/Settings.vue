@@ -362,7 +362,7 @@ export default {
     },
     addAccount: function () {
       // add new if type is not existent, overwrite if already there.
-      if (this.accounts.indexOf(this.newAccount) >= 0) {
+      if (this.accounts.findIndex(item => item.type === this.newAccount.type) >= 0) {
         // Entry already exists
         this.removeAccount(this.newAccount)
         this.accounts.push(this.newAccount)
@@ -374,8 +374,9 @@ export default {
       this.newAccount = ''
       this.saveAccounts()
     },
-    removeAccount: function (account) {
-      this.accounts.splice(account, 1)
+    removeAccount: function () {
+      // this.accounts.splice(account, 1)
+      this.accounts = this.accounts.filter(item => item.type !== this.selectedAccountType)
       this.saveAccounts()
     },
     saveAccounts: function () {
@@ -389,8 +390,9 @@ export default {
     },
     removeAccountButtonPressed: function () {
       /** TODO Implement */
-      this.accounts = this.accounts.filter(item => item.type !== this.selectedAccountType)
-      this.saveAccounts()
+      this.removeAccount()
+      // this.accounts = this.accounts.filter(item => item.type !== this.selectedAccountType)
+      // this.saveAccounts()
       console.log('Remove account button pressed for platform: ' + this.selectedAccountType)
     } // The avatar should probably be uploadd as part of the profile. Ideally reachable via https.
   },
