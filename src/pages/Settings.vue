@@ -153,7 +153,7 @@
                       <q-item-label :style="{ color: localTextColor1 }">{{account.id}}</q-item-label>
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label :style="{ color: localTextColor1 }">{{account.secret}}</q-item-label>
+                      <q-item-label :style="{ color: localTextColor1 }">{{pwHider}}</q-item-label>
                     </q-item-section>
                     <q-item-section>
                     <div class="row q-ml-md">
@@ -265,7 +265,8 @@ export default {
       localTextColor1: '',
       localTextColor2: '',
       buttonTextColor: 'blue-grey-3',
-      buttonBgColor: 'blue-grey-7'
+      buttonBgColor: 'blue-grey-7',
+      pwHider: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
