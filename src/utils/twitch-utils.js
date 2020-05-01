@@ -24,32 +24,11 @@ export function connect () {
 export async function getTopGameImageURL () {
   const twitch = connect()
   const optionalParams = { limit: 1 }
-  let url
-  try {
-    const topGames = await twitch.getTopGames(optionalParams)
-    console.log(topGames)
-    const gameName = topGames.top[0].game.name
-    console.log('GameName: ' + gameName)
-    const gameInfo = await twitch.searchGames(gameName)
-    console.log('GameInfo: ' + gameInfo)
-    url = gameInfo.games[0].box.medium
-    console.log('URL: ' + url)
-  } catch (error) {
-    console.log('Could not fetch top game url: ' + error)
-  }
+  const topGames = await twitch.getTopGames(optionalParams)
+  const gameName = topGames.top[0].game.name
+  console.log('Game Name: ' + gameName)
+  const gameInfo = await twitch.searchGames(gameName)
+  const url = gameInfo.games[0].box.medium
+  console.log('URL: ' + url)
   return url
-  /*   twitch.getTopGames(optionalParams)
-    .then(data => {
-      const gameName = data.top[0].game.name
-      console.log('Game: ' + gameName)
-      twitch.searchGames(gameName)
-        .then(gameData => {
-          console.log(gameData)
-          // console.log('URL:' + gameData.games[0].box.medium)
-          return gameData.games[0].box.medium
-        })
-    })
-    .catch(error => {
-      console.error(error)
-    }) */
 }

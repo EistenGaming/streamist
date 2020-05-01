@@ -64,8 +64,11 @@ export default {
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
-    this.topGameImageURL = twLib.getTopGameImageURL()
-    console.log('URL Index: ' + this.topGameImageURL)
+    twLib.getTopGameImageURL().then(data => {
+      this.topGameImageURL = data
+      console.log('URL Index: ' + this.topGameImageURL)
+    })
+
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       this.localTextColor1 = this.$darkTextColor1
       this.localTextColor2 = this.$darkTextColor2
