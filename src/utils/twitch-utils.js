@@ -21,14 +21,15 @@ export function connect () {
 }
 
 /* get the image of the gop game */
-export async function getTopGameImageURL () {
+export async function getTopGameInfo () {
   const twitch = connect()
   const optionalParams = { limit: 1 }
   const topGames = await twitch.getTopGames(optionalParams)
   const gameName = topGames.top[0].game.name
-  console.log('Game Name: ' + gameName)
+  const gameViewers = topGames.top[0].viewers
+  const gameChannels = topGames.top[0].channels
   const gameInfo = await twitch.searchGames(gameName)
   const url = gameInfo.games[0].box.medium
-  console.log('URL: ' + url)
-  return url
+  // return url
+  return { name: gameName, imgURL: url, viewers: gameViewers, channels: gameChannels }
 }

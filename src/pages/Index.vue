@@ -19,7 +19,6 @@
             class="col q-ma-sm tileBGColor"
             style="border-radius: 7px; height: 300px; width: 300px; min-width: 300px; max-width: 300px">
             <div v-if="infoBlock.title.length > 3">
-              <div v-if="infoBlocks.image !== '' ">
                 <q-img
                   :src='infoBlock.image'
                   basic
@@ -29,9 +28,8 @@
                     {{infoBlock.title}}
                   </div>
                 </q-img>
-              </div>
               <q-card-section class="q-gutter-xs">
-                {{infoBlock.text}}
+                <span v-html="infoBlock.text"></span>
               </q-card-section>
             </div>
             </q-card>
@@ -52,21 +50,22 @@ export default {
       contentActiveStyle: { background: 'secondary' }, // used when cursor IS over chat area
       localTextColor1: '',
       localTextColor2: '',
-      topGameImageURL: '',
+      topGameInfo: '',
       infoBlocks: [
-        { id: this.createUUID(), image: this.topGameImageURL, title: 'Top Game', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-        { id: this.createUUID(), image: '', title: '', text: '' },
-        { id: this.createUUID(), image: '', title: '', text: '' },
         { id: this.createUUID(), image: '', title: '', text: '' },
         { id: this.createUUID(), image: '', title: '', text: '' },
         { id: this.createUUID(), image: '', title: '', text: '' }
       ]
     }
   },
-  mounted () { // This allows you to do stuff 'on page load'
-    twLib.getTopGameImageURL().then(data => {
-      this.topGameImageURL = data
-      console.log('URL Index: ' + this.topGameImageURL)
+  async mounted () { // This allows you to do stuff 'on page load'
+    /** Populte the news items */
+    this.topGameInfo = await twLib.getTopGameInfo()
+    this.infoBlocks[0] = ({
+      id: this.createUUID(),
+      image: this.topGameInfo.imgURL,
+      title: 'Top Game: ' + this.topGameInfo.name,
+      text: 'Number of viewers: ' + '&emsp;' + this.topGameInfo.viewers + '<br/>' + 'Number of channels: ' + '&emsp;' + this.topGameInfo.channels
     })
 
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
