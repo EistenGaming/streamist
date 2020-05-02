@@ -17,18 +17,17 @@
             <q-card
             v-for='infoBlock in infoBlocks' v-bind:key='infoBlock.id'
             class="col q-ma-sm tileBGColor"
-            style="border-radius: 7px; height: 300px; width: 300px; min-width: 300px; max-width: 300px">
+            style="border-radius: 7px; height: 500px; width: 300px; min-width: 300px; max-width: 300px">
             <div v-if="infoBlock.title.length > 3">
                 <q-img
                   :src='infoBlock.image'
                   basic
-                  :ratio="1.5"
                 >
-                  <div class="absolute-bottom text-h6">
-                    {{infoBlock.title}}
-                  </div>
                 </q-img>
-              <q-card-section class="q-gutter-xs">
+              <q-card-section class="q-pa-xs q-pl-md">
+                <div class="text-h6">
+                  {{infoBlock.title}}
+                </div>
                 <span v-html="infoBlock.text"></span>
               </q-card-section>
             </div>

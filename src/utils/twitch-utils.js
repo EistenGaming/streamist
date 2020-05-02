@@ -29,7 +29,7 @@ export async function getTopGameInfo () {
   const gameViewers = topGames.top[0].viewers
   const gameChannels = topGames.top[0].channels
   const gameInfo = await twitch.searchGames(gameName)
-  const url = gameInfo.games[0].box.medium
+  const url = gameInfo.games[0].box.large
   // return url
   return { name: gameName, imgURL: url, viewers: gameViewers, channels: gameChannels }
 }
