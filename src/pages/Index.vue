@@ -66,6 +66,13 @@ export default {
       title: 'Top Game: ' + this.topGameInfo.name,
       text: 'Number of viewers: ' + '&emsp;' + this.topGameInfo.viewers + '<br/>' + 'Number of channels: ' + '&emsp;' + this.topGameInfo.channels
     })
+    this.topStreamInfo = await twLib.getTopStreamInfo()
+    this.infoBlocks[1] = ({
+      id: this.createUUID(),
+      image: this.topStreamInfo.imgURL,
+      title: 'Top Stream: ' + this.topStreamInfo.name,
+      text: 'Number of viewers: ' + '&emsp;' + this.topStreamInfo.viewers + '<br/>' + 'Channel name: ' + '&emsp;' + this.topStreamInfo.channelName
+    })
 
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       this.localTextColor1 = this.$darkTextColor1

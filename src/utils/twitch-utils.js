@@ -20,7 +20,7 @@ export function connect () {
   return twitch
 }
 
-/* get the image of the gop game */
+/* get info about the gop game */
 export async function getTopGameInfo () {
   const twitch = connect()
   const optionalParams = { limit: 1 }
@@ -32,4 +32,18 @@ export async function getTopGameInfo () {
   const url = gameInfo.games[0].box.large
   // return url
   return { name: gameName, imgURL: url, viewers: gameViewers, channels: gameChannels }
+}
+
+/* get info about the gop stream */
+export async function getTopStreamInfo () {
+  const twitch = connect()
+  const topStreams = await twitch.getTopStreams()
+  const gameName = topStreams.streams[0].game
+  const channelName = topStreams.streams[0].channel.display_name
+  const gameViewers = topStreams.streams[0].viewers
+  const gameInfo = await twitch.searchGames(gameName)
+
+  const url = gameInfo.games[0].box.large
+  // return url
+  return { name: gameName, imgURL: url, viewers: gameViewers, channelName: channelName }
 }
