@@ -27,6 +27,7 @@
                 <q-img
                   :src='infoBlock.image'
                   basic
+                  @click='imgClicked(infoBlock.channelUrl)'
                 >
                 </q-img>
               <q-card-section class="q-pa-xs q-pl-md">
@@ -45,6 +46,7 @@
 
 <script>
 var twLib = require('src/utils/twitch-utils')
+import { openURL } from 'quasar'
 export default {
   name: 'PageIndex',
   data () {
@@ -58,9 +60,9 @@ export default {
       topStreamInfo: '',
       featuredStreamsInfo: [],
       infoBlocks: [
-        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' },
-        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' },
-        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' }
+        { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' },
+        { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' },
+        { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' }
       ]
     }
   },
@@ -69,9 +71,10 @@ export default {
     this.topGameInfo = await twLib.getTopGameInfo()
     this.infoBlocks[0] = ({
       id: this.createUUID(),
-      image: this.topGameInfo.imgURL,
       title: 'Top Game',
       subTitle: this.topGameInfo.name,
+      image: this.topGameInfo.imgURL,
+      channelUrl: '',
       text: '<table><tr><td>Live Channels:</td><td>' + this.topGameInfo.channels + '</td></tr><tr><td>Viewers:</td><td>' + this.topGameInfo.viewers + '</td><td</tr></table>'
     })
     this.topStreamInfo = await twLib.getTopStreamInfo()
@@ -80,6 +83,7 @@ export default {
       title: 'Top Stream',
       subTitle: this.topStreamInfo.channelName,
       image: this.topStreamInfo.imgURL,
+      channelUrl: this.topStreamInfo.channelUrl,
       text: '<table><tr><td>Game:</td><td>' + this.topStreamInfo.name + '</td></tr><tr><td>Viewers:</td><td>' + this.topStreamInfo.viewers + '</td><td</tr></table'
     })
     this.featuredStreamsInfo = await twLib.getFeaturedStreamsInfo(5)
@@ -90,6 +94,7 @@ export default {
         title: 'Featured Stream #' + (index + 1),
         subTitle: this.featuredStreamsInfo[index].channelName,
         image: this.featuredStreamsInfo[index].imgURL,
+        channelUrl: this.featuredStreamsInfo[index].channelUrl,
         text: '<table><tr><td>Game:</td><td>' + this.featuredStreamsInfo[index].name + '</td></tr><tr><td>Viewers:</td><td>' + this.featuredStreamsInfo[index].viewers + '</td><td</tr></table'
       })
     }
@@ -106,6 +111,11 @@ export default {
     createUUID: function () {
       var util = require('src/utils/utility')
       return util.createUUIDv4()
+    },
+    imgClicked: function (url) {
+      if (url !== '') {
+        openURL(url)
+      }
     }
   }
 }

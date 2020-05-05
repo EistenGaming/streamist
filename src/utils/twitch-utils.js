@@ -29,9 +29,9 @@ export async function getTopGameInfo () {
   const gameViewers = topGames.top[0].viewers
   const gameChannels = topGames.top[0].channels
   const gameInfo = await twitch.searchGames(gameName)
-  const url = gameInfo.games[0].box.large
+  const imgUrl = gameInfo.games[0].box.large
   // return url
-  return { name: gameName, imgURL: url, viewers: gameViewers, channels: gameChannels }
+  return { name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels }
 }
 
 /* get info about the gop stream */
@@ -42,10 +42,10 @@ export async function getTopStreamInfo () {
   const channelName = topStreams.streams[0].channel.display_name
   const gameViewers = topStreams.streams[0].viewers
   const gameInfo = await twitch.searchGames(gameName)
-
-  const url = gameInfo.games[0].box.large
+  const channelUrl = topStreams.streams[0].channel.url
+  const imgUrl = gameInfo.games[0].box.large
   // return url
-  return { name: gameName, imgURL: url, viewers: gameViewers, channelName: channelName }
+  return { name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName }
 }
 
 /* get info about featured streams */
@@ -57,8 +57,9 @@ export async function getFeaturedStreamsInfo (noOfStreams) {
     const gameName = featuredStreams.featured[index].stream.game
     const channelName = featuredStreams.featured[index].stream.channel.display_name
     const gameViewers = featuredStreams.featured[index].stream.viewers
-    const url = featuredStreams.featured[index].stream.preview.large
-    result.push({ name: gameName, imgURL: url, viewers: gameViewers, channelName: channelName })
+    const imgUrl = featuredStreams.featured[index].stream.preview.large
+    const channelUrl = featuredStreams.featured[index].stream.channel.url
+    result.push({ name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
   }
   // return url
   return result
