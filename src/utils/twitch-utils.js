@@ -47,3 +47,19 @@ export async function getTopStreamInfo () {
   // return url
   return { name: gameName, imgURL: url, viewers: gameViewers, channelName: channelName }
 }
+
+/* get info about featured streams */
+export async function getFeaturedStreamsInfo (noOfStreams) {
+  const twitch = connect()
+  const featuredStreams = await twitch.getFeaturedStreams({ limit: noOfStreams })
+  const result = []
+  for (let index = 0; index < noOfStreams; index++) {
+    const gameName = featuredStreams.featured[index].stream.game
+    const channelName = featuredStreams.featured[index].stream.channel.display_name
+    const gameViewers = featuredStreams.featured[index].stream.viewers
+    const url = featuredStreams.featured[index].stream.preview.large
+    result.push({ name: gameName, imgURL: url, viewers: gameViewers, channelName: channelName })
+  }
+  // return url
+  return result
+}

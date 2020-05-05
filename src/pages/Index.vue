@@ -17,8 +17,13 @@
             <q-card
             v-for='infoBlock in infoBlocks' v-bind:key='infoBlock.id'
             class="col q-ma-sm tileBGColor"
-            style="border-radius: 7px; height: 500px; width: 300px; min-width: 300px; max-width: 300px">
+            style="border-radius: 7px; height: 600px; width: 300px; min-width: 300px; max-width: 300px">
             <div v-if="infoBlock.title.length > 3">
+              <q-card-section>
+                <div class="text-h6">
+                  {{infoBlock.title}}
+                </div>
+              </q-card-section>
                 <q-img
                   :src='infoBlock.image'
                   basic
@@ -26,7 +31,7 @@
                 </q-img>
               <q-card-section class="q-pa-xs q-pl-md">
                 <div class="text-h6">
-                  {{infoBlock.title}}
+                  {{infoBlock.subTitle}}
                 </div>
                 <span v-html="infoBlock.text"></span>
               </q-card-section>
@@ -50,10 +55,12 @@ export default {
       localTextColor1: '',
       localTextColor2: '',
       topGameInfo: '',
+      topStreamInfo: '',
+      featuredStreamsInfo: [],
       infoBlocks: [
-        { id: this.createUUID(), image: '', title: '', text: '' },
-        { id: this.createUUID(), image: '', title: '', text: '' },
-        { id: this.createUUID(), image: '', title: '', text: '' }
+        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' },
+        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' },
+        { id: this.createUUID(), image: '', title: '', subTitle: '', text: '' }
       ]
     }
   },
@@ -63,16 +70,29 @@ export default {
     this.infoBlocks[0] = ({
       id: this.createUUID(),
       image: this.topGameInfo.imgURL,
-      title: 'Top Game: ' + this.topGameInfo.name,
-      text: 'Number of viewers: ' + '&emsp;' + this.topGameInfo.viewers + '<br/>' + 'Number of channels: ' + '&emsp;' + this.topGameInfo.channels
+      title: 'Top Game',
+      subTitle: this.topGameInfo.name,
+      text: '<table><tr><td>Live Channels:</td><td>' + this.topGameInfo.channels + '</td></tr><tr><td>Viewers:</td><td>' + this.topGameInfo.viewers + '</td><td</tr></table>'
     })
     this.topStreamInfo = await twLib.getTopStreamInfo()
     this.infoBlocks[1] = ({
       id: this.createUUID(),
+      title: 'Top Stream',
+      subTitle: this.topStreamInfo.channelName,
       image: this.topStreamInfo.imgURL,
-      title: 'Top Stream: ' + this.topStreamInfo.name,
-      text: 'Number of viewers: ' + '&emsp;' + this.topStreamInfo.viewers + '<br/>' + 'Channel name: ' + '&emsp;' + this.topStreamInfo.channelName
+      text: '<table><tr><td>Game:</td><td>' + this.topStreamInfo.name + '</td></tr><tr><td>Viewers:</td><td>' + this.topStreamInfo.viewers + '</td><td</tr></table'
     })
+    this.featuredStreamsInfo = await twLib.getFeaturedStreamsInfo(5)
+    for (let index = 0; index < this.featuredStreamsInfo.length; index++) {
+      console.log()
+      this.infoBlocks.push({
+        id: this.createUUID(),
+        title: 'Featured Stream #' + (index + 1),
+        subTitle: this.featuredStreamsInfo[index].channelName,
+        image: this.featuredStreamsInfo[index].imgURL,
+        text: '<table><tr><td>Game:</td><td>' + this.featuredStreamsInfo[index].name + '</td></tr><tr><td>Viewers:</td><td>' + this.featuredStreamsInfo[index].viewers + '</td><td</tr></table'
+      })
+    }
 
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       this.localTextColor1 = this.$darkTextColor1
