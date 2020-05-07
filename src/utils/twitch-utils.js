@@ -21,31 +21,38 @@ export function connect () {
 }
 
 /* get info about the gop game */
-export async function getTopGameInfo () {
+export async function getTopGameInfo (noOfGames) {
   const twitch = connect()
-  const optionalParams = { limit: 1 }
-  const topGames = await twitch.getTopGames(optionalParams)
-  const gameName = topGames.top[0].game.name
-  const gameViewers = topGames.top[0].viewers
-  const gameChannels = topGames.top[0].channels
-  const gameInfo = await twitch.searchGames(gameName)
-  const imgUrl = gameInfo.games[0].box.large
+  const topGames = await twitch.getTopGames({ limit: noOfGames })
+  const result = []
+  for (let index = 0; index < noOfGames; index++) {
+    const gameName = topGames.top[index].game.name
+    const gameViewers = topGames.top[index].viewers
+    const gameChannels = topGames.top[index].channels
+    const gameInfo = await twitch.searchGames(gameName)
+    const imgUrl = gameInfo.games[0].box.large
+    result.push({ name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels })
+  }
   // return url
-  return { name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels }
+  return result
 }
 
 /* get info about the gop stream */
-export async function getTopStreamInfo () {
+export async function getTopStreamsInfo (noOfStreams) {
   const twitch = connect()
-  const topStreams = await twitch.getTopStreams()
-  const gameName = topStreams.streams[0].game
-  const channelName = topStreams.streams[0].channel.display_name
-  const gameViewers = topStreams.streams[0].viewers
-  const gameInfo = await twitch.searchGames(gameName)
-  const channelUrl = topStreams.streams[0].channel.url
-  const imgUrl = gameInfo.games[0].box.large
+  const topStreams = await twitch.getTopStreams({ limit: noOfStreams })
+  const result = []
+  for (let index = 0; index < noOfStreams; index++) {
+    const gameName = topStreams.streams[index].game
+    const channelName = topStreams.streams[index].channel.display_name
+    const gameViewers = topStreams.streams[index].viewers
+    const gameInfo = await twitch.searchGames(gameName)
+    const channelUrl = topStreams.streams[index].channel.url
+    const imgUrl = gameInfo.games[0].box.large
+    result.push({ name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
+  }
   // return url
-  return { name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName }
+  return result
 }
 
 /* get info about featured streams */
