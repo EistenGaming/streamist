@@ -24,12 +24,26 @@
                   {{infoBlock.title}}
                 </div>
               </q-card-section>
+              <div v-if="infoBlock.channelUrl !== '' ">
+                <q-card-section class="q-ma-xs cursor-pointer infoBlock">
                 <q-img
                   :src='infoBlock.image'
                   basic
                   @click='imgClicked(infoBlock.channelUrl)'
                 >
                 </q-img>
+                </q-card-section>
+              </div>
+              <div v-else>
+                <q-card-section class="q-ma-xs" >
+                <q-img
+                  :src='infoBlock.image'
+                  basic
+                  @click='imgClicked(infoBlock.channelUrl)'
+                >
+                </q-img>
+                </q-card-section>
+              </div>
               <q-card-section class="q-pa-xs q-pl-md">
                 <div class="text-h6">
                   {{infoBlock.subTitle}}
@@ -63,7 +77,8 @@ export default {
         { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' },
         { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' },
         { id: this.createUUID(), image: '', channelUrl: '', title: '', subTitle: '', text: '' }
-      ]
+      ],
+      imgHover: false
     }
   },
   async mounted () { // This allows you to do stuff 'on page load'
@@ -133,5 +148,17 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   z-index: 0;
+}
+/* .infoBlock {
+    background-color:(var(--q-color-primary))
+}
+.infoBlock:hover {
+  background-color:(var(--q-color-accent))
+} */
+.infoBlock {
+    background-color:(var(--q-color-primary))
+    &:hover {
+      background:rgba($color: #ad2bc4, $alpha: 0.4)
+    }
 }
 </style>
