@@ -35,7 +35,7 @@ export async function getTopGamesInfo (noOfGames) {
       const gameChannels = topGames.top[index].channels
       const gameInfo = await twitch.searchGames(gameName)
       const imgUrl = gameInfo.games[0].box.large
-      result.push({ id: id, name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels })
+      result.push({ id: id, index: index + 1, name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels })
     }
   }
   return result
