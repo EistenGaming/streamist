@@ -1,121 +1,195 @@
 <template>
       <q-page class="flex flex-start bg-secondary column">
-        <q-item-label lines="1" class="q-pa-sm text-body2 text-weight-bold text-uppercase col-1" :style="{ color: localTextColor1 }" >Analytics Dashboard</q-item-label>
+        <q-item-label lines="1" class="q-pa-sm text-h3 text-weight-bold text-uppercase col-1" :style="{ color: localTextColor1 }" >Analytics Dashboard</q-item-label>
         <div style="width:100%" class="q-pa-sm flex items-start" :style="{ color: localTextColor1 }">
-          <div class="column">
-            <div class="row q-pb-md">
+          <div style="width:100%" class=" column">
+            <div class="row q-pb-md" >
               <q-item-label class="text-red">Twitch only at this time :)</q-item-label>
             </div>
             <div class="row">
-              <form autofocus>
-                  <div class="row">
-                  <div class="column">
-                    <q-select
-                      v-model="queryTypeSelected"
-                      dark
-                      dense
-                      bg-color="secondary"
-                      outlined
-                      :options="queryTypeOptions"
-                      style="width:200px"
-                    />
-                  </div>
-                  <div v-if="queryTypeSelected === 'User Data'">
-                    <div class="column q-ml-md">
-                      <q-input
-                        ref='streamerNameField'
-                        label='Streamer Name'
-                        outlined
-                        dense
-                        dark
-                        color="accent"
-                        bg-color="secondary"
-                        v-model="streamerName"
-                        error-message="Please use minimum of 3 characters."
-                        :error="!isStreamerNameValid"
-                      />
-                    </div>
-                  </div>
-                  <div v-if="queryTypeSelected === 'Top Streams'">
-                    <div class="column q-ml-md">
-                      <q-input
-                        ref='gameNameField'
-                        label='Game Name (optional)'
-                        outlined
-                        dense
-                        dark
-                        color="accent"
-                        bg-color="secondary"
-                        v-model="gameName"
-                      />
-                    </div>
-                  </div>
-                  <div v-if="queryTypeSelected === 'Top Streams'">
-                    <div class="column q-ml-md">
-                      <q-input
-                        ref='streamLanguageField'
-                        label='Stream Language (optional)'
-                        outlined
-                        dense
-                        dark
-                        color="accent"
-                        bg-color="secondary"
-                        v-model="streamLanguage"
-                      />
-                    </div>
-                  </div>
-                  <div v-if="queryTypeSelected === 'Featured Streams'">
-                    <div class="column q-ml-md">
-                      <q-input
-                        ref='noOfFeaturedStreamsField'
-                        label='# of Streams'
-                        type="number"
-                        outlined
-                        dense
-                        dark
-                        color="accent"
-                        bg-color="secondary"
-                        v-model="noOfFeaturedStreams"
-                        style="width:100px"
-                        error-message="Please enter a value between 1 and 100."
-                        :error="!isNoOfFeaturedStreamsValid"
-                      />
-                    </div>
-                  </div>
-                  <div v-if="queryTypeSelected === 'Top Games'">
-                    <div class="column q-ml-md">
-                      <q-input
-                        ref='noOfTopGamesField'
-                        label='# of Top Games'
-                        type="number"
-                        outlined
-                        dense
-                        dark
-                        color="accent"
-                        bg-color="secondary"
-                        v-model="noOfTopGames"
-                        style="width:100px"
-                        error-message="Please enter a value between 1 and 100."
-                        :error="!isNoOfTopGamesValid"
-                      />
-                    </div>
-                  </div>
-                    <div class="column q-ma-xs">
-                      <div class="row q-ml-md">
-                          <q-btn @click='cancelQueryButtonPressed' type="reset"  color='negative' icon="cancel" size='sm' />
-                          <div class="q-ml-sm"/>
-                          <q-btn @click='runQueryButtonPressed' type="submit" unelevated color='positive' icon="check_circle" size='sm' />
-                      </div>
-                    </div>
-                  </div>
-              </form>
+                <q-tabs
+                  v-model="activeAnalyticsTab"
+                  dense
+                  align="justify"
+                  narrow-indicator
+                >
+                  <q-tab name="StreamerInfo" label="Streamer Info" />
+                  <q-tab name="TopGames" label="Top Games" />
+                  <q-tab name="TopStreams" label="Top Streams" />
+                  <q-tab name="FeaturedStreams" label="Featured Streams" />
+                </q-tabs>
             </div>
             <div class="row">
-              <q-list bordered class="rounded-borders" v-bind:class="{'queryDataListStyleDark':(uiEnableDarkMode === true), 'queryDataListStyleLight':(uiEnableDarkMode !== true) }" >
-                <q-item-section>
-                  <q-item-label :style="{ color: localTextColor1 }"><span v-html="queryResultRaw"></span></q-item-label>
-                </q-item-section>
-              </q-list>
+              <q-tab-panels v-model="activeAnalyticsTab" class=" bg-secondary" animated>
+                  <q-tab-panel name="StreamerInfo">
+                      <form autofocus>
+                          <div class="row">
+                              <div class="column ">
+                                <q-input
+                                  ref='streamerNameField'
+                                  label='Streamer Name'
+                                  outlined
+                                  dense
+                                  dark
+                                  color="accent"
+                                  bg-color="secondary"
+                                  v-model="streamerName"
+                                  error-message="Please use minimum of 3 characters."
+                                  :error="!isStreamerNameValid"
+                                />
+                              </div>
+                              <div class="column q-ma-xs">
+                                <div class="row q-ml-md">
+                                    <q-btn
+                                      @click="runQueryStreamerInfo"
+                                      type="submit"
+                                      unelevated
+                                      color='positive'
+                                      icon="check_circle"
+                                      size='sm' />
+                                </div>
+                              </div>
+                          </div>
+                      </form>
+                      <span v-html="streamerInfo"></span>
+                  </q-tab-panel>
+                  <q-tab-panel name="TopGames">
+                    <form autofocus>
+                      <div class="row">
+                          <div class="column ">
+                            <q-input
+                              ref='noOfTopGamesField'
+                              label='# of Top Games'
+                              type="number"
+                              outlined
+                              dense
+                              dark
+                              color="accent"
+                              bg-color="secondary"
+                              v-model="noOfTopGames"
+                              style="width:100px"
+                              error-message="Please enter a value between 1 and 100."
+                              :error="!isNoOfTopGamesValid"
+                            />
+                          </div>
+                          <div class="column q-ma-xs">
+                            <div class="row q-ml-md">
+                              <q-btn
+                                @click="runQueryTopGames"
+                                type="submit"
+                                unelevated
+                                color='positive'
+                                icon="check_circle"
+                                size='sm'
+                                />
+                            </div>
+                          </div>
+                      </div>
+                    </form>
+                    <div v-for='element in topGames' v-bind:key='element.id' class="col q-ma-sm">
+                      <span v-html="element"></span>
+                    </div>
+                  </q-tab-panel>
+
+                  <q-tab-panel name="TopStreams">
+                   <form autofocus>
+                      <div class="row">
+                          <div class="column ">
+                            <q-input
+                              ref='noOfTopStreamsField'
+                              label='# of Top Streams'
+                              type="number"
+                              outlined
+                              dense
+                              dark
+                              color="accent"
+                              bg-color="secondary"
+                              v-model="noOfTopStreams"
+                              style="width:100px"
+                              error-message="Please enter a value between 1 and 100."
+                              :error="!isNoOfTopStreamsValid"
+                            />
+                          </div>
+                          <div class="column row q-ml-md">
+                            <q-input
+                              ref='gameNameField'
+                              label='Game Name (optional)'
+                              outlined
+                              dense
+                              dark
+                              color="accent"
+                              bg-color="secondary"
+                              v-model="topStreamsGameName"
+                            />
+                          </div>
+                          <div class="column row q-ml-md">
+                            <q-input
+                              ref='topStreamLanguageField'
+                              label='Stream Language (optional)'
+                              outlined
+                              dense
+                              dark
+                              color="accent"
+                              bg-color="secondary"
+                              v-model="topStreamsLanguage"
+                            />
+                          </div>
+                          <div class="column q-ma-xs">
+                            <div class="row q-ml-md">
+                              <q-btn
+                                @click="runQueryTopStreams"
+                                type="submit"
+                                unelevated
+                                color='positive'
+                                icon="check_circle"
+                                size='sm'
+                                />
+                            </div>
+                          </div>
+                      </div>
+                    </form>
+                    <div v-for='element in topStreams' v-bind:key='element.id' class="col q-ma-sm">
+                      <span v-html="element"></span>
+                    </div>
+                  </q-tab-panel>
+
+                  <q-tab-panel name="FeaturedStreams">
+                      <form autofocus>
+                          <div class="row">
+                            <div class="column ">
+                              <q-input
+                                ref='noOfFeaturedStreamsField'
+                                label='# of Streams'
+                                type="number"
+                                outlined
+                                dense
+                                dark
+                                color="accent"
+                                bg-color="secondary"
+                                v-model="noOfFeaturedStreams"
+                                style="width:100px"
+                                error-message="Please enter a value between 1 and 100."
+                                :error="!isNoOfFeaturedStreamsValid"
+                              />
+                            </div>
+                            <div class="column q-ma-xs">
+                                <div class="row q-ml-md">
+                                    <q-btn
+                                      @click="runQueryFeaturedStreamsInfo"
+                                      type="submit"
+                                      unelevated
+                                      color='positive'
+                                      icon="check_circle"
+                                      size='sm' />
+                                </div>
+                              </div>
+                          </div>
+                      </form>
+                    <div v-for='element in featuredStreams' v-bind:key='element.id' class="col q-ma-sm">
+                      <span v-html="element"></span>
+                    </div>
+                  </q-tab-panel>
+              </q-tab-panels>
             </div>
           </div>
         </div>
@@ -130,17 +204,22 @@ export default {
     return {
       // Vars go here
       accounts: [],
-      queryTypeSelected: 'User Data',
-      queryTypeOptions: ['User Data', 'Top Streams', 'Featured Streams', 'Top Games'],
-      queryResultRaw: '',
+      streamerInfo: '',
+      topGames: [],
+      topStreams: [],
+      featuredStreams: [],
       streamerName: '',
       gameName: '',
-      streamLanguage: 'en',
-      noOfFeaturedStreams: 5,
       noOfTopGames: 25,
+      noOfTopStreams: 25,
+      noOfFeaturedStreams: 25,
+      topStreamsGameName: '',
+      topStreamsLanguage: 'en',
       localTextColor1: '',
       localTextColor2: '',
-      uiEnableDarkMode: false
+      uiEnableDarkMode: false,
+      activeAnalyticsTab: 'StreamerInfo',
+      queryTypeSelected: ''
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -172,101 +251,50 @@ export default {
     }
   },
   methods: {
-    // Methods go here
-    runQuery: async function () {
-      if (this.queryTypeSelected === 'User Data') {
-        if (this.$refs.streamerNameField.error === false) {
-          // TODO: Implement
-          try {
-            const userData = await twLib.getUserData(this.streamerName)
-            if (userData === null) {
-              this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
-            } else {
-              this.queryResultRaw = 'Name: ' + userData.userName + '<br/>' + 'Game: ' + userData.gameName + '<br/>' + 'Viewers: ' + userData.viewers + '<br/>' + 'Description: ' + userData.channelDescription + '<br/>' + 'LogoURL: ' + userData.channelLogoURL + '<br/>' + 'Stream Preview URL: ' + userData.streamPreviewURL
-            }
-          } catch (error) {
-            this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')
+    runQueryStreamerInfo: async function () {
+      if (this.$refs.streamerNameField.error === false) {
+        this.streamerInfo = ''
+        try {
+          const userData = await twLib.getUserData(this.streamerName)
+          if (userData === null) {
+            this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
+          } else {
+            this.streamerInfo = 'Name: ' + userData.userName + '<br/>' + 'Game: ' + userData.gameName + '<br/>' + 'Viewers: ' + userData.viewers + '<br/>' + 'Description: ' + userData.channelDescription + '<br/>' + 'LogoURL: ' + userData.channelLogoURL + '<br/>' + 'Stream Preview URL: ' + userData.streamPreviewURL
           }
+        } catch (error) {
+          this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')
         }
-      } else if (this.queryTypeSelected === 'Top Streams') {
-        // TODO: Implement
-      } else if (this.queryTypeSelected === 'Featured Streams') {
-        // TODO: Implement
-      } else if (this.queryTypeSelected === 'Top Games') {
-        // TODO: Implement
       }
-      /*
-      if (this.queryTypeSelected === 'User Data') {
-        if (this.$refs.streamerNameField.error === false) {
-          twitch.getUser(this.streamerName)
-            .then(data => {
-              if (data.stream === null) {
-                this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
-                console.log(data)
-              } else {
-                // this.queryResultRaw = data
-                this.queryResultRaw = 'Channel: ' + data.stream.channel.name + '<br/>' + 'Channel Description: ' + data.stream.channel.description + '<br/>' + 'Game: ' + data.stream.game + '<br/>' + 'Viewers: ' + data.stream.viewers
-                console.log(data)
-              }
-              return data
-            })
-            .catch(error => {
-              this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')
-              console.error(error)
-            })
-        }
-      } else if (this.queryTypeSelected === 'Top Streams') {
-        const optionalParams = { game: this.gameName, language: this.streamLanguage }
-        twitch.getTopStreams(optionalParams)
-          .then(data => {
-            this.queryResultRaw = data
-            console.log(data)
-          })
-          .catch(error => {
-            console.error(error)
-          })
-      } else if (this.queryTypeSelected === 'Featured Streams') {
-        twitch.getFeaturedStreams({ limit: this.noOfFeaturedStreams })
-          .then(data => {
-            this.queryResultRaw = data
-            console.log(data)
-          })
-          .catch(error => {
-            console.error(error)
-          })
-      } else if (this.queryTypeSelected === 'Top Games') {
-        const optionalParams = { limit: this.noOfTopGames }
-        twitch.getTopGames(optionalParams)
-          .then(data => {
-            this.queryResultRaw = data
-            console.log(data)
-          })
-          .catch(error => {
-            console.error(error)
-          })
-      } */
+      console.log('run query triggered')
     },
-    cancelQuery: function () {
-      if (this.queryTypeSelected === 'User Data') {
-        this.streamerName = ''
-        this.$nextTick(this.$refs.streamerNameField.focus())
-      } else if (this.queryTypeSelected === 'Top Streams') {
-        this.gameName = ''
-        this.streamLanguage = 'en'
-        this.$nextTick(this.$refs.gameNameField.focus())
-      } else if (this.queryTypeSelected === 'Featured Streams') {
-        this.noOfFeaturedStreams = 5
-        this.$nextTick(this.$refs.noOfFeaturedStreamsField.focus())
-      } else if (this.queryTypeSelected === 'Top Games') {
-        this.noOfFeaturedStreams = 25
-        this.$nextTick(this.$refs.noOfTopGamesField.focus())
+    runQueryTopGames: async function () {
+      if (this.$refs.noOfTopGamesField.error === false) {
+        this.topGames = []
+        try {
+          this.topGames = await twLib.getTopGamesInfo(this.noOfTopGames)
+        } catch (error) {
+          this.$root.$emit('userNotify', 'No Data Found', "There don't seem to be any top games.", 'error')
+          console.log('error: ' + error)
+        }
       }
     },
-    cancelQueryButtonPressed: function () {
-      this.cancelQuery()
+    runQueryTopStreams: async function () {
+      this.topStreams = []
+      try {
+        this.topStreams = await twLib.getTopStreamsInfo(this.noOfTopStreams, this.topStreamsGameName, this.topStreamsLanguage)
+      } catch (error) {
+        this.$root.$emit('userNotify', 'No Data Found', "There don't seem to be any top streams.", 'error')
+        console.log('error: ' + error)
+      }
     },
-    runQueryButtonPressed: function () {
-      this.runQuery()
+    runQueryFeaturedStreamsInfo: async function () {
+      this.featuredStreams = []
+      try {
+        this.featuredStreams = await twLib.getFeaturedStreamsInfo(this.noOfFeaturedStreams)
+      } catch (error) {
+        this.$root.$emit('userNotify', 'No Data Found', "There don't seem to be any featured streams.", 'error')
+        console.log('error: ' + error)
+      }
     }
   },
   computed: {
@@ -282,6 +310,9 @@ export default {
     },
     isNoOfTopGamesValid () {
       return this.noOfTopGames >= 1 && this.noOfTopGames <= 100
+    },
+    isNoOfTopStreamsValid () {
+      return this.noOfTopStreams >= 1 && this.noOfTopStreams <= 100
     }
   }
 }

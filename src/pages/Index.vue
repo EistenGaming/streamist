@@ -70,7 +70,7 @@ export default {
       contentActiveStyle: { background: 'secondary' }, // used when cursor IS over chat area
       localTextColor1: '',
       localTextColor2: '',
-      topGamesInfo: '',
+      topGamesInfo: [],
       topStreamsInfo: [],
       featuredStreamsInfo: [],
       infoBlocks: [],
@@ -79,7 +79,7 @@ export default {
   },
   async mounted () { // This allows you to do stuff 'on page load'
     /** Populte the news items */
-    this.topGamesInfo = await twLib.getTopGameInfo(5)
+    this.topGamesInfo = await twLib.getTopGamesInfo(5)
     for (let index = 0; index < this.topGamesInfo.length; index++) {
       this.infoBlocks.push({
         id: this.createUUID(),
