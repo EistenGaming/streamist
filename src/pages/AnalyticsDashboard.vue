@@ -173,15 +173,35 @@ export default {
   },
   methods: {
     // Methods go here
-    runQuery: function () {
-      var twitch = twLib.connect()
-      /** Handle User Data */
+    runQuery: async function () {
+      if (this.queryTypeSelected === 'User Data') {
+        if (this.$refs.streamerNameField.error === false) {
+          // TODO: Implement
+          try {
+            const userData = await twLib.getUserData(this.streamerName)
+            if (userData === null) {
+              this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
+            } else {
+              this.queryResultRaw = 'Name: ' + userData.userName + '<br/>' + 'Game: ' + userData.gameName + '<br/>' + 'Viewers: ' + userData.viewers + '<br/>' + 'Description: ' + userData.channelDescription + '<br/>' + 'LogoURL: ' + userData.channelLogoURL + '<br/>' + 'Stream Preview URL: ' + userData.streamPreviewURL
+            }
+          } catch (error) {
+            this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')
+          }
+        }
+      } else if (this.queryTypeSelected === 'Top Streams') {
+        // TODO: Implement
+      } else if (this.queryTypeSelected === 'Featured Streams') {
+        // TODO: Implement
+      } else if (this.queryTypeSelected === 'Top Games') {
+        // TODO: Implement
+      }
+      /*
       if (this.queryTypeSelected === 'User Data') {
         if (this.$refs.streamerNameField.error === false) {
           twitch.getUser(this.streamerName)
             .then(data => {
               if (data.stream === null) {
-                this.queryResultRaw = 'Streamer not live.'
+                this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
                 console.log(data)
               } else {
                 // this.queryResultRaw = data
@@ -191,7 +211,7 @@ export default {
               return data
             })
             .catch(error => {
-              this.queryResultRaw = 'Streamer does not seem to exist. No data found.'
+              this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')
               console.error(error)
             })
         }
@@ -224,7 +244,7 @@ export default {
           .catch(error => {
             console.error(error)
           })
-      }
+      } */
     },
     cancelQuery: function () {
       if (this.queryTypeSelected === 'User Data') {

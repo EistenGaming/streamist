@@ -279,7 +279,6 @@ export default {
     this.$root.$on('themeChange', this.changeTheme)
     this.$root.$on('showProgress', this.showProgress)
     this.$root.$on('developerMode', this.enableDevMode)
-    this.$root.$on('iveLogEntryBadge', this.enableLogEntryBadge)
     this.$root.$on('unresolvedLogEntries', this.setUnresolvedLogEntryCount)
     this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
     document.addEventListener('keydown', this.keyListener)
@@ -385,7 +384,7 @@ export default {
         caption: caption,
         icon: icon,
         color: 'notifyBg',
-        textColor: 'blue-grey-10'
+        textColor: 'black'
       })
     },
     showProgress: function (progress) {

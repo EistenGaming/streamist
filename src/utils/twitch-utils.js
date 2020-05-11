@@ -33,7 +33,6 @@ export async function getTopGameInfo (noOfGames) {
     const imgUrl = gameInfo.games[0].box.large
     result.push({ name: gameName, imgURL: imgUrl, viewers: gameViewers, channels: gameChannels })
   }
-  // return url
   return result
 }
 
@@ -51,7 +50,6 @@ export async function getTopStreamsInfo (noOfStreams) {
     const imgUrl = gameInfo.games[0].box.large
     result.push({ name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
   }
-  // return url
   return result
 }
 
@@ -68,6 +66,16 @@ export async function getFeaturedStreamsInfo (noOfStreams) {
     const channelUrl = featuredStreams.featured[index].stream.channel.url
     result.push({ name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
   }
-  // return url
+  return result
+}
+
+/** Get data about a specific streamer (needs to be live) */
+export async function getUserData (userName) {
+  const twitch = connect()
+  const userData = await twitch.getUser(userName)
+  let result = null
+  if (userData.stream !== null) {
+    result = { userName: userData.stream.channel.name, gameName: userData.stream.game, viewers: userData.stream.viewers, channelDescription: userData.stream.channel.description, channelLogoURL: userData.stream.channel.logo, streamPreviewURL: userData.stream.preview.large }
+  }
   return result
 }
