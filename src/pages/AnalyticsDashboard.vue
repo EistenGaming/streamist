@@ -3,9 +3,6 @@
         <q-item-label lines="1" class="q-pa-sm text-h3 text-weight-bold text-uppercase col-1" :style="{ color: localTextColor1 }" >Analytics Dashboard</q-item-label>
         <div style="width:100%" class="q-pa-sm flex items-start" :style="{ color: localTextColor1 }">
           <div style="width:100%" class=" column">
-            <div class="row q-pb-md" >
-              <q-item-label class="text-red">Twitch only at this time :)</q-item-label>
-            </div>
             <div class="row">
                 <q-tabs
                   v-model="activeAnalyticsTab"
@@ -52,7 +49,53 @@
                               </div>
                           </div>
                       </form>
-                      <span v-html="streamerInfo"></span>
+                      <div style="width:100%">
+                        <div class="row">
+                            <div class="column">
+                              <q-img
+                                :src='streamerInfo.channelLogoURL'
+                                style="min-width: 100px; max-width: 100px"
+                              />
+                            </div>
+                            <div class="column">
+                              <q-item-label
+                              class="q-pa-sm text-h4 text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor1 }"
+                              >{{streamerInfo.userName}}</q-item-label>
+                              <q-item-label
+                              class="q-pa-sm text-caption text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor1 }"
+                              >{{streamerInfo.channelDescription}}</q-item-label>
+                            </div>
+                            <div class="column">
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="column q-mt-md">
+                            <q-item-label
+                              class="q-pa-sm text-h6 text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor2 }"
+                              >Game: </q-item-label>
+                              <q-item-label
+                              class="q-pa-sm text-h6 text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor2 }"
+                              >Viewers: </q-item-label>
+                          </div>
+                          <div class="column q-mt-md">
+                            <q-item-label
+                              class="q-pa-sm text-h6 text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor1 }"
+                            >{{streamerInfo.gameName}}</q-item-label>
+                            <q-item-label
+                              class="q-pa-sm text-h6 text-weight-bold text-uppercase"
+                              :style="{ color: localTextColor1 }"
+                            >{{streamerInfo.viewers}}</q-item-label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <q-img class="q-mt-md" :src='streamerInfo.streamPreviewURL' style="min-width: 600px; max-width: 600px"/>
+                        </div>
+                      </div>
                   </q-tab-panel>
                   <q-tab-panel name="TopGames">
                     <form autofocus>
@@ -250,7 +293,11 @@
 
                   <q-tab-panel name="GraphTests">
                     <div class="small">
-                      Test
+                      <GChart
+                        type="ColumnChart"
+                        :data="chartData"
+                        :options="chartOptions"
+                      />
                     </div>
                   </q-tab-panel>
 
@@ -267,6 +314,35 @@ export default {
   name: 'AnalyticsDashboard',
   data () {
     return {
+      chartData: [
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
+      ],
+      chartOptions: {
+        titleTextStyle: { color: '#FFF' },
+        width: 600,
+        title: 'Hop?',
+        subtitle: 'Bof!',
+        backgroundColor: { fill: 'transparent' },
+        colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+        vAxis: {
+          textStyle: { color: '#FFF' },
+          titleTextStyle: { color: '#FFF' },
+          gridlines: { color: '#787878' }
+        },
+        hAxis: {
+          textStyle: { color: '#FFF' },
+          titleTextStyle: { color: '#FFF' }
+        },
+        legend: {
+          textStyle: { color: '#FFF' },
+          position: 'bottom'
+        }
+
+      },
       topGamesColumns: [
         {
           name: 'index',
@@ -395,7 +471,7 @@ export default {
           if (userData === null) {
             this.$root.$emit('userNotify', 'User Not Live', 'The streamer you were looking for is not currently live.', 'warning')
           } else {
-            this.streamerInfo = 'Name: ' + userData.userName + '<br/>' + 'Game: ' + userData.gameName + '<br/>' + 'Viewers: ' + userData.viewers + '<br/>' + 'Description: ' + userData.channelDescription + '<br/>' + 'LogoURL: ' + userData.channelLogoURL + '<br/>' + 'Stream Preview URL: ' + userData.streamPreviewURL
+            this.streamerInfo = userData
           }
         } catch (error) {
           this.$root.$emit('userNotify', 'No Data Found', 'The streamer you were looking does not seem to exist.', 'error')

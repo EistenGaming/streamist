@@ -89,3 +89,26 @@ export async function getUserData (userName) {
   }
   return result
 }
+
+export async function getUserDataPrivileged () {
+  let accounts
+  if (LocalStorage.getItem('accounts')) {
+    try {
+      accounts = JSON.parse(LocalStorage.getItem('accounts'))
+    } catch (e) {
+      /** TODO: error handling */
+    }
+  }
+  const twAccountData = accounts.find(item => item.type === 'Twitch')
+  // const twitch = connect()
+  try {
+    const authRequest = 'https://id.twitch.tv/oauth2/token?client_id=' + twAccountData.id + '&client_secret=' + twAccountData.secret + '&grant_type=client_credentials'
+    console.log('Auth request: ' + authRequest)
+    // const token = await makePostRequest(authRequest)
+    // console.log('Token: ' + token)
+    // const userData = await twitch.makeRequest('https://api.twitch.tv/kraken/user')
+    // console.log('Privileged user data: ' + userData)
+  } catch (error) {
+    console.log('Error: ' + error)
+  }
+}

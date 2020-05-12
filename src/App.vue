@@ -8,6 +8,8 @@
 /** Declare the global variables here */
 /** TODO: Fix this once global css colors work */
 import Vue from 'vue'
+import VueGoogleCharts from 'vue-google-charts'
+Vue.use(VueGoogleCharts)
 /*
 * Set the App and NXS versions here, until we find a better (automated) solution
 */
