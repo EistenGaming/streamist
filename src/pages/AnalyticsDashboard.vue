@@ -168,9 +168,28 @@
                           </div>
                       </div>
                     </form>
-                    <div v-for='element in topStreams' v-bind:key='element.id' class="col q-ma-sm">
-                      <span v-html="element"></span>
-                    </div>
+                      <div class="column q-pa-md">
+                        <q-table
+                          dark
+                          bordered
+                          color="accent"
+                          card-class="bg-primary"
+                          :style="{ color: localTextColor1 }"
+                          title="Top Streams"
+                          :data="topStreams"
+                          :columns="topStreamsColumns"
+                          :pagination.sync="topStreamsPagination"
+                          row-key="id"
+                        >
+                          <template v-slot:body-cell-boxShot="boxShot">
+                            <q-td :props="boxShot">
+                              <div>
+                                <q-img :src='boxShot.value' basic />
+                              </div>
+                            </q-td>
+                          </template>
+                        </q-table>
+                      </div>
                   </q-tab-panel>
 
                   <q-tab-panel name="FeaturedStreams">
@@ -205,9 +224,28 @@
                               </div>
                           </div>
                       </form>
-                    <div v-for='element in featuredStreams' v-bind:key='element.id' class="col q-ma-sm">
-                      <span v-html="element"></span>
-                    </div>
+                      <div class="column q-pa-md">
+                        <q-table
+                          dark
+                          bordered
+                          color="accent"
+                          card-class="bg-primary"
+                          :style="{ color: localTextColor1 }"
+                          title="Featured Streams"
+                          :data="featuredStreams"
+                          :columns="featuredStreamsColumns"
+                          :pagination.sync="featuredStreamsPagination"
+                          row-key="id"
+                        >
+                          <template v-slot:body-cell-streamLogo="streamLogo">
+                            <q-td :props="streamLogo">
+                              <div>
+                                <q-img :src='streamLogo.value' basic />
+                              </div>
+                            </q-td>
+                          </template>
+                        </q-table>
+                      </div>
                   </q-tab-panel>
 
                   <q-tab-panel name="GraphTests">
@@ -247,12 +285,59 @@ export default {
         { name: 'viewers', align: 'right', label: '# of Viewers', field: 'viewers', sortable: true },
         { name: 'channels', aligh: 'right', label: '# of Channels', field: 'channels', sortable: true }
       ],
+      topStreamsColumns: [
+        {
+          name: 'index',
+          label: '#',
+          field: 'index',
+          sortable: true
+        },
+        {
+          name: 'boxShot',
+          align: 'left',
+          label: 'Box Shot',
+          field: 'imgURL',
+          sortable: false
+        },
+        { name: 'channelName', align: 'left', label: 'Channel Name', field: 'channelName', sortable: true },
+        { name: 'gameName', align: 'left', label: 'Game Name', field: 'name', sortable: true },
+        { name: 'viewers', align: 'right', label: '# of Viewers', field: 'viewers', sortable: true }
+      ],
+      featuredStreamsColumns: [
+        {
+          name: 'index',
+          label: '#',
+          field: 'index',
+          sortable: true
+        },
+        {
+          name: 'streamLogo',
+          align: 'left',
+          label: 'streamLogo',
+          field: 'imgURL',
+          sortable: false
+        },
+        { name: 'channelName', align: 'left', label: 'Channel Name', field: 'channelName', sortable: true },
+        { name: 'gameName', align: 'left', label: 'Game Name', field: 'name', sortable: true },
+        { name: 'viewers', align: 'right', label: '# of Viewers', field: 'viewers', sortable: true }
+      ],
       topGamesPagination: {
         sortBy: 'index',
         descending: false,
         page: 1,
         rowsPerPage: 10
-        // rowsNumber: xx if getting data from a server
+      },
+      topStreamsPagination: {
+        sortBy: 'index',
+        descending: false,
+        page: 1,
+        rowsPerPage: 10
+      },
+      featuredStreamsPagination: {
+        sortBy: 'index',
+        descending: false,
+        page: 1,
+        rowsPerPage: 10
       },
       accounts: [],
       streamerInfo: '',

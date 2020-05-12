@@ -55,7 +55,7 @@ export async function getTopStreamsInfo (noOfStreams, gameName, streamLanguage) 
       const gameInfo = await twitch.searchGames(gameName)
       const channelUrl = topStreams.streams[index].channel.url
       const imgUrl = gameInfo.games[0].box.large
-      result.push({ id: id, name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
+      result.push({ id: id, index: index + 1, name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
     }
   }
   return result
@@ -74,7 +74,7 @@ export async function getFeaturedStreamsInfo (noOfStreams) {
     const gameViewers = featuredStreams.featured[index].stream.viewers
     const imgUrl = featuredStreams.featured[index].stream.preview.large
     const channelUrl = featuredStreams.featured[index].stream.channel.url
-    result.push({ id: id, name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
+    result.push({ id: id, index: index + 1, name: gameName, imgURL: imgUrl, channelUrl: channelUrl, viewers: gameViewers, channelName: channelName })
   }
   return result
 }

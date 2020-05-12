@@ -22,28 +22,24 @@
 
         <q-space/>
 
-        <div :style="{ color: localTextColor1 }">
-        <q-btn
-          @click="registerButtonPressed"
-          flat
-          size="10px"
-          color="localTextColor1"
-          label="Register"
-        />
-        <q-toggle
-          v-model="loginToggleState"
-          class="text-caption toggleCustomSize"
-          checked-icon="check"
-          color="accent"
-          :label="loginToggleMessage"
-          left-label
-          unchecked-icon="clear"
-        />
-        </div>
         <q-chip
-          :color="loginStateBgColor"
-          :text-color="loginStateTextColor"
-          :label='loginStateMessage'
+          :color="twitchStateBgColor"
+          :text-color="twitchStateTextColor"
+          label='Twitch'
+          square
+          size='10px'
+        />
+        <q-chip
+          :color="mixerStateBgColor"
+          :text-color="mixerStateTextColor"
+          label='Mixer'
+          square
+          size='10px'
+        />
+        <q-chip
+          :color="youtubeStateBgColor"
+          :text-color="youtubeStateTextColor"
+          label='Youtube'
           square
           size='10px'
         />
@@ -138,96 +134,7 @@
         </q-card>
         </q-dialog>
       <!-- *** END User Message Dialog *** -->
-      <!-- *** Register Dialog *** -->
-        <div v-if="registerAccount === true">
-              <q-dialog v-model="registerAccount" persistent>
-              <q-card>
-                <q-card-section class="row items-center">
-                  <q-avatar icon="person_add" :text-color="localTextColor2" font-size="36px" />
-                  <span class="q-ml-sm">Create a new account</span>
-                </q-card-section>
-                <q-card-section>
-                  <div class="q-pt-xs"/>
-                  <q-item-label class='text-caption q-pr-xs' :style="{color: localTextColor2}" lines="1">USERNAME</q-item-label>
-                  <q-input
-                    ref='newUsernameField'
-                    outlined
-                    dense
-                    dark
-                    color="accent"
-                    bg-color="secondary"
-                    v-model="newUsername"
-                    error-message="Please use minimum of 3 characters."
-                    :error="!isUsernameValid"
-                  />
-                </q-card-section>
-                <q-card-section>
-                  <q-item-label class='text-caption q-pr-xs' :style="{color: localTextColor2}" lines="1">EMAIL</q-item-label>
-                  <q-input
-                    ref='newUseremailField'
-                    outlined
-                    dense
-                    dark
-                    color="accent"
-                    bg-color="secondary"
-                    v-model="newUseremail"
-                    error-message="Please enter a valid email address."
-                    :error="!isUseremailValid"
-                  />
-                </q-card-section>
-                <q-card-section>
-                  <div class="q-pt-xs"/>
-                  <q-item-label class='text-caption q-pr-xs' :style="{color: localTextColor2}" lines="1">PASSWORD</q-item-label>
-                  <q-input
-                    outlined
-                    dense
-                    dark
-                    bottom-slots
-                    ref = "newPasswordField"
-                    color="accent"
-                    bg-color="secondary"
-                    :type=" isNewPwdVisible ? 'password' : 'text' "
-                    v-model="newPassword"
-                  >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isNewPwdVisible ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isNewPwdVisible = !isNewPwdVisible"
-                      />
-                    </template>
-                  </q-input>
-                  <div class="q-pt-xs"/>
-                  <q-item-label class='text-caption q-pr-xs' :style="{color: localTextColor2}" lines="1">CONFIRM PASSWORD</q-item-label>
-                  <q-input
-                    outlined
-                    dense
-                    dark
-                    bottom-slots
-                    ref = "newPasswordFieldConfirm"
-                    color="accent"
-                    bg-color="secondary"
-                    :type=" isNewPwdVisible ? 'password' : 'text' "
-                    v-model="newPasswordConfirmed"
-                  >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isNewPwdVisible ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isNewPwdVisible = !isNewPwdVisible"
-                      />
-                    </template>
-                  </q-input>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn @click='registerAccountCancelButtonPressed' flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn @click='registerAccountConfirmButtonPressed' flat label="OK" color="primary" v-close-popup />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
-        </div>
-      <!-- *** END Register Dialog *** -->
-    <q-page-container>
+      <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -241,13 +148,15 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      loginToggleState: false,
-      loginStateMessage: 'OFFLINE',
-      loginStateTextColor: 'blue-grey-3',
-      loginStateBgColor: 'blue-grey-7',
-      loginButtonTextColor: 'blue-grey-3',
-      loginButtonBgColor: 'accent',
-      loginToggleMessage: 'LOGIN',
+      twitchToggleState: false,
+      mixerToggleState: false,
+      youtubeToggleState: false,
+      twitchStateTextColor: 'blue-grey-3',
+      twitchStateBgColor: 'secondary',
+      mixerStateTextColor: 'blue-grey-3',
+      mixerStateBgColor: 'secondary',
+      youtubeStateTextColor: 'blue-grey-3',
+      youtubeStateBgColor: 'secondary',
       userAlertDialog: false,
       userAlertTitle: '',
       userAlertText: '',
@@ -255,12 +164,6 @@ export default {
       userAlertIconColor: '',
       userAlertSeverity: ['info', 'warning', 'error', 'fatal'
       ],
-      registerAccount: false,
-      newUsername: '',
-      newUseremail: '',
-      newPassword: '',
-      newPasswordConfirmed: '',
-      isNewPwdVisible: true,
       localTextColor1: '',
       localTextColor2: '',
       progressValue: 0,
@@ -271,9 +174,6 @@ export default {
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
-    // DEBUG
-    util.websocketHelloWorld()
-    // END DEBUG
     this.$root.$on('userAlert', this.showUserAlert)
     this.$root.$on('userNotify', this.showUserNotify)
     this.$root.$on('themeChange', this.changeTheme)
@@ -298,13 +198,42 @@ export default {
     } else {
       this.uiUnresolvedLogEntryCount = 0
     }
+    // Check which accounts are set the indicator chips accordingly
+    if (this.$q.localStorage.getItem('accounts')) {
+      try {
+        const accounts = JSON.parse(this.$q.localStorage.getItem('accounts'))
+        if (accounts.findIndex(item => item.type === 'Twitch') >= 0) {
+          this.twitchToggleState = true
+        } else {
+          this.twitchToggleState = false
+        }
+        if (accounts.findIndex(item => item.type === 'Mixer') >= 0) {
+          this.mixerToggleState = true
+        } else {
+          this.mixerToggleState = false
+        }
+        if (accounts.findIndex(item => item.type === 'Youtube') >= 0) {
+          this.youtubeToggleState = true
+        } else {
+          this.youtubeToggleState = false
+        }
+      } catch (e) {
+        this.$q.localStorage.remove('accounts')
+      }
+    }
   },
   watch: {
-    loginToggleState: function () {
-      this.loginToggleState ? this.loginToggleMessage = 'LOGOUT' : this.loginToggleMessage = 'LOGIN'
-      this.loginToggleState ? this.loginStateMessage = 'ONLINE' : this.loginStateMessage = 'OFFLINE'
-      this.loginToggleState ? this.loginStateTextColor = 'white' : this.loginStateTextColor = 'blue-grey-3'
-      this.loginToggleState ? this.loginStateBgColor = 'accent' : this.loginStateBgColor = 'blue-grey-7'
+    twitchToggleState: function () {
+      this.twitchToggleState ? this.twitchStateTextColor = 'white' : this.twitchStateTextColor = 'blue-grey-3'
+      this.twitchToggleState ? this.twitchStateBgColor = 'accent' : this.twitchStateBgColor = 'blue-grey-7'
+    },
+    mixerToggleState: function () {
+      this.mixerToggleState ? this.mixerStateTextColor = 'white' : this.mixerStateTextColor = 'blue-grey-3'
+      this.mixerToggleState ? this.mixerStateBgColor = 'accent' : this.mixerStateBgColor = 'blue-grey-7'
+    },
+    youtubeToggleState: function () {
+      this.youtubeToggleState ? this.youtubeStateTextColor = 'white' : this.youtubeStateTextColor = 'blue-grey-3'
+      this.youtubeToggleState ? this.youtubeStateBgColor = 'accent' : this.youtubeStateBgColor = 'blue-grey-7'
     }
   },
   computed: {
@@ -389,19 +318,6 @@ export default {
     },
     showProgress: function (progress) {
       this.progressValue = progress
-    },
-    registerButtonPressed: function () {
-      // Do the user registration
-      this.registerAccount = true
-      // console.log('User registration triggered.')
-    },
-    registerAccountCancelButtonPressed: function () {
-      // User registration cancelled
-      // console.log('User registration cancelled.')
-    },
-    registerAccountConfirmButtonPressed: function () {
-      // User registration confirmed
-      // console.log('User registration confirmed.')
     },
     setDarkModeColors: function () {
       // Set dark mode brand colors
