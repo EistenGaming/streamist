@@ -13,7 +13,11 @@
           "iconHash": "cfd85ab13081f4395d2314f6b5b823a1"
         }
       },
-      "build": {}
+      "build": {
+        "electron": {
+          "iconHash": "cfd85ab13081f4395d2314f6b5b823a1"
+        }
+      }
     }
   }
 }
