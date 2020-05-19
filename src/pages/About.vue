@@ -51,8 +51,8 @@ export default {
       aboutInfo: {
         id: util.createUUIDv4(),
         image: 'https://pbs.twimg.com/profile_banners/1228420911734366211/1588544940/600x200',
-        aboutText: 'PLACEHOLDER: This is the ABOUT part of the info',
-        changelog: '<p style="color: #76FF03"><strong>NEW FEATURES</strong></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p style="color: #FF7043"><strong>FIXES</strong></p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        aboutText: 'If you enjoy the software, you are welcome to donate: HERE (TBD)',
+        changelog: '<p style="color: #76FF03"><strong>NEW FEATURES</strong></p><p>* Analytics Dashboard: Top Games <br/>* Analytics Dashboard: Top Streams<br/>* Analytics Dashboard: Featured Streams<br/></p><p style="color: #FF7043"><strong>FIXES</strong></p>* The link to the "About" should no longer be removed when dev mode is disabled in the settings</br>* Box shots and for channel previews should now be displayed properly'
       },
       thumbStyle: { right: '4px', borderRadius: '5px', background: 'white', width: '7px', opacity: 0.7 },
       contentStyle: { background: 'sedondary' }, // used when cursor is NOT over chat area
