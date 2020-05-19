@@ -185,15 +185,39 @@
                             title="Top Games"
                             :data="topGames"
                             :columns="topGamesColumns"
-                            :pagination.sync="topGamesPagination"
+                            :pagination.sync="topGamesPaginationGrid"
                             row-key="id"
                           >
-                            <template v-slot:body-cell-boxShot="boxShot">
-                              <q-td :props="boxShot">
-                                <div>
-                                  <q-img :src='boxShot.value' basic />
+                            <template v-slot:item="props">
+                              <q-card bordered dark class="q-ma-sm tileBGColor" style="max-width: 300px; min-width: 300px">
+                                <div class="q-ma-sm" v-for="col in props.cols" :key="col.id">
+                                  <div v-if="col.label === 'Box Shot'">
+                                    <q-img :src='col.value' basic />
+                                  </div>
+                                  <div v-if="col.label === '#'">
+                                    <div class="text-h6">
+                                      #{{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === 'Game Name'">
+                                    <div class="text-h6">
+                                      {{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === '# of Viewers'">
+                                    <div class="row text-h8">
+                                      <div class="column col-4">Viewers:</div>
+                                      <div class="column">{{col.value}}</div>
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === '# of Channels'">
+                                    <div class="row text-h8">
+                                      <div class="column col-4">Channels:</div>
+                                      <div class="column">{{col.value}}</div>
+                                    </div>
+                                  </div>
                                 </div>
-                              </q-td>
+                              </q-card>
                             </template>
                           </q-table>
                         </div>
@@ -455,6 +479,12 @@ export default {
         page: 1,
         rowsPerPage: 10
       },
+      topGamesPaginationGrid: {
+        sortBy: 'index',
+        descending: false,
+        page: 1,
+        rowsPerPage: 0
+      },
       topStreamsPagination: {
         sortBy: 'index',
         descending: false,
@@ -620,5 +650,8 @@ export default {
   .queryDataItemStyleDark:hover {
     background: #36393F;
     color: white
+  }
+  .tileBGColor {
+    background-color:(var(--q-color-primary))
   }
 </style>
