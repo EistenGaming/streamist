@@ -130,9 +130,29 @@
                           </div>
                       </div>
                     </form>
+                    <div class="row">
+                      <div class="column">
+                        <q-btn
+                          @click="topGamesTalbleView"
+                          unelevated
+                          color='secondary'
+                          icon="list"
+                          size='md'
+                        />
+                      </div>
+                      <div class="column q-pl-sm">
+                        <q-btn
+                          @click="topGamesGridView"
+                          unelevated
+                          color='secondary'
+                          icon="view_comfy"
+                          size='md'
+                        />
+                      </div>
+                    </div>
                       <div class="column q-pa-md">
 
-                        <div v-if="topGamesGrid === false">
+                        <div v-if="topGamesGridMode === false">
                           <q-table
                             dark
                             bordered
@@ -464,7 +484,7 @@ export default {
       uiEnableDarkMode: false,
       activeAnalyticsTab: 'TopGames',
       queryTypeSelected: '',
-      topGamesGrid: false
+      topGamesGridMode: true
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -558,6 +578,12 @@ export default {
       if (row.channelUrl !== '') {
         openURL(row.channelUrl)
       }
+    },
+    topGamesTalbleView: function () {
+      this.topGamesGridMode = false
+    },
+    topGamesGridView: function () {
+      this.topGamesGridMode = true
     }
   },
   computed: {
