@@ -21,7 +21,15 @@
         />
 
         <q-space/>
-
+        <div v-if="showIndeterminateProgress === true">
+          <q-circular-progress
+            indeterminate
+            size='30px'
+            color='localTextColor1'
+            center-color="secondary"
+            :thickness="0.6"
+          />
+        </div>
         <q-chip
           :color="twitchStateBgColor"
           :text-color="twitchStateTextColor"
@@ -46,7 +54,11 @@
       </q-toolbar>
     </q-header>
     <div v-if="this.progressValue > 0 && this.progressValue < 1" class="progressBarPosition">
-      <q-linear-progress stripe style=" height: 15px" :value="this.progressValue" color="accent" />
+      <q-linear-progress
+       stripe
+       style=" height: 15px"
+       :value="this.progressValue"
+       color="accent" />
     </div>
     <q-drawer
       v-model="leftDrawerOpen"
@@ -74,6 +86,14 @@
             <q-avatar :style="{ color: localTextColor1 }" icon="insert_chart" size="48px" />
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
                <div style="font-size:medium">Analytics Dashboard</div>
+             </q-tooltip>
+          </q-item-section>
+        </q-item>
+        <q-item to="/planning" exact clickable v-ripple>
+          <q-item-section side>
+            <q-avatar :style="{ color: localTextColor1 }" icon="trending_up" size="48px" />
+            <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
+               <div style="font-size:medium">Planning</div>
              </q-tooltip>
           </q-item-section>
         </q-item>
@@ -170,7 +190,8 @@ export default {
       uiEnableDeveloperMode: false,
       uiEnableLogEntryBadge: false,
       uiUnreadChatMessageCount: 0,
-      uiUnresolvedLogEntryCount: 0
+      uiUnresolvedLogEntryCount: 0,
+      showIndeterminateProgress: false
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -178,6 +199,7 @@ export default {
     this.$root.$on('userNotify', this.showUserNotify)
     this.$root.$on('themeChange', this.changeTheme)
     this.$root.$on('showProgress', this.showProgress)
+    this.$root.$on('showIndeterminateProgress', this.toggleIndeterminateProgress)
     this.$root.$on('developerMode', this.enableDevMode)
     this.$root.$on('unresolvedLogEntries', this.setUnresolvedLogEntryCount)
     this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
@@ -283,9 +305,7 @@ export default {
       } else if (e.key === '5' && (e.ctrlKey || e.metaKey)) {
         this.$root.$emit('showProgress', 1.00)
       } else if (e.key === '6' && (e.ctrlKey || e.metaKey)) {
-        util.graphQLHelloWorld()
-      } else if (e.key === '7' && (e.ctrlKey || e.metaKey)) {
-        // console.log('Electron Version: ' + this.$q.electron.remote.process.versions.electron)
+        this.$root.$emit('showIndeterminateProgress')
       }
     },
     showUserAlert: function (severity, title, message) {
@@ -318,6 +338,15 @@ export default {
     },
     showProgress: function (progress) {
       this.progressValue = progress
+    },
+    toggleIndeterminateProgress: function () {
+      // this.showIndeterminateProgress = val
+      if (this.showIndeterminateProgress === false) {
+        this.showIndeterminateProgress = true
+      } else {
+        this.showIndeterminateProgress = false
+      }
+      console.log('indeterminate indicator')
     },
     setDarkModeColors: function () {
       // Set dark mode brand colors

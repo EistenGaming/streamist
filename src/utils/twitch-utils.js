@@ -24,9 +24,7 @@ export function connect () {
 export async function getTopGamesInfo (noOfGames) {
   const twitch = connect()
   const result = []
-  console.log('top games limit: ' + noOfGames)
   const topGames = await twitch.getTopGames({ limit: +noOfGames + 1 })
-  console.log(topGames)
   for (let index = 0; index < noOfGames; index++) {
     if (topGames.top[index] !== '') {
       const id = topGames.top[index].game._id
@@ -44,7 +42,6 @@ export async function getTopGamesInfo (noOfGames) {
 export async function getTopStreamsInfo (noOfStreams, gameName, streamLanguage) {
   const twitch = connect()
   const topStreams = await twitch.getTopStreams({ limit: noOfStreams, game: gameName, language: streamLanguage })
-  console.log(topStreams)
   const result = []
   for (let index = 0; index < noOfStreams; index++) {
     if (topStreams.streams[index].game !== '') {
@@ -65,7 +62,6 @@ export async function getTopStreamsInfo (noOfStreams, gameName, streamLanguage) 
 export async function getFeaturedStreamsInfo (noOfStreams) {
   const twitch = connect()
   const featuredStreams = await twitch.getFeaturedStreams({ limit: noOfStreams })
-  console.log(featuredStreams)
   const result = []
   for (let index = 0; index < noOfStreams; index++) {
     const id = featuredStreams.featured[index].stream._id

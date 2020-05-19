@@ -50,7 +50,7 @@ export default {
       uiEnableDarkMode: false,
       aboutInfo: {
         id: util.createUUIDv4(),
-        image: 'https://nxs.blackzendo.com/wp-content/uploads/2019/12/iStock-162685822-scaled.jpg',
+        image: 'https://pbs.twimg.com/profile_banners/1228420911734366211/1588544940/600x200',
         aboutText: 'PLACEHOLDER: This is the ABOUT part of the info',
         changelog: '<p style="color: #76FF03"><strong>NEW FEATURES</strong></p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p style="color: #FF7043"><strong>FIXES</strong></p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
       },

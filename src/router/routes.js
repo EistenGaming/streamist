@@ -28,6 +28,13 @@ const routes = [
     ]
   },
   {
+    path: '/planning',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Planning.vue') }
+    ]
+  },
+  {
     path: '/about',
     component: () => import('layouts/MainLayout.vue'),
     children: [

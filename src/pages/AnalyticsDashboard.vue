@@ -10,10 +10,10 @@
                   align="justify"
                   narrow-indicator
                 >
-                  <q-tab name="StreamerInfo" label="Streamer Info" />
                   <q-tab name="TopGames" label="Top Games" />
                   <q-tab name="TopStreams" label="Top Streams" />
                   <q-tab name="FeaturedStreams" label="Featured Streams" />
+                  <q-tab name="StreamerInfo" label="Streamer Info" />
                   <q-tab name="GraphTests" label="Graph Tests" />
                 </q-tabs>
             </div>
@@ -123,7 +123,7 @@
                                 type="submit"
                                 unelevated
                                 color='positive'
-                                icon="check_circle"
+                                icon="refresh"
                                 size='sm'
                                 />
                             </div>
@@ -204,7 +204,7 @@
                                 type="submit"
                                 unelevated
                                 color='positive'
-                                icon="check_circle"
+                                icon="refresh"
                                 size='sm'
                                 />
                             </div>
@@ -223,11 +223,15 @@
                           :columns="topStreamsColumns"
                           :pagination.sync="topStreamsPagination"
                           row-key="id"
+                          @row-click="topStreamsOnRowClick"
                         >
                           <template v-slot:body-cell-boxShot="boxShot">
                             <q-td :props="boxShot">
                               <div>
-                                <q-img :src='boxShot.value' basic />
+                                <q-img
+                                  :src='boxShot.value'
+                                  basic
+                                />
                               </div>
                             </q-td>
                           </template>
@@ -261,7 +265,7 @@
                                       type="submit"
                                       unelevated
                                       color='positive'
-                                      icon="check_circle"
+                                      icon="refresh"
                                       size='sm' />
                                 </div>
                               </div>
@@ -279,6 +283,7 @@
                           :columns="featuredStreamsColumns"
                           :pagination.sync="featuredStreamsPagination"
                           row-key="id"
+                          @row-click="featuredStreamsOnRowClick"
                         >
                           <template v-slot:body-cell-streamLogo="streamLogo">
                             <q-td :props="streamLogo">
@@ -310,6 +315,7 @@
 
 <script>
 var twLib = require('src/utils/twitch-utils')
+import { openURL } from 'quasar'
 export default {
   name: 'AnalyticsDashboard',
   data () {
@@ -430,7 +436,7 @@ export default {
       localTextColor1: '',
       localTextColor2: '',
       uiEnableDarkMode: false,
-      activeAnalyticsTab: 'StreamerInfo',
+      activeAnalyticsTab: 'TopGames',
       queryTypeSelected: ''
     }
   },
@@ -450,6 +456,14 @@ export default {
         this.$q.localStorage.remove('accounts')
       }
     }
+    // Start progress indicator
+    this.$root.$emit('showIndeterminateProgress')
+    // Run the querys on page load
+    this.runQueryTopGames()
+    this.runQueryTopStreams()
+    this.runQueryFeaturedStreamsInfo()
+    // End progress indicator
+    this.$root.$emit('showIndeterminateProgress')
   },
   watch: {
     uiEnableDarkMode: function () {
@@ -506,6 +520,16 @@ export default {
       } catch (error) {
         this.$root.$emit('userNotify', 'No Data Found', "There don't seem to be any featured streams.", 'error')
         console.log('error: ' + error)
+      }
+    },
+    topStreamsOnRowClick: function (evt, row) {
+      if (row.channelUrl !== '') {
+        openURL(row.channelUrl)
+      }
+    },
+    featuredStreamsOnRowClick: function (evt, row) {
+      if (row.channelUrl !== '') {
+        openURL(row.channelUrl)
       }
     }
   },
