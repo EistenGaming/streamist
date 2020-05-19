@@ -131,26 +131,52 @@
                       </div>
                     </form>
                       <div class="column q-pa-md">
-                        <q-table
-                          dark
-                          bordered
-                          color="accent"
-                          card-class="bg-primary"
-                          :style="{ color: localTextColor1 }"
-                          title="Top Games"
-                          :data="topGames"
-                          :columns="topGamesColumns"
-                          :pagination.sync="topGamesPagination"
-                          row-key="id"
-                        >
-                          <template v-slot:body-cell-boxShot="boxShot">
-                            <q-td :props="boxShot">
-                              <div>
-                                <q-img :src='boxShot.value' basic />
-                              </div>
-                            </q-td>
-                          </template>
-                        </q-table>
+
+                        <div v-if="topGamesGrid === false">
+                          <q-table
+                            dark
+                            bordered
+                            color="accent"
+                            card-class="bg-primary"
+                            :style="{ color: localTextColor1 }"
+                            title="Top Games"
+                            :data="topGames"
+                            :columns="topGamesColumns"
+                            :pagination.sync="topGamesPagination"
+                            row-key="id"
+                          >
+                            <template v-slot:body-cell-boxShot="boxShot">
+                              <q-td :props="boxShot">
+                                <div>
+                                  <q-img :src='boxShot.value' basic />
+                                </div>
+                              </q-td>
+                            </template>
+                          </q-table>
+                        </div>
+                        <div v-else>
+                          <q-table
+                            grid
+                            dark
+                            bordered
+                            color="accent"
+                            card-class="bg-primary"
+                            :style="{ color: localTextColor1 }"
+                            title="Top Games"
+                            :data="topGames"
+                            :columns="topGamesColumns"
+                            :pagination.sync="topGamesPagination"
+                            row-key="id"
+                          >
+                            <template v-slot:body-cell-boxShot="boxShot">
+                              <q-td :props="boxShot">
+                                <div>
+                                  <q-img :src='boxShot.value' basic />
+                                </div>
+                              </q-td>
+                            </template>
+                          </q-table>
+                        </div>
                       </div>
                   </q-tab-panel>
 
@@ -437,7 +463,8 @@ export default {
       localTextColor2: '',
       uiEnableDarkMode: false,
       activeAnalyticsTab: 'TopGames',
-      queryTypeSelected: ''
+      queryTypeSelected: '',
+      topGamesGrid: false
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
