@@ -20,7 +20,7 @@
             <div class="row">
               <q-tab-panels v-model="activeAnalyticsTab" class=" bg-secondary" animated>
                   <q-tab-panel name="StreamerInfo">
-                      <form autofocus>
+                      <form @submit.prevent='runQueryStreamerInfo'>
                           <div class="row">
                               <div class="column ">
                                 <q-input
@@ -39,7 +39,6 @@
                               <div class="column q-ma-xs">
                                 <div class="row q-ml-md">
                                     <q-btn
-                                      @click="runQueryStreamerInfo"
                                       type="submit"
                                       unelevated
                                       color='positive'
@@ -98,7 +97,7 @@
                       </div>
                   </q-tab-panel>
                   <q-tab-panel name="TopGames">
-                    <form autofocus>
+                    <form  @submit.prevent='runQueryTopGames'>
                       <div class="row">
                           <div class="column ">
                             <q-input
@@ -119,7 +118,6 @@
                           <div class="column q-ma-xs">
                             <div class="row q-ml-md">
                               <q-btn
-                                @click="runQueryTopGames"
                                 type="submit"
                                 unelevated
                                 color='positive'
@@ -225,7 +223,7 @@
                   </q-tab-panel>
 
                   <q-tab-panel name="TopStreams">
-                   <form autofocus>
+                   <form @submit.prevent='runQueryTopStreams'>
                       <div class="row">
                           <div class="column ">
                             <q-input
@@ -270,7 +268,6 @@
                           <div class="column q-ma-xs">
                             <div class="row q-ml-md">
                               <q-btn
-                                @click="runQueryTopStreams"
                                 type="submit"
                                 unelevated
                                 color='positive'
@@ -310,7 +307,7 @@
                   </q-tab-panel>
 
                   <q-tab-panel name="FeaturedStreams">
-                      <form autofocus>
+                      <form @submit.prevent='runQueryFeaturedStreamsInfo'>
                           <div class="row">
                             <div class="column ">
                               <q-input
@@ -331,7 +328,6 @@
                             <div class="column q-ma-xs">
                                 <div class="row q-ml-md">
                                     <q-btn
-                                      @click="runQueryFeaturedStreamsInfo"
                                       type="submit"
                                       unelevated
                                       color='positive'
