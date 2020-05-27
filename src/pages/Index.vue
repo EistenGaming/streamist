@@ -79,7 +79,7 @@ export default {
   },
   async mounted () { // This allows you to do stuff 'on page load'
     // Start progress indicator
-    this.$root.$emit('showIndeterminateProgress')
+    this.$root.$emit('showIndeterminateProgress', true)
     /** Populte the news items */
     this.topGamesInfo = await twLib.getTopGamesInfo(5)
     for (let index = 0; index < this.topGamesInfo.length; index++) {
@@ -123,7 +123,7 @@ export default {
       this.localTextColor2 = this.$lightTextColor2
     }
     // End progress indicator
-    this.$root.$emit('showIndeterminateProgress')
+    this.$root.$emit('showIndeterminateProgress', false)
   },
   methods: {
     createUUID: function () {

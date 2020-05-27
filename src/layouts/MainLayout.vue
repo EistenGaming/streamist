@@ -339,14 +339,9 @@ export default {
     showProgress: function (progress) {
       this.progressValue = progress
     },
-    toggleIndeterminateProgress: function () {
-      // this.showIndeterminateProgress = val
-      if (this.showIndeterminateProgress === false) {
-        this.showIndeterminateProgress = true
-      } else {
-        this.showIndeterminateProgress = false
-      }
-      console.log('indeterminate indicator')
+    toggleIndeterminateProgress: function (val) {
+      this.showIndeterminateProgress = val
+      console.log('indeterminate indicator: ' + this.showIndeterminateProgress)
     },
     setDarkModeColors: function () {
       // Set dark mode brand colors
