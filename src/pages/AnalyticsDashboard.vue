@@ -337,11 +337,11 @@
                             title="Top Streams"
                             :data="topStreams"
                             :columns="topStreamsColumns"
-                            :pagination.sync="topStreamsPaginationGrid"
+                            :pagination.sync="topStreamsPagination"
                             row-key="id"
                           >
                             <template v-slot:item="props">
-                              <q-card bordered dark class="q-ma-sm tileBGColor" style="max-width: 300px; min-width: 300px">
+                              <q-card @click="topStreamsOnGridClick(props.row.channelUrl)" bordered dark class="cursor-pointer q-ma-sm tileBGColor" style="max-width: 300px; min-width: 300px">
                                 <div class="q-ma-sm" v-for="col in props.cols" :key="col.id">
                                   <div v-if="col.label === 'Box Shot'">
                                     <q-img :src='col.value' basic />
@@ -676,6 +676,11 @@ export default {
         openURL(row.channelUrl)
       }
     },
+    topStreamsOnGridClick: function (val) {
+      if (val !== '') {
+        openURL(val)
+      }
+    },
     featuredStreamsOnRowClick: function (evt, row) {
       if (row.channelUrl !== '') {
         openURL(row.channelUrl)
@@ -732,4 +737,8 @@ export default {
   .tileBGColor {
     background-color:(var(--q-color-primary))
   }
+.tileBGColor:hover {
+  background-color:(var(--q-color-accent))
+}
+
 </style>
