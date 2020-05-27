@@ -278,20 +278,42 @@
                           </div>
                       </div>
                     </form>
+                   <div class="row">
+                      <div class="column">
+                        <q-btn
+                          @click="topStreamsTalbleView"
+                          unelevated
+                          color='secondary'
+                          icon="list"
+                          size='md'
+                        />
+                      </div>
+                      <div class="column q-pl-sm">
+                        <q-btn
+                          @click="topStreamsGridView"
+                          unelevated
+                          color='secondary'
+                          icon="view_comfy"
+                          size='md'
+                        />
+                      </div>
+                    </div>
                       <div class="column q-pa-md">
-                        <q-table
-                          dark
-                          bordered
-                          color="accent"
-                          card-class="bg-primary"
-                          :style="{ color: localTextColor1 }"
-                          title="Top Streams"
-                          :data="topStreams"
-                          :columns="topStreamsColumns"
-                          :pagination.sync="topStreamsPagination"
-                          row-key="id"
-                          @row-click="topStreamsOnRowClick"
-                        >
+
+                        <div v-if="topStreamsGridMode === false">
+                          <q-table
+                            dark
+                            bordered
+                            color="accent"
+                            card-class="bg-primary"
+                            :style="{ color: localTextColor1 }"
+                            title="Top Streams"
+                            :data="topStreams"
+                            :columns="topStreamsColumns"
+                            :pagination.sync="topStreamsPagination"
+                            row-key="id"
+                            @row-click="topStreamsOnRowClick"
+                          >
                           <template v-slot:body-cell-boxShot="boxShot">
                             <q-td :props="boxShot">
                               <div>
@@ -303,6 +325,53 @@
                             </q-td>
                           </template>
                         </q-table>
+                        </div>
+                        <div v-else>
+                          <q-table
+                            grid
+                            dark
+                            bordered
+                            color="accent"
+                            card-class="bg-primary"
+                            :style="{ color: localTextColor1 }"
+                            title="Top Streams"
+                            :data="topStreams"
+                            :columns="topStreamsColumns"
+                            :pagination.sync="topStreamsPaginationGrid"
+                            row-key="id"
+                          >
+                            <template v-slot:item="props">
+                              <q-card bordered dark class="q-ma-sm tileBGColor" style="max-width: 300px; min-width: 300px">
+                                <div class="q-ma-sm" v-for="col in props.cols" :key="col.id">
+                                  <div v-if="col.label === 'Box Shot'">
+                                    <q-img :src='col.value' basic />
+                                  </div>
+                                  <div v-if="col.label === '#'">
+                                    <div class="text-h6">
+                                      #{{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === 'Channel Name'">
+                                    <div class="text-h6">
+                                      {{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === 'Game Name'">
+                                    <div class="text-h8">
+                                      {{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === '# of Viewers'">
+                                    <div class="row text-h8">
+                                      <div class="column col-4">Viewers:</div>
+                                      <div class="column">{{col.value}}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card>
+                            </template>
+                          </q-table>
+                        </div>
                       </div>
                   </q-tab-panel>
 
@@ -487,6 +556,12 @@ export default {
         page: 1,
         rowsPerPage: 10
       },
+      topStreamsPaginationGrid: {
+        sortBy: 'index',
+        descending: false,
+        page: 1,
+        rowsPerPage: 0
+      },
       featuredStreamsPagination: {
         sortBy: 'index',
         descending: false,
@@ -510,7 +585,8 @@ export default {
       uiEnableDarkMode: false,
       activeAnalyticsTab: 'TopGames',
       queryTypeSelected: '',
-      topGamesGridMode: true
+      topGamesGridMode: true,
+      topStreamsGridMode: true
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -610,6 +686,12 @@ export default {
     },
     topGamesGridView: function () {
       this.topGamesGridMode = true
+    },
+    topStreamsTalbleView: function () {
+      this.topStreamsGridMode = false
+    },
+    topStreamsGridView: function () {
+      this.topStreamsGridMode = true
     }
   },
   computed: {
