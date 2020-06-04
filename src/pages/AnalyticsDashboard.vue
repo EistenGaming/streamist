@@ -298,8 +298,8 @@
                         />
                       </div>
                     </div>
-                      <div class="column q-pa-md">
 
+                      <div class="column q-pa-md">
                         <div v-if="topStreamsGridMode === false">
                           <q-table
                             dark
@@ -406,7 +406,29 @@
                               </div>
                           </div>
                       </form>
-                      <div class="column q-pa-md">
+                      <div class="row">
+                        <div class="column">
+                          <q-btn
+                            @click="featuredStreamsTalbleView"
+                            unelevated
+                            color='secondary'
+                            icon="list"
+                            size='md'
+                          />
+                        </div>
+                        <div class="column q-pl-sm">
+                          <q-btn
+                            @click="featuredStreamsGridView"
+                            unelevated
+                            color='secondary'
+                            icon="view_comfy"
+                            size='md'
+                          />
+                        </div>
+                      </div>
+
+                    <div class="column q-pa-md">
+                        <div v-if="featuredStreamsGridMode === false">
                         <q-table
                           dark
                           bordered
@@ -428,6 +450,53 @@
                             </q-td>
                           </template>
                         </q-table>
+                        </div>
+                        <div v-else>
+                          <q-table
+                            grid
+                            dark
+                            bordered
+                            color="accent"
+                            card-class="bg-primary"
+                            :style="{ color: localTextColor1 }"
+                            title="Featured Streams"
+                            :data="featuredStreams"
+                            :columns="featuredStreamsColumns"
+                            :pagination.sync="featuredStreamsPaginationGrid"
+                            row-key="id"
+                          >
+                            <template v-slot:item="props">
+                              <q-card @click="featuredStreamsOnGridClick(props.row.channelUrl)" bordered dark class="cursor-pointer q-ma-sm tileBGColor" style="max-width: 300px; min-width: 300px">
+                                <div class="q-ma-sm" v-for="col in props.cols" :key="col.id">
+                                  <div v-if="col.label === 'streamLogo'">
+                                    <q-img :src='col.value' basic />
+                                  </div>
+                                  <div v-if="col.label === '#'">
+                                    <div class="text-h6">
+                                      #{{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === 'Channel Name'">
+                                    <div class="text-h6">
+                                      {{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === 'Game Name'">
+                                    <div class="text-h8">
+                                      {{col.value}}
+                                    </div>
+                                  </div>
+                                  <div v-if="col.label === '# of Viewers'">
+                                    <div class="row text-h8">
+                                      <div class="column col-4">Viewers:</div>
+                                      <div class="column">{{col.value}}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card>
+                            </template>
+                          </q-table>
+                        </div>
                       </div>
                   </q-tab-panel>
 
@@ -568,6 +637,12 @@ export default {
         page: 1,
         rowsPerPage: 10
       },
+      featuredStreamsPaginationGrid: {
+        sortBy: 'index',
+        descending: false,
+        page: 1,
+        rowsPerPage: 0
+      },
       accounts: [],
       streamerInfo: '',
       topGames: [],
@@ -586,7 +661,8 @@ export default {
       activeAnalyticsTab: 'TopGames',
       queryTypeSelected: '',
       topGamesGridMode: true,
-      topStreamsGridMode: true
+      topStreamsGridMode: true,
+      featuredStreamsGridMode: true
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -686,6 +762,11 @@ export default {
         openURL(row.channelUrl)
       }
     },
+    featuredStreamsOnGridClick: function (val) {
+      if (val !== '') {
+        openURL(val)
+      }
+    },
     topGamesTalbleView: function () {
       this.topGamesGridMode = false
     },
@@ -697,6 +778,12 @@ export default {
     },
     topStreamsGridView: function () {
       this.topStreamsGridMode = true
+    },
+    featuredStreamsTalbleView: function () {
+      this.featuredStreamsGridMode = false
+    },
+    featuredStreamsGridView: function () {
+      this.featuredStreamsGridMode = true
     }
   },
   computed: {
