@@ -337,7 +337,7 @@
                             title="Top Streams"
                             :data="topStreams"
                             :columns="topStreamsColumns"
-                            :pagination.sync="topStreamsPagination"
+                            :pagination.sync="topStreamsPaginationGrid"
                             row-key="id"
                           >
                             <template v-slot:item="props">
