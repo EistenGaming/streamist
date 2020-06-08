@@ -61,7 +61,21 @@
                                 Box Shot (Link to twitch? / img upload?)
                               </div>
                               <div class="row q-mt-md">
-                                External Link 1 (Title / Link)
+                                <q-input
+                                  ref='contentTopicExtLinkField'
+                                  label='External Link'
+                                  outlined
+                                  dense
+                                  dark
+                                  color="accent"
+                                  bg-color="secondary"
+                                  style="width: 300px"
+                                  v-model="contentTopiExternalLink"
+                                >
+                                  <template v-slot:prepend>
+                                    <q-icon name="link" />
+                                  </template>
+                                </q-input>
                               </div>
                               <div class="row q-mt-md">
                                 External Link 2 (Title / Link)
@@ -101,7 +115,8 @@ export default {
       contentTopicName: '',
       activePlanningTab: 'ContentTopics',
       platformsSelected: [],
-      contentTopicDescription: ''
+      contentTopicDescription: '',
+      contentTopiExternalLink: ''
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
