@@ -4,7 +4,7 @@
         <div style="width:100%" class="q-pa-sm flex items-start" :style="{ color: localTextColor1 }">
           <div style="width:100%" class=" column">
             <div class="row">
-                <q-tabs
+              <q-tabs
                   v-model="activeAnalyticsTab"
                   dense
                   align="justify"
@@ -15,7 +15,7 @@
                   <q-tab name="FeaturedStreams" label="Featured Streams" />
                   <q-tab name="StreamerInfo" label="Streamer Info" />
                   <q-tab name="GraphTests" label="Graph Tests" />
-                </q-tabs>
+              </q-tabs>
             </div>
             <div class="row">
               <q-tab-panels v-model="activeAnalyticsTab" class=" bg-secondary" animated>

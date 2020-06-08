@@ -4,7 +4,85 @@
         <div style="width:100%" class="q-pa-sm flex items-start" :style="{ color: localTextColor1 }">
           <div style="width:100%" class=" column">
             <div class="row">
-              TBD
+               <q-tabs
+                  v-model="activePlanningTab"
+                  dense
+                  align="justify"
+                  narrow-indicator
+                >
+                  <q-tab name="ContentTopics" label="Content Topics" />
+                  <q-tab name="ContentCreationSchedule" label="Schedule" />
+                  <q-tab name="PlatformGoals" label="Goals" />
+                </q-tabs>
+            </div>
+            <div class="row">
+              <q-tab-panels v-model="activePlanningTab" class=" bg-secondary" animated>
+                  <q-tab-panel name="ContentTopics">
+                    <div style="width:100%">
+                      <div class="row">
+                        <div class="elementBorder">
+                          <div class="column q-ma-md">
+                            <form @submit.prevent='addContentTopic'>
+                              <div class="row">
+                                  <div class="column ">
+                                    <q-input
+                                      ref='contentTopicNameField'
+                                      label='Topic Name'
+                                      outlined
+                                      dense
+                                      dark
+                                      color="accent"
+                                      bg-color="secondary"
+                                      style="width: 300px"
+                                      v-model="contentTopicName"
+                                      error-message="Please use minimum of 3 characters."
+                                      :error="!isContentTopicNameValid"
+                                    />
+                                  </div>
+                              </div>
+                              <div class="row q-mt-md">
+                                <q-checkbox dark v-model="platformsSelected" val="Twitch" label="Twitch" color="purple"/>
+                                <q-checkbox dark v-model="platformsSelected" val="Mixer" label="Mixer" color="blue"/>
+                                <q-checkbox dark v-model="platformsSelected" val="YouTube" label="YouTube" color="red"/>
+                              </div>
+                              <div class="row q-mt-md">
+                                <q-input
+                                  dark
+                                  v-model="contentTopicDescription"
+                                  stack-label
+                                  label="Add a description"
+                                  filled
+                                  autogrow
+                                  type="textarea"
+                                  style="width: 300px"
+                                />
+                              </div>
+                              <div class="row q-mt-md">
+                                Box Shot (Link to twitch? / img upload?)
+                              </div>
+                              <div class="row q-mt-md">
+                                External Link 1 (Title / Link)
+                              </div>
+                              <div class="row q-mt-md">
+                                External Link 2 (Title / Link)
+                              </div>
+                              <div class="row q-mt-lg">
+                                  <q-btn @click='cancelAddTopicButtonPressed' type="reset" unelevated outline color='negative' icon="cancel" size='sm' />
+                                  <div class="q-ml-sm"/>
+                                  <q-btn @click='savelAddTopicButtonPressed' type="submit" unelevated color='positive' icon="check_circle" size='sm' />
+                              </div>
+                            </form>
+                          </div>
+                          </div>
+                          <div class="q-ml-md elementBorder">
+                            <div class="q-ma-md column">
+                              The list
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </q-tab-panel>
+              </q-tab-panels>
             </div>
           </div>
         </div>
@@ -19,7 +97,11 @@ export default {
     return {
       // Add vars
       localTextColor1: '',
-      localTextColor2: ''
+      localTextColor2: '',
+      contentTopicName: '',
+      activePlanningTab: 'ContentTopics',
+      platformsSelected: [],
+      contentTopicDescription: ''
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -52,9 +134,22 @@ export default {
   },
   methods: {
     // Methods
+    cancelAddTopicButtonPressed: function () {
+      // TODO: IMPLEMENT
+    },
+    savelAddTopicButtonPressed: function () {
+      // TODO: IMPLEMENT
+    }
   },
   computed: {
     // Computed methods
+    isContentTopicNameValid () {
+      if (this.streamerName) {
+        return this.streamerName.length >= 3
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>
@@ -72,5 +167,10 @@ export default {
   .queryDataItemStyleDark:hover {
     background: #36393F;
     color: white
+  }
+  .elementBorder {
+    border-style: solid;
+    border-width: thin;
+    border-radius: 7px
   }
 </style>
