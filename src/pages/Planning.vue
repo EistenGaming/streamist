@@ -16,13 +16,13 @@
                 </q-tabs>
             </div>
             <div class="row">
-              <q-tab-panels v-model="activePlanningTab" class=" bg-secondary" animated>
-                  <q-tab-panel name="ContentTopics">
+              <q-tab-panels v-model="activePlanningTab" class=" bg-secondary" animated >
+                  <q-tab-panel name="ContentTopics" >
                     <div style="width:100%">
                       <div class="row">
                         <div class="elementBorder">
                           <div class="column q-ma-md">
-                            <form @submit.prevent='addContentTopic'>
+                            <form @submit.prevent='saveAddTopicButtonPressed'>
                               <div class="row">
                                   <div class="column ">
                                     <q-input
@@ -41,9 +41,9 @@
                                   </div>
                               </div>
                               <div class="row q-mt-md">
-                                <q-checkbox dark v-model="platformsSelected" val="Twitch" label="Twitch" color="purple"/>
-                                <q-checkbox dark v-model="platformsSelected" val="Mixer" label="Mixer" color="blue"/>
-                                <q-checkbox dark v-model="platformsSelected" val="YouTube" label="YouTube" color="red"/>
+                                <q-checkbox dark v-model="contentTopicPlatformsSelected" val="Twitch" label="Twitch" color="purple"/>
+                                <q-checkbox dark v-model="contentTopicPlatformsSelected" val="Mixer" label="Mixer" color="blue"/>
+                                <q-checkbox dark v-model="contentTopicPlatformsSelected" val="YouTube" label="YouTube" color="red"/>
                               </div>
                               <div class="row q-mt-md">
                                 <q-input
@@ -58,9 +58,6 @@
                                 />
                               </div>
                               <div class="row q-mt-md">
-                                Box Shot (Link to twitch? / img upload?)
-                              </div>
-                              <div class="row q-mt-md">
                                 <q-input
                                   ref='contentTopicExtLinkField'
                                   label='External Link'
@@ -70,7 +67,7 @@
                                   color="accent"
                                   bg-color="secondary"
                                   style="width: 300px"
-                                  v-model="contentTopiExternalLink"
+                                  v-model="contentTopicExternalLink"
                                 >
                                   <template v-slot:prepend>
                                     <q-icon name="link" />
@@ -78,19 +75,58 @@
                                 </q-input>
                               </div>
                               <div class="row q-mt-md">
-                                External Link 2 (Title / Link)
+                                <q-input
+                                  ref='contentTopicExtLinkField2'
+                                  label='External Link'
+                                  outlined
+                                  dense
+                                  dark
+                                  color="accent"
+                                  bg-color="secondary"
+                                  style="width: 300px"
+                                  v-model="contentTopicExternalLink2"
+                                >
+                                  <template v-slot:prepend>
+                                    <q-icon name="link" />
+                                  </template>
+                                </q-input>
                               </div>
                               <div class="row q-mt-lg">
                                   <q-btn @click='cancelAddTopicButtonPressed' type="reset" unelevated outline color='negative' icon="cancel" size='sm' />
                                   <div class="q-ml-sm"/>
-                                  <q-btn @click='savelAddTopicButtonPressed' type="submit" unelevated color='positive' icon="check_circle" size='sm' />
+                                  <q-btn type="submit" unelevated color='positive' icon="check_circle" size='sm' />
                               </div>
                             </form>
                           </div>
                           </div>
                           <div class="q-ml-md elementBorder">
                             <div class="q-ma-md column">
-                              The list
+                              <q-list bordered>
+                                <q-item clickable v-ripple>
+                                  <q-item-section avatar>
+                                    <q-avatar>
+                                      <img :src="`https://cdn.quasar.dev/img/avatar6.jpg`">
+                                    </q-avatar>
+                                  </q-item-section>
+                                  <q-item-section>
+                                    <q-item-label>Topic Name</q-item-label>
+                                  </q-item-section>
+                                  <q-item-section>
+                                    <q-item-label>Twitch</q-item-label>
+                                    <q-item-label>Mixer</q-item-label>
+                                    <q-item-label>YouTube</q-item-label>
+                                  </q-item-section>
+                                  <q-item-section>
+                                    <q-item-label>Description goes here...</q-item-label>
+                                  </q-item-section>
+                                  <q-item-section>
+                                    <q-item-label>External Link 1</q-item-label>
+                                  </q-item-section>
+                                  <q-item-section>
+                                    <q-item-label>External Link 2</q-item-label>
+                                  </q-item-section>
+                                </q-item>
+                              </q-list>
                             </div>
                           </div>
                         </div>
@@ -112,11 +148,14 @@ export default {
       // Add vars
       localTextColor1: '',
       localTextColor2: '',
-      contentTopicName: '',
       activePlanningTab: 'ContentTopics',
-      platformsSelected: [],
+      contentTopicPlatformsSelected: [],
+      contentTopicImageURL: '',
+      contentTopicName: '',
       contentTopicDescription: '',
-      contentTopiExternalLink: ''
+      contentTopicExternalLink: '',
+      contentTopicExternalLink2: '',
+      contentTopicList: []
     }
   },
   mounted () { // This allows you to do stuff 'on page load'
@@ -151,16 +190,18 @@ export default {
     // Methods
     cancelAddTopicButtonPressed: function () {
       // TODO: IMPLEMENT
+      console.log('Topic add cancelled')
     },
-    savelAddTopicButtonPressed: function () {
+    saveAddTopicButtonPressed: function () {
       // TODO: IMPLEMENT
+      console.log('Added topic')
     }
   },
   computed: {
     // Computed methods
     isContentTopicNameValid () {
-      if (this.streamerName) {
-        return this.streamerName.length >= 3
+      if (this.contentTopicName) {
+        return this.contentTopicName.length >= 3
       } else {
         return false
       }
