@@ -22,6 +22,12 @@
         },
         "spa": {
           "iconHash": "cfd85ab13081f4395d2314f6b5b823a1"
+        },
+        "cordova": {
+          "iconHash": "cfd85ab13081f4395d2314f6b5b823a1",
+          "splashscreenHash": "548eb732260f9da2a3d4ec62b7983cc3",
+          "splashscreenType": "pure",
+          "backgroundColor": "#000074"
         }
       }
     }
