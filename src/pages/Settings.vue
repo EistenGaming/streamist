@@ -246,7 +246,7 @@ export default {
   data () {
     return {
       selectedTab: 'accounts',
-      accountTypeOptions: ['Twitch', 'Mixer', 'Youtube'],
+      accountTypeOptions: ['Twitch', 'Facebook', 'Youtube'],
       accountTypeSelected: 'Twitch',
       accountName: '',
       accountClientID: '',

@@ -20,7 +20,7 @@ export function connect () {
   return twitch
 }
 
-/* get info about the gop game */
+/* get info about the top games */
 export async function getTopGamesInfo (noOfGames) {
   const twitch = connect()
   const result = []
@@ -38,6 +38,20 @@ export async function getTopGamesInfo (noOfGames) {
   }
   return result
 }
+
+/* Get boxshot of a game or null if not found */
+export async function getGameBoxUrl (gameName) {
+  const twitch = connect()
+  const gameInfo = await twitch.searchGames(gameName)
+  var result = ''
+  if (gameInfo !== null) {
+    result = gameInfo.games[0].box.large
+  } else {
+    result = ''
+  }
+  return result
+}
+
 /* get info about the gop stream */
 export async function getTopStreamsInfo (noOfStreams, gameName, streamLanguage) {
   const twitch = connect()

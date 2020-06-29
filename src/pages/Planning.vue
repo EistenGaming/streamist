@@ -42,7 +42,7 @@
                               </div>
                               <div class="row q-mt-md">
                                 <q-checkbox dark v-model="contentTopicPlatformsSelected" val="Twitch" label="Twitch" color="purple"/>
-                                <q-checkbox dark v-model="contentTopicPlatformsSelected" val="Mixer" label="Mixer" color="blue"/>
+                                <q-checkbox dark v-model="contentTopicPlatformsSelected" val="Facebook" label="Facebook" color="blue"/>
                                 <q-checkbox dark v-model="contentTopicPlatformsSelected" val="YouTube" label="YouTube" color="red"/>
                               </div>
                               <div class="row q-mt-md">
@@ -102,28 +102,28 @@
                           <div class="q-ml-md elementBorder">
                             <div class="q-ma-md column">
                               <q-list bordered>
-                                <q-item clickable v-ripple>
+                                <q-item v-for="contentTopic in contentTopicList" :key="contentTopic.id" clickable>
                                   <q-item-section avatar>
                                     <q-avatar>
-                                      <img :src="`https://cdn.quasar.dev/img/avatar6.jpg`">
+                                      <img :src=contentTopic.imgUrl>
                                     </q-avatar>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>Topic Name</q-item-label>
+                                    <q-item-label>{{contentTopic.name}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>Twitch</q-item-label>
-                                    <q-item-label>Mixer</q-item-label>
-                                    <q-item-label>YouTube</q-item-label>
+                                    <q-item-label v-for="platform in contentTopic.platforms" :key="platform">
+                                      {{platform}}
+                                    </q-item-label>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>Description goes here...</q-item-label>
+                                    <q-item-label>{{contentTopic.description}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>External Link 1</q-item-label>
+                                    <q-item-label>{{contentTopic.extLink1}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>External Link 2</q-item-label>
+                                    <q-item-label>{{contentTopic.extLink2}}</q-item-label>
                                   </q-item-section>
                                 </q-item>
                               </q-list>
@@ -140,7 +140,8 @@
 </template>
 
 <script>
-// var twLib = require('src/utils/twitch-utils')
+var util = require('src/utils/utility')
+var twLib = require('src/utils/twitch-utils')
 export default {
   name: 'Planning',
   data () {
@@ -192,8 +193,10 @@ export default {
       // TODO: IMPLEMENT
       console.log('Topic add cancelled')
     },
-    saveAddTopicButtonPressed: function () {
+    saveAddTopicButtonPressed: async function () {
       // TODO: IMPLEMENT
+      this.contentTopicImageURL = await twLib.getGameBoxUrl(this.contentTopicName)
+      this.contentTopicList.push({ id: util.createUUIDv4(), name: this.contentTopicName, imgUrl: this.contentTopicImageURL, platforms: this.contentTopicPlatformsSelected, description: this.contentTopicDescription, extLink1: this.contentTopicExternalLink, extLink2: this.contentTopicExternalLink2 })
       console.log('Added topic')
     }
   },
