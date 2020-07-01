@@ -14,9 +14,17 @@ The home screen loads the top 5 games, streams and featured streams on applicati
 
 The analytics page allows you to query the platforms for top games, top streams, featured streams and info about a specific streamer.
 
+Showing off the top games in grid mode.
+
 ![Analytics Top Games - Grid Mode](images/screenshot_db_topgames_t07_2020.jpg)
 
+..and in table mode.
+
 ![Analytics Top Games - Table Mode](images/screenshot_db_topgames_table_07_2020.jpg)
+
+Featured streams show a stream snapshot instead of the game box shot.
+
+![Analytics Top Games - Table Mode](images/screenshot_db_featured_streams_07_2020.jpg)
 
 ## Getting Started
 
