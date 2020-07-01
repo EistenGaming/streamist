@@ -24,7 +24,16 @@ Showing off the top games in grid mode.
 
 Featured streams show a stream snapshot instead of the game box shot.
 
-![Analytics Top Games - Table Mode](images/screenshot_db_featured_streams_07_2020.jpg)
+![Analytics Featured Streams](images/screenshot_db_featured_streams_07_2020.jpg)
+
+If you want to know a little more about a specific streamer, the streamer info page has what you need.
+
+![Analytics Streamer Info](images/screenshot_db_streamerinfo_07_2020.jpg)
+
+Manage your accounts, as well as the app's appearance, notification behavior and more in the settings section.
+
+![Analytics Streamer Info](images/screenshot_settings_accounts_07_2020.jpg)
+![Analytics Streamer Info](images/screenshot_settings_appearance_07_2020.jpg)
 
 ## Getting Started
 
