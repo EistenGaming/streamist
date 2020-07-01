@@ -1,10 +1,10 @@
 # eg.streamist
 
-EistenGaming Streamist (eg.streamist, pronounced like "extremist" :p) aims to help content creators organize their work, define their audience, find their niche and track their progress over all major content delivery platforms.
+EistenGaming Streamist (eg.streamist, pronounced like "extremist" :p) aims to help content creators organize their work, define their audience, find their niche and track their progress over all major content delivery platforms. We aim for Youtube, Twitch and Facebook (since Mixer is now dead). The current focus lies on Twitch.
 
 eg.streamist is a multiplatform application based on the Quasar meta-framework. Currently, only the Windows platform is tested, but Mac and Linux should run just fine. We are also looking into making eg.streamist available on Android (phones and tablets) as well as iOS devices.
 
-Note: If you are an iOS developer and want to contribute, get in touch!
+Note: If you are an Android/iOS developer and want to contribute, get in touch!
 
 ## Screenshots
 
