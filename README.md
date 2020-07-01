@@ -8,7 +8,7 @@ Note: If you are an iOS developer and want to contribute, get in touch!
 
 ## Screenshots
 
-![Home Screen](https://github.com/EistenGaming/streamist/blob/develop/screenshot_home_07_2020.jpg)
+![Home Screen](images/screenshot_home_07_2020.jpg)
 
 ## Getting Started
 
