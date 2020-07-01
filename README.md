@@ -49,9 +49,7 @@ Go to [Node.js downlod](https://nodejs.org/en/download/) and download the latest
 
 ### 2) Download and install npm
 
-Note: NPM should be installed with node.js (see step 1). 
-
-If not, you can find npm here: [npm download](https://www.npmjs.com/get-npm)
+> Note: NPM should be installed automatically along with node.js (see step 1). If not, you can find npm here: [npm download](https://www.npmjs.com/get-npm)
 
 ### 3) Clone the repository
 
