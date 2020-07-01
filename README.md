@@ -10,7 +10,7 @@ To get the current development version, follow the steps below.
 
 ### 1) Download and install node.js
 
-Go to [Node.js Downlod](https://nodejs.org/en/download/) and download the latest node.js version for your platform.
+Go to [Node.js downlod](https://nodejs.org/en/download/) and download the latest node.js version for your platform.
 
 ### 2) Download and install npm
 
