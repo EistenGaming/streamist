@@ -6,9 +6,9 @@ eg.streamist is a multiplatform application based on the Quasar meta-framework. 
 
 By the way, if you are an Android/iOS developer and want to contribute, get in touch!
 
-> A note on Twitch credentials:
-
+> **A note on Twitch credentials:**
 > Please note that you need a Twitch ```clientID``` and ```client secret```. If you are unsure how to get these, check out the documentation here: [Twitch Authentication](https://dev.twitch.tv/docs/authentication).
+> The credentials are required to access your channel information that is not available publicly. Also, it allows the app to take action on behalf of your Twitch account (e.g. chat moderation, change stream info text, etc).
 
 ## Screenshots
 
