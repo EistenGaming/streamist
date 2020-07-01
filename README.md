@@ -6,6 +6,12 @@ eg.streamist is a multiplatform application based on the Quasar meta-framework. 
 
 Note: If you are an iOS developer and want to contribute, get in touch!
 
+## Screenshots
+
+![Home Screen](screensho_home_07_2020.jpg)
+
+## Getting Started
+
 To get the current development version, follow the steps below.
 
 ### 1) Download and install node.js
