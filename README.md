@@ -8,7 +8,15 @@ Note: If you are an iOS developer and want to contribute, get in touch!
 
 ## Screenshots
 
+The home screen loads the top 5 games, streams and featured streams on application startup. 
+
 ![Home Screen](images/screenshot_home_07_2020.jpg)
+
+The analytics page allows you to query the platforms for top games, top streams, featured streams and info about a specific streamer.
+
+![Analytics Top Games - Grid Mode](images/screenshot_db_topgames_t07_2020.jpg)
+
+![Analytics Top Games - Table Mode](images/screenshot_db_topgames_table_07_2020.jpg)
 
 ## Getting Started
 
