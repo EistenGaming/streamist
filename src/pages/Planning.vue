@@ -101,7 +101,7 @@
                           </div>
                           <div class="q-ml-md elementBorder">
                             <div class="q-ma-md column">
-                              <q-list bordered>
+                              <q-list >
                                 <q-item v-for="contentTopic in contentTopicList" :key="contentTopic.id" clickable>
                                   <q-item-section avatar>
                                     <q-avatar>
@@ -125,17 +125,20 @@
                                   <q-item-section>
                                     <q-item-label>{{contentTopic.extLink2}}</q-item-label>
                                   </q-item-section>
-                                  <q-item-section>
-                                    <div class="row q-ml-md">
-                                        <q-btn
-                                          @click='editContentTopicEntryButtonPressed(contentTopic.id)'
-                                          color='secondary'
-                                          icon="edit"
-                                          size='sm'
-                                        />
-                                        <div class="q-ml-sm"/>
-                                        <q-btn @click='removeContentTopicEntryButtonPressed(contentTopic.id)' color='negative' icon="delete_forever" size='sm' />
-                                    </div>
+                                  <q-item-section side>
+                                    <q-btn
+                                      @click='editContentTopicEntryButtonPressed(contentTopic.id)'
+                                      color='secondary'
+                                      icon="edit"
+                                      size='xs'
+                                    />
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    <q-btn @click='removeContentTopicEntryButtonPressed(contentTopic.id)'
+                                      color='negative'
+                                      icon="delete_forever"
+                                      size='xs'
+                                    />
                                   </q-item-section>
                                 </q-item>
                               </q-list>
