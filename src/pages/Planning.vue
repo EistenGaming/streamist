@@ -175,6 +175,13 @@ export default {
         this.$q.localStorage.remove('accounts')
       }
     }
+    if (this.$q.localStorage.getItem('contentTopicList')) {
+      try {
+        this.contentTopicList = JSON.parse(this.$q.localStorage.getItem('contentTopicList'))
+      } catch (e) {
+        this.$q.localStorage.remove('contentTopicList')
+      }
+    }
   },
   watch: {
     uiEnableDarkMode: function () {
@@ -194,10 +201,17 @@ export default {
       console.log('Topic add cancelled')
     },
     saveAddTopicButtonPressed: async function () {
-      // TODO: IMPLEMENT
       this.contentTopicImageURL = await twLib.getGameBoxUrl(this.contentTopicName)
+      // TODO: Overwrite (if existing) vs add
       this.contentTopicList.push({ id: util.createUUIDv4(), name: this.contentTopicName, imgUrl: this.contentTopicImageURL, platforms: this.contentTopicPlatformsSelected, description: this.contentTopicDescription, extLink1: this.contentTopicExternalLink, extLink2: this.contentTopicExternalLink2 })
       console.log('Added topic')
+      this.saveContentTopics()
+      console.log('Saved topic list')
+    },
+    saveContentTopics: function () {
+      const parsed = JSON.stringify(this.contentTopicList)
+      this.$q.localStorage.set('contentTopicList', parsed)
+      console.log('Content Topic List: ' + parsed)
     }
   },
   computed: {
