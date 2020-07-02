@@ -38,9 +38,9 @@
           size='10px'
         />
         <q-chip
-          :color="mixerStateBgColor"
-          :text-color="mixerStateTextColor"
-          label='Mixer'
+          :color="facebookStateBgColor"
+          :text-color="facebookStateTextColor"
+          label='Facebook Gaming'
           square
           size='10px'
         />
@@ -169,12 +169,12 @@ export default {
     return {
       leftDrawerOpen: false,
       twitchToggleState: false,
-      mixerToggleState: false,
+      facebookToggleState: false,
       youtubeToggleState: false,
       twitchStateTextColor: 'blue-grey-3',
       twitchStateBgColor: 'secondary',
-      mixerStateTextColor: 'blue-grey-3',
-      mixerStateBgColor: 'secondary',
+      facebookStateTextColor: 'blue-grey-3',
+      facebookStateBgColor: 'secondary',
       youtubeStateTextColor: 'blue-grey-3',
       youtubeStateBgColor: 'secondary',
       userAlertDialog: false,
@@ -229,10 +229,10 @@ export default {
         } else {
           this.twitchToggleState = false
         }
-        if (accounts.findIndex(item => item.type === 'Mixer') >= 0) {
-          this.mixerToggleState = true
+        if (accounts.findIndex(item => item.type === 'Facebook') >= 0) {
+          this.facebookToggleState = true
         } else {
-          this.mixerToggleState = false
+          this.facebookToggleState = false
         }
         if (accounts.findIndex(item => item.type === 'Youtube') >= 0) {
           this.youtubeToggleState = true
@@ -249,9 +249,9 @@ export default {
       this.twitchToggleState ? this.twitchStateTextColor = 'white' : this.twitchStateTextColor = 'blue-grey-3'
       this.twitchToggleState ? this.twitchStateBgColor = 'accent' : this.twitchStateBgColor = 'blue-grey-7'
     },
-    mixerToggleState: function () {
-      this.mixerToggleState ? this.mixerStateTextColor = 'white' : this.mixerStateTextColor = 'blue-grey-3'
-      this.mixerToggleState ? this.mixerStateBgColor = 'accent' : this.mixerStateBgColor = 'blue-grey-7'
+    facebookToggleState: function () {
+      this.facebookToggleState ? this.facebookStateTextColor = 'white' : this.facebookStateTextColor = 'blue-grey-3'
+      this.facebookToggleState ? this.facebookStateBgColor = 'accent' : this.facebookStateBgColor = 'blue-grey-7'
     },
     youtubeToggleState: function () {
       this.youtubeToggleState ? this.youtubeStateTextColor = 'white' : this.youtubeStateTextColor = 'blue-grey-3'
