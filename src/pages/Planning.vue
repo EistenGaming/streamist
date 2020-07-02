@@ -120,10 +120,14 @@
                                     <q-item-label>{{contentTopic.description}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>{{contentTopic.extLink1}}</q-item-label>
+                                    <div v-if="contentTopic.extLink1 !== ''">
+                                      <q-btn flat label="Link 1"/>
+                                    </div>
                                   </q-item-section>
                                   <q-item-section>
-                                    <q-item-label>{{contentTopic.extLink2}}</q-item-label>
+                                    <div v-if="contentTopic.extLink2 !== ''">
+                                      <q-btn flat label="Link 2"/>
+                                    </div>
                                   </q-item-section>
                                   <q-item-section side>
                                     <q-btn
@@ -227,6 +231,8 @@ export default {
     },
     removeContentTopicEntryButtonPressed: function (id) {
       // TODO: Implement
+      this.contentTopicList = this.contentTopicList.filter(item => item.id !== id)
+      this.saveContentTopics()
       console.log('delete content topic with id: ' + id)
     }
   },
