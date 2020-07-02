@@ -125,6 +125,18 @@
                                   <q-item-section>
                                     <q-item-label>{{contentTopic.extLink2}}</q-item-label>
                                   </q-item-section>
+                                  <q-item-section>
+                                    <div class="row q-ml-md">
+                                        <q-btn
+                                          @click='editContentTopicEntryButtonPressed(contentTopic.id)'
+                                          color='secondary'
+                                          icon="edit"
+                                          size='sm'
+                                        />
+                                        <div class="q-ml-sm"/>
+                                        <q-btn @click='removeContentTopicEntryButtonPressed(contentTopic.id)' color='negative' icon="delete_forever" size='sm' />
+                                    </div>
+                                  </q-item-section>
                                 </q-item>
                               </q-list>
                             </div>
@@ -168,13 +180,6 @@ export default {
       this.localTextColor1 = this.$lightTextColor1
       this.localTextColor2 = this.$lightTextColor2
     }
-    if (this.$q.localStorage.getItem('accounts')) {
-      try {
-        this.accounts = JSON.parse(this.$q.localStorage.getItem('accounts'))
-      } catch (e) {
-        this.$q.localStorage.remove('accounts')
-      }
-    }
     if (this.$q.localStorage.getItem('contentTopicList')) {
       try {
         this.contentTopicList = JSON.parse(this.$q.localStorage.getItem('contentTopicList'))
@@ -212,6 +217,14 @@ export default {
       const parsed = JSON.stringify(this.contentTopicList)
       this.$q.localStorage.set('contentTopicList', parsed)
       console.log('Content Topic List: ' + parsed)
+    },
+    editContentTopicEntryButtonPressed: function (id) {
+      // TODO: Implement
+      console.log('edit content topic with id: ' + id)
+    },
+    removeContentTopicEntryButtonPressed: function (id) {
+      // TODO: Implement
+      console.log('delete content topic with id: ' + id)
     }
   },
   computed: {
