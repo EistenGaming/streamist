@@ -43,11 +43,10 @@ export async function getTopGamesInfo (noOfGames) {
 export async function getGameBoxUrl (gameName) {
   const twitch = connect()
   const gameInfo = await twitch.searchGames(gameName)
+  console.log(gameInfo.games)
   var result = ''
-  if (gameInfo !== null) {
+  if (gameInfo.games !== null) {
     result = gameInfo.games[0].box.large
-  } else {
-    result = ''
   }
   return result
 }
