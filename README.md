@@ -4,7 +4,8 @@ EistenGaming Streamist (eg.streamist, pronounced like "extremist" :p) aims to he
 
 eg.streamist is a multiplatform application based on the Quasar meta-framework. Currently, only the Windows platform is tested, but Mac and Linux should run just fine. We are also looking into making eg.streamist available on Android (phones and tablets) as well as iOS devices.
 
-eg.streamist is FREE and OpenSource. If you want to contribute, please consider becoming a patreon at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). If you're a developer and want to help with the coding, that's appreciated too!
+**Contributions**
+eg.streamist is FREE to use and OpenSource. If you want to contribute, please consider becoming a patreon at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). If you're a developer and want to help with the coding, that's appreciated too!
 
 By the way, if you are an Android/iOS developer, do get in touch!
 
