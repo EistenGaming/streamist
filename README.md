@@ -1,14 +1,22 @@
 # eg.streamist
 
-EistenGaming Streamist (eg.streamist, pronounced like "extremist" :p) aims to help content creators organize their work, define their audience, find their niche and track their progress over all major content delivery platforms. We aim for Youtube, Twitch and Facebook (since Mixer is now dead). The current focus lies on Twitch.
+It can be daunting to get into streaming or content creation in general. Where do I start? What should I stream? How do I organize my work? When we started out on our own journey in March 2020, we faced the same questions. We wished for a tool that could help us do research and organize our work as content creators. Since we didn't find such a tool, we decided to create one.
+
+EistenGaming Streamist (eg.streamist, pronounced like "extremist" :p) aims to help content creators organize their work, define their audience, find their niche and track their progress over all major content delivery platforms. We aim for Youtube, Twitch and Facebook Gaming (since Mixer is now dead). The current focus lies on Twitch. 
 
 eg.streamist is a multiplatform application based on the Quasar meta-framework. Currently, only the Windows platform is tested, but Mac and Linux should run just fine. We are also looking into making eg.streamist available on Android (phones and tablets) as well as iOS devices.
-
-By the way, if you are an Android/iOS developer and want to contribute, get in touch!
 
 > **A note on Twitch credentials:**
 > Please note that you need a Twitch ```clientID``` and ```client secret```. If you are unsure how to get these, check out the documentation here: [Twitch Authentication](https://dev.twitch.tv/docs/authentication).
 > The credentials are required to access your channel information that is not available publicly. Also, it allows the app to take action on behalf of your Twitch account (e.g. chat moderation, change stream info text, etc).
+
+## Contributions
+
+eg.streamist is FREE to use and OpenSource. If you want to contribute, please consider becoming a patreon at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). Your can also subscribe to our [Twitch Channel](https://www.twitch.tv/eistengaming), follow us on [YouTube](https://www.youtube.com/c/EistenGaming) and [Twitter](https://twitter.com/eistengaming) or get some [merchandize](https://merch.streamelements.com/eistengaming) or just leave a [Tip](https://streamelements.com/eistengaming/tip). Whatever strikes your fancy, it's appreciated.
+
+If you're a developer and want to help with the coding, that's appreciated too!
+
+By the way, if you are an Android/iOS developer, do get in touch!
 
 ## Screenshots
 
