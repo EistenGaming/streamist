@@ -12,7 +12,7 @@ eg.streamist is a multiplatform application based on the Quasar meta-framework. 
 
 ## Download
 
-The latest build is v0.6.0. Download it here: [Windwos](https://github.com/EistenGaming/streamist/releases/tag/v0.6.0)
+The latest build is v0.6.0. Download it here: [Windows](https://github.com/EistenGaming/streamist/releases/tag/v0.6.0)
 
 ## Contributions
 
