@@ -26,6 +26,10 @@ If you're a developer and want to help with the coding, that's appreciated too!
 
 By the way, if you are an Android/iOS developer, do get in touch!
 
+## Sponsors
+
+Your logo could be here! Get in touch if you are interested in sponsoring eg.streamist development.
+
 ## Screenshots
 
 The home screen loads the top 5 games, streams and featured streams on application startup. 
