@@ -14,7 +14,7 @@ eg.streamist is a multiplatform application based on the Quasar meta-framework. 
 
 eg.streamist is portable, no installation required. Just unzip it and run Streamist.exe.
 
-**Stable Builds**
+**Production Builds**
 
 - TBD
 
