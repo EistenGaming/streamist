@@ -14,7 +14,7 @@ Vue.use(VueGoogleCharts)
 * Set the App and NXS versions here, until we find a better (automated) solution
 */
 Vue.prototype.$appName = 'Streamist'
-Vue.prototype.$appVersion = '1.0'
+Vue.prototype.$appVersion = '0.6.0'
 Vue.prototype.$copyright = 'Copyright (c) by Michael "Zen" Boeni'
 
 /** Define the DARK UI theme colors */
