@@ -99,7 +99,7 @@
                             </form>
                           </div>
                           </div>
-                          <div class="q-ml-md elementBorder">
+                          <div class="q-ml-md elementBorder col-grow">
                             <div class="q-ma-md column">
                               <q-list >
                                 <q-item v-for="contentTopic in contentTopicList" :key="contentTopic.id" clickable>
@@ -116,7 +116,7 @@
                                       {{platform}}
                                     </q-item-label>
                                   </q-item-section>
-                                  <q-item-section>
+                                  <q-item-section >
                                     <q-item-label>{{contentTopic.description}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
