@@ -14,6 +14,8 @@ eg.streamist is a multiplatform application based on the Quasar meta-framework. 
 
 The latest build is v0.6.0. Download it here: [Windows](https://github.com/EistenGaming/streamist/releases/download/v0.6.0/Streamist-v0.6.0-win32-x64.zip)
 
+eg.streamist is portable, no installation required. Just unzip it and run Streamist.exe.
+
 ## Contributions
 
 eg.streamist is FREE to use and OpenSource. If you want to contribute, please consider becoming a patron at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). Your can also subscribe to our [Twitch Channel](https://www.twitch.tv/eistengaming), follow us on [YouTube](https://www.youtube.com/c/EistenGaming) and [Twitter](https://twitter.com/eistengaming) or get some [merchandize](https://merch.streamelements.com/eistengaming) or just leave a [Tip](https://streamelements.com/eistengaming/tip). Whatever strikes your fancy, it's appreciated. 
