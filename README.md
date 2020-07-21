@@ -16,7 +16,9 @@ The latest build is v0.6.0. Download it here: [Windows](https://github.com/Eiste
 
 ## Contributions
 
-eg.streamist is FREE to use and OpenSource. If you want to contribute, please consider becoming a patron at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). Your can also subscribe to our [Twitch Channel](https://www.twitch.tv/eistengaming), follow us on [YouTube](https://www.youtube.com/c/EistenGaming) and [Twitter](https://twitter.com/eistengaming) or get some [merchandize](https://merch.streamelements.com/eistengaming) or just leave a [Tip](https://streamelements.com/eistengaming/tip). Whatever strikes your fancy, it's appreciated. If you just want to hang out with the community and see what's going on, consider joining our [Discor Server](https://discord.gg/UYtDust).
+eg.streamist is FREE to use and OpenSource. If you want to contribute, please consider becoming a patron at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). Your can also subscribe to our [Twitch Channel](https://www.twitch.tv/eistengaming), follow us on [YouTube](https://www.youtube.com/c/EistenGaming) and [Twitter](https://twitter.com/eistengaming) or get some [merchandize](https://merch.streamelements.com/eistengaming) or just leave a [Tip](https://streamelements.com/eistengaming/tip). Whatever strikes your fancy, it's appreciated. 
+
+If you just want to hang out with the community and see what's going on, consider joining our [Discor Server](https://discord.gg/UYtDust).
 
 If you're a developer and want to help with the coding, that's appreciated too!
 
