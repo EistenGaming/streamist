@@ -51,8 +51,8 @@ export default {
       aboutInfo: {
         id: util.createUUIDv4(),
         image: 'https://pbs.twimg.com/profile_banners/1228420911734366211/1588544940/600x200',
-        aboutText: 'If you enjoy the software, you are welcome to donate: HERE (TBD)',
-        changelog: '<p style="color: #76FF03"><strong>NEW FEATURES</strong></p><p>* Added Top Games to the analytics dashboard <br/>* Added Top Streams to the analytics dashboard<br/>* Added Featured Streams to the analytics dashboard<br/>* Added Streamer Info to the analytics dashboard<br/></p><p style="color: #FF7043"><strong>FIXES</strong></p>* The link to the "About" should no longer be removed when dev mode is disabled in the settings</br>* Box shots and for channel previews should now be displayed properly'
+        aboutText: '',
+        changelog: '<p style="color: #EEEEFF"><strong>MIT License</strong></p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software  and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p> <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>'
       },
       thumbStyle: { right: '4px', borderRadius: '5px', background: 'white', width: '7px', opacity: 0.7 },
       contentStyle: { background: 'sedondary' }, // used when cursor is NOT over chat area
