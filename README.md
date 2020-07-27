@@ -69,7 +69,7 @@ Manage your accounts, as well as the app's appearance, notification behavior and
 
 ## The Kit
 
-Due to popular demand, here's the streaming kit we're using:
+Due to popular demand, here's the dev and streaming kit we're using:
 
 ### PC
 * [Coolermaster ATX Mastercase Maker 5t](https://amzn.to/33CetZu)
