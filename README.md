@@ -38,6 +38,35 @@ By the way, if you are an Android/iOS developer, do get in touch!
 
 Your logo could be here! Get in touch if you are interested in sponsoring eg.streamist development.
 
+## Screenshots
+
+The home screen loads the top 5 games, streams and featured streams on application startup. 
+
+![Home Screen](images/screenshot_home_07_2020.jpg)
+
+The analytics page allows you to query the platforms for top games, top streams, featured streams and info about a specific streamer.
+
+Showing off the top games in grid mode:
+
+![Analytics Top Games - Grid Mode](images/screenshot_db_topgames_t07_2020.jpg)
+
+..and in table mode:
+
+![Analytics Top Games - Table Mode](images/screenshot_db_topgames_table_07_2020.jpg)
+
+Featured streams show a stream snapshot instead of the game box shot.
+
+![Analytics Featured Streams](images/screenshot_db_featured_streams_07_2020.jpg)
+
+If you want to know a little more about a specific streamer, the streamer info page has what you need.
+
+![Analytics Streamer Info](images/screenshot_db_streamerinfo_07_2020.jpg)
+
+Manage your accounts, as well as the app's appearance, notification behavior and more in the settings section.
+
+![Analytics Streamer Info](images/screenshot_settings_accounts_07_2020.jpg)
+![Analytics Streamer Info](images/screenshot_settings_appearance_07_2020.jpg)
+
 ## The Kit
 
 Due to popular demand, here's the streaming kit we're using:
@@ -67,35 +96,6 @@ Due to popular demand, here's the streaming kit we're using:
 ### The Chair
 * [Noblechairs Epic](https://amzn.to/3ekdF0a)
 
-
-## Screenshots
-
-The home screen loads the top 5 games, streams and featured streams on application startup. 
-
-![Home Screen](images/screenshot_home_07_2020.jpg)
-
-The analytics page allows you to query the platforms for top games, top streams, featured streams and info about a specific streamer.
-
-Showing off the top games in grid mode:
-
-![Analytics Top Games - Grid Mode](images/screenshot_db_topgames_t07_2020.jpg)
-
-..and in table mode:
-
-![Analytics Top Games - Table Mode](images/screenshot_db_topgames_table_07_2020.jpg)
-
-Featured streams show a stream snapshot instead of the game box shot.
-
-![Analytics Featured Streams](images/screenshot_db_featured_streams_07_2020.jpg)
-
-If you want to know a little more about a specific streamer, the streamer info page has what you need.
-
-![Analytics Streamer Info](images/screenshot_db_streamerinfo_07_2020.jpg)
-
-Manage your accounts, as well as the app's appearance, notification behavior and more in the settings section.
-
-![Analytics Streamer Info](images/screenshot_settings_accounts_07_2020.jpg)
-![Analytics Streamer Info](images/screenshot_settings_appearance_07_2020.jpg)
 
 ## Getting Started
 
