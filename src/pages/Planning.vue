@@ -228,9 +228,15 @@ export default {
     editContentTopicEntryButtonPressed: function (id) {
       // TODO: Implement
       console.log('edit content topic with id: ' + id)
+      var entry = this.contentTopicList.filter(item => item.id === id)
+      console.log(entry)
+      this.contentTopicName = entry[0].name
+      this.contentTopicPlatformsSelected = entry[0].platforms
+      this.contentTopicDescription = entry[0].description
+      this.contentTopicExternalLink = entry[0].extLink1
+      this.contentTopicExternalLink2 = entry[0].extLink2
     },
     removeContentTopicEntryButtonPressed: function (id) {
-      // TODO: Implement
       this.contentTopicList = this.contentTopicList.filter(item => item.id !== id)
       this.saveContentTopics()
       console.log('delete content topic with id: ' + id)
