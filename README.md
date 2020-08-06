@@ -28,7 +28,7 @@ eg.streamist is portable, no installation required. Just unzip it and run Stream
 
 eg.streamist is **FREE** to use and **OpenSource**. If you want to contribute, please consider becoming a patron at [EistenGaming on Patreon](https://www.patreon.com/EistenGaming). Your can also subscribe to our [Twitch Channel](https://www.twitch.tv/eistengaming), follow us on [YouTube](https://www.youtube.com/c/EistenGaming) and [Twitter](https://twitter.com/eistengaming) or get some [merchandize](https://merch.streamelements.com/eistengaming) or just leave a [Tip](https://streamelements.com/eistengaming/tip). Whatever strikes your fancy, it's appreciated. 
 
-If you just want to hang out with the community and see what's going on, consider joining our [Discor Server](https://discord.gg/UYtDust).
+If you just want to hang out with the community and see what's going on, consider joining our [Discord Server](https://discord.gg/UYtDust).
 
 If you're a developer and want to help with the coding, that's appreciated too!
 
