@@ -175,6 +175,7 @@ export default {
       contentTopicDescription: '',
       contentTopicExternalLink: '',
       contentTopicExternalLink2: '',
+      contentTopicID: '',
       contentTopicList: []
     }
   },
@@ -217,12 +218,23 @@ export default {
       console.log('Topic add cancelled')
     },
     saveAddTopicButtonPressed: async function () {
-      this.contentTopicImageURL = await twLib.getGameBoxUrl(this.contentTopicName)
-      // TODO: Overwrite (if existing) vs add
-      this.contentTopicList.push({ id: util.createUUIDv4(), name: this.contentTopicName, imgUrl: this.contentTopicImageURL, platforms: this.contentTopicPlatformsSelected, description: this.contentTopicDescription, extLink1: this.contentTopicExternalLink, extLink2: this.contentTopicExternalLink2 })
-      console.log('Added topic')
+      if (this.contentTopicList.filter(item => item.id === this.contentTopicID).length > 0) {
+        /** The entry exists */
+        // filter out the old one
+        this.contentTopicList = this.contentTopicList.filter(item => item.id !== this.contentTopicID)
+        // add the updated one
+        this.contentTopicImageURL = await twLib.getGameBoxUrl(this.contentTopicName)
+        this.contentTopicList.push({ id: this.contentTopicID, name: this.contentTopicName, imgUrl: this.contentTopicImageURL, platforms: this.contentTopicPlatformsSelected, description: this.contentTopicDescription, extLink1: this.contentTopicExternalLink, extLink2: this.contentTopicExternalLink2 })
+        this.contentTopicID = ''
+        console.log('Updated topic')
+      } else {
+        this.contentTopicImageURL = await twLib.getGameBoxUrl(this.contentTopicName)
+        this.contentTopicList.push({ id: util.createUUIDv4(), name: this.contentTopicName, imgUrl: this.contentTopicImageURL, platforms: this.contentTopicPlatformsSelected, description: this.contentTopicDescription, extLink1: this.contentTopicExternalLink, extLink2: this.contentTopicExternalLink2 })
+        console.log('Added topic')
+      }
       this.saveContentTopics()
       console.log('Saved topic list')
+      /** Clearing the form */
       this.contentTopicName = ''
       this.contentTopicPlatformsSelected = []
       this.contentTopicDescription = ''
@@ -239,7 +251,9 @@ export default {
       console.log('edit content topic with id: ' + id)
       var entry = this.contentTopicList.filter(item => item.id === id)
       console.log(entry)
+      this.contentTopicID = entry[0].id
       this.contentTopicName = entry[0].name
+      this.contentTopicImageURL = entry[0].imgUrl
       this.contentTopicPlatformsSelected = entry[0].platforms
       this.contentTopicDescription = entry[0].description
       this.contentTopicExternalLink = entry[0].extLink1
