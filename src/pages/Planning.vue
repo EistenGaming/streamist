@@ -16,7 +16,7 @@
                 </q-tabs>
             </div>
             <div class="row">
-              <q-tab-panels v-model="activePlanningTab" class=" bg-secondary" animated >
+              <q-tab-panels v-model="activePlanningTab" class="col-grow bg-secondary" animated >
                   <q-tab-panel name="ContentTopics" >
                     <div style="width:100%">
                       <div class="row">
@@ -108,7 +108,7 @@
                                       <img :src=contentTopic.imgUrl>
                                     </q-avatar>
                                   </q-item-section>
-                                  <q-item-section>
+                                  <q-item-section class="col-2">
                                     <q-item-label>{{contentTopic.name}}</q-item-label>
                                   </q-item-section>
                                   <q-item-section>
@@ -116,17 +116,25 @@
                                       {{platform}}
                                     </q-item-label>
                                   </q-item-section>
-                                  <q-item-section >
+                                  <q-item-section class="col-3" >
                                     <q-item-label>{{contentTopic.description}}</q-item-label>
                                   </q-item-section>
-                                  <q-item-section>
+                                  <q-item-section class="col-1">
                                     <div v-if="contentTopic.extLink1 !== ''">
-                                      <q-btn flat label="Link 1"/>
+                                      <q-btn flat >
+                                        <div class="ellipsis">
+                                          Link 1
+                                        </div>
+                                      </q-btn>
                                     </div>
                                   </q-item-section>
-                                  <q-item-section>
+                                  <q-item-section class="col-1">
                                     <div v-if="contentTopic.extLink2 !== ''">
-                                      <q-btn flat label="Link 2"/>
+                                      <q-btn flat>
+                                        <div class="ellipsis">
+                                          Link 2
+                                        </div>
+                                      </q-btn>
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
