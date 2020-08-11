@@ -209,7 +209,11 @@ export default {
   methods: {
     // Methods
     cancelAddTopicButtonPressed: function () {
-      // TODO: IMPLEMENT
+      this.contentTopicName = ''
+      this.contentTopicPlatformsSelected = []
+      this.contentTopicDescription = ''
+      this.contentTopicExternalLink = ''
+      this.contentTopicExternalLink2 = ''
       console.log('Topic add cancelled')
     },
     saveAddTopicButtonPressed: async function () {
@@ -219,6 +223,11 @@ export default {
       console.log('Added topic')
       this.saveContentTopics()
       console.log('Saved topic list')
+      this.contentTopicName = ''
+      this.contentTopicPlatformsSelected = []
+      this.contentTopicDescription = ''
+      this.contentTopicExternalLink = ''
+      this.contentTopicExternalLink2 = ''
     },
     saveContentTopics: function () {
       const parsed = JSON.stringify(this.contentTopicList)
