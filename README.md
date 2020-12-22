@@ -140,7 +140,7 @@ While still in the project directory, run the following command.
 npm install
 ```
 
-### 5) Start the app in development mode (hot-code reloading, error reporting, etc.)
+### 6) Start the app in development mode (hot-code reloading, error reporting, etc.)
 
 ```bash
 quasar dev -m electron
