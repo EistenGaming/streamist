@@ -123,12 +123,20 @@ Cloning with HTTPS:
 git clone https://github.com/EistenGaming/streamist.git
 ```
 
-### 4) Install dependencies
+### 4) Install Quasar
 
-CD into the project directory and install the dependencies.
+CD into the project directory and install Quasar CLI.
 
 ```bash
 cd streamist
+npm install -g @quasar/cli
+```
+
+### 5) Install dependencies
+
+While still in the project directory, run the following command.
+
+```bash
 npm install
 ```
 
