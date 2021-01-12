@@ -11,6 +11,8 @@ export function connect () {
       /** TODO: error handling */
     }
   }
+
+  if (!accounts) { return }
   const twAccountData = accounts.find(item => item.type === 'Twitch')
   const Twitch = require('twitch.tv-api')
   const twitch = new Twitch({
