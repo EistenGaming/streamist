@@ -682,13 +682,13 @@ export default {
       }
     }
     // Start progress indicator
-    this.$root.$emit('showIndeterminateProgress', true)
+    this.showProgressSpinner()
     // Run the querys on page load
     this.runQueryTopGames()
     this.runQueryTopStreams()
     this.runQueryFeaturedStreamsInfo()
     // End progress indicator
-    this.$root.$emit('showIndeterminateProgress', false)
+    this.hideProgressSpinner()
   },
   watch: {
     uiEnableDarkMode: function () {

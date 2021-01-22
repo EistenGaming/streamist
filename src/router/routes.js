@@ -1,59 +1,69 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ]
+    component: () => import('pages/Index.vue'),
+    name: 'dashboard'
   },
   {
     path: '/settings',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('pages/settings/index'),
     children: [
-      { path: '', component: () => import('pages/Settings.vue') }
+      {
+        path: 'accounts',
+        component: () => import('pages/settings/accounts'),
+        name: 'settings.accounts'
+      },
+      {
+        path: 'appearance',
+        component: () => import('pages/settings/appearance'),
+        name: 'settings.appearance'
+      },
+      {
+        path: 'notifications',
+        component: () => import('pages/settings/notifications'),
+        name: 'settings.notifications'
+      },
+      {
+        path: 'connectivity',
+        component: () => import('pages/settings/connectivity'),
+        name: 'settings.connectivity'
+      }
     ]
   },
   {
     path: '/home',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ]
+    component: () => import('pages/Index.vue')
   },
   {
     path: '/analyticsDashboard',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/AnalyticsDashboard.vue') }
-    ]
+    component: () => import('pages/AnalyticsDashboard.vue'),
+    name: 'analytics.index'
   },
+
   {
     path: '/planning',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('pages/planning/index'),
     children: [
-      { path: '', component: () => import('pages/Planning.vue') }
+      {
+        path: '',
+        component: () => import('pages/planning/content-topics'),
+        name: 'planning.content-topics.index'
+      }
     ]
   },
   {
     path: '/about',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/about.vue') }
-    ]
+    component: () => import('pages/About.vue'),
+    name: 'about'
   },
   {
     path: '/devtools',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('pages/Devtools.vue'),
     children: [
       {
-        path: '',
-        component: () => import('pages/Devtools.vue'),
-        children: [
-          {
-            path: 'debugLog',
-            component: () => import('pages/DebugLog.vue')
-          }
-        ]
+        path: 'debugLog',
+        component: () => import('pages/DebugLog.vue'),
+        name: 'devtools.debug-log'
       }
     ]
   }

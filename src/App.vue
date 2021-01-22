@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <router-view />
+    <component :is="layouts[layout]" :component="layouts[layout]"></component>
   </div>
 </template>
 
@@ -9,17 +9,24 @@
 /** TODO: Fix this once global css colors work */
 import Vue from 'vue'
 import VueGoogleCharts from 'vue-google-charts'
+
+const requireContext = require.context('layouts', false, /.*\.vue$/)
+
+import { mapState } from 'vuex'
+
 Vue.use(VueGoogleCharts)
 /*
 * Set the App and NXS versions here, until we find a better (automated) solution
 */
 Vue.prototype.$appName = 'eg.streamist'
 Vue.prototype.$appVersion = '0.6.0'
-Vue.prototype.$copyright = 'Copyright (c) 2020 by Michael "Zen" Boeni'
+Vue.prototype.$copyright = 'Copyright (c) 2021 by Michael "Zen" Boeni'
 
 /** Define the DARK UI theme colors */
-Vue.prototype.$darkPrimary = '#2F3136' /** '#364552' */
-Vue.prototype.$darkSecondary = '#36393F' /** '#6A7C89' */
+Vue.prototype.$darkPrimary = '#2F3136'
+/** '#364552' */
+Vue.prototype.$darkSecondary = '#36393F'
+/** '#6A7C89' */
 Vue.prototype.$darkAccent = '#ad2bc4'
 Vue.prototype.$darkPositive = '#21BA45'
 Vue.prototype.$darkNegative = '#e84a3f'
@@ -42,6 +49,9 @@ Vue.prototype.$lightTextColor2 = '#364552'
 
 export default {
   name: 'App',
+  created () {
+    this.getLayouts()
+  },
   mounted () { // This allows you to do stuff 'on page load'
     if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
       Vue.prototype.$textColor1 = Vue.prototype.$darkTextColor1
@@ -49,6 +59,28 @@ export default {
     } else {
       Vue.prototype.$textColor1 = Vue.prototype.$lightTextColor1
       Vue.prototype.$textColor2 = Vue.prototype.$lightTextColor2
+    }
+  },
+  data () {
+    return {
+      layouts: []
+    }
+  },
+  computed: {
+    ...mapState({
+      layout: state => state.ui.layout
+    })
+  },
+  methods: {
+    getLayouts () {
+      this.layouts = requireContext.keys()
+        .map(file =>
+          [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file)]
+        )
+        .reduce((components, [name, component]) => {
+          components[name] = component.default
+          return components
+        }, {})
     }
   }
 }
