@@ -6,15 +6,13 @@
         <div class="logoPosition" v-else>
           <img alt="NX logo" src="~assets/nexus-logo-pos.png">
       </div> -->
-    <q-scroll-area
-      :thumb-style='thumbStyle'
-      style="width: 100%;"
-      class="fill-window">
+    <q-scroll-area class="full-width fill-window" >
       <div class="q-pt-sm flex items-center justify-center" v-if="hasConnectedAnyAccount">
         <div class="row">
           <q-card
-            v-for='infoBlock in infoBlocks' v-bind:key='infoBlock.id'
-            class="col q-ma-sm tileBGColor"
+            v-for='infoBlock in infoBlocks'
+            :key='infoBlock.id'
+            class="col q-ma-sm bg-blue-grey-8 text-white"
             style="border-radius: 7px; height: 600px; width: 300px; min-width: 300px; max-width: 300px">
             <div v-if="infoBlock.title.length > 3">
               <q-card-section>
@@ -69,20 +67,10 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      thumbStyle: {
-        right: '4px',
-        borderRadius: '5px',
-        background: 'white',
-        width: '7px',
-        opacity: 0.7
-      },
-      contentStyle: { background: 'secondary' }, // used when cursor is NOT over chat area
-      contentActiveStyle: { background: 'secondary' }, // used when cursor IS over chat area
       topGamesInfo: [],
       topStreamsInfo: [],
       featuredStreamsInfo: [],
-      infoBlocks: [],
-      imgHover: false
+      infoBlocks: []
     }
   },
   computed: {
@@ -92,7 +80,7 @@ export default {
   },
   async mounted () { // This allows you to do stuff 'on page load'
     if (this.hasConnectedAnyAccount) {
-      this.$root.$emit('showIndeterminateProgress', true)
+      this.showProgressSpinner()
       /** Populte the news items */
       this.topGamesInfo = await twLib.getTopGamesInfo(5)
       for (let index = 0; index < this.topGamesInfo.length; index++) {
@@ -130,7 +118,7 @@ export default {
       }
     }
     // End progress indicator
-    this.$root.$emit('showIndeterminateProgress', false)
+    this.hideProgressSpinner()
   },
   methods: {
     createUUID: function () {
@@ -150,20 +138,12 @@ export default {
   height: calc(100vh - 100px);
 }
 
-.tileBGColor {
-  background-color: (var(--q-color-primary))
-}
-
 .logoPosition {
   position: absolute;
   text-align: center;
   top: 50%;
   transform: translateY(-50%);
   z-index: 0;
-}
-
-.infoBlock {
-  background-color: (var(--q-color-primary))
 }
 
 .infoBlock:hover {

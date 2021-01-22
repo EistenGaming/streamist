@@ -1,11 +1,34 @@
 const routes = [
   {
     path: '/',
-    component: () => import('pages/Index.vue')
+    component: () => import('pages/Index.vue'),
+    name: 'dashboard'
   },
   {
     path: '/settings',
-    component: () => import('pages/Settings.vue')
+    component: () => import('pages/settings/index'),
+    children: [
+      {
+        path: 'accounts',
+        component: () => import('pages/settings/accounts'),
+        name: 'settings.accounts'
+      },
+      {
+        path: 'appearance',
+        component: () => import('pages/settings/appearance'),
+        name: 'settings.appearance'
+      },
+      {
+        path: 'notifications',
+        component: () => import('pages/settings/notifications'),
+        name: 'settings.notifications'
+      },
+      {
+        path: 'connectivity',
+        component: () => import('pages/settings/connectivity'),
+        name: 'settings.connectivity'
+      }
+    ]
   },
   {
     path: '/home',
@@ -13,15 +36,25 @@ const routes = [
   },
   {
     path: '/analyticsDashboard',
-    component: () => import('pages/AnalyticsDashboard.vue')
+    component: () => import('pages/AnalyticsDashboard.vue'),
+    name: 'analytics.index'
   },
+
   {
     path: '/planning',
-    component: () => import('pages/Planning.vue')
+    component: () => import('pages/planning/index'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/planning/content-topics'),
+        name: 'planning.content-topics.index'
+      }
+    ]
   },
   {
     path: '/about',
-    component: () => import('pages/About.vue')
+    component: () => import('pages/About.vue'),
+    name: 'about'
   },
   {
     path: '/devtools',
@@ -29,7 +62,8 @@ const routes = [
     children: [
       {
         path: 'debugLog',
-        component: () => import('pages/DebugLog.vue')
+        component: () => import('pages/DebugLog.vue'),
+        name: 'devtools.debug-log'
       }
     ]
   }

@@ -15,17 +15,15 @@
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
-          :style="{ color: localTextColor1 }"
           icon="menu"
           aria-label="Menu"
         />
 
         <q-space/>
-        <div v-if="showIndeterminateProgress === true">
+        <div v-if="shouldShowProgressSpinner">
           <q-circular-progress
             indeterminate
             size='30px'
-            color='localTextColor1'
             center-color="secondary"
             :thickness="0.6"
           />
@@ -73,9 +71,9 @@
       :width="250"
     >
       <q-list>
-        <q-item to="/home" exact clickable v-ripple>
+        <q-item to="/" exact clickable v-ripple>
           <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="home" size="48px"/>
+            <q-avatar icon="home" size="48px"/>
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
               <div style="font-size:medium">Home</div>
             </q-tooltip>
@@ -84,26 +82,26 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/analyticsDashboard" exact clickable v-ripple>
+        <q-item :to="{name:'analytics.index'}" exact clickable v-ripple>
           <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="insert_chart" size="48px"/>
+            <q-avatar icon="insert_chart" size="48px"/>
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
               <div style="font-size:medium">Analytics Dashboard</div>
             </q-tooltip>
           </q-item-section>
         </q-item>
-        <q-item to="/planning" exact clickable v-ripple>
+        <q-item :to="{name:'planning.content-topics.index'}" clickable v-ripple>
           <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="trending_up" size="48px"/>
+            <q-avatar icon="trending_up" size="48px"/>
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
               <div style="font-size:medium">Planning</div>
             </q-tooltip>
           </q-item-section>
         </q-item>
         <div v-if="uiEnableDeveloperMode === true">
-          <q-item to="/devtools" exact clickable v-ripple>
+          <q-item :to="{name:'devtools.debug-log'}" exact clickable v-ripple>
             <q-item-section side>
-              <q-avatar :style="{ color: localTextColor1 }" icon="developer_mode" size="48px">
+              <q-avatar icon="developer_mode" size="48px">
                 <div v-if="uiEnableLogEntryBadge === true && uiUnresolvedLogEntryCount > 0">
                   <q-badge class="badgePosition" color="accent" text-color="white" floating transparent>{{ uiUnresolvedLogEntryCount }}</q-badge>
                 </div>
@@ -117,17 +115,17 @@
             </q-item-section>
           </q-item>
         </div>
-        <q-item to="/about" exact clickable v-ripple>
+        <q-item :to="{name:'about'}" exact clickable v-ripple>
           <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="info_outline" size="48px"/>
+            <q-avatar icon="info_outline" size="48px"/>
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
               <div style="font-size:medium">About</div>
             </q-tooltip>
           </q-item-section>
         </q-item>
-        <q-item to="/settings" exact clickable v-ripple>
+        <q-item :to="{name:'settings.accounts'}" clickable v-ripple>
           <q-item-section side>
-            <q-avatar :style="{ color: localTextColor1 }" icon="settings" size="48px"/>
+            <q-avatar icon="settings" size="48px"/>
             <q-tooltip content-class="bg-black text-blue-grey-3" anchor="center right" self="center left" :offset="[10, 10]">
               <div style="font-size:medium">Settings</div>
             </q-tooltip>
@@ -138,25 +136,6 @@
         </q-item>
       </q-list>
     </q-drawer>
-    <!-- *** User Alert Dialog *** -->
-    <q-dialog v-model="userAlertDialog" position="top">
-      <q-card style="width: 450px">
-        <q-card-section class="row items-center justify-center no-wrap">
-          <q-btn
-            flat
-            round
-            size="24px"
-            :icon="this.userAlertIcon"
-            :style="{color: this.userAlertIconColor}"
-          />
-          <div>
-            <div class="text-weight-bold">{{ this.userAlertTitle }}</div>
-            <div class="text-grey">{{ this.userAlertText }}</div>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-    <!-- *** END User Message Dialog *** -->
     <q-page-container>
       <router-view/>
     </q-page-container>
@@ -175,38 +154,17 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      twitchToggleState: false,
-      facebookToggleState: false,
-      youtubeToggleState: false,
-      twitchStateTextColor: 'blue-grey-9',
-      twitchStateBgColor: 'secondary',
-      facebookStateTextColor: 'blue-grey-3',
-      facebookStateBgColor: 'secondary',
-      youtubeStateTextColor: 'blue-grey-3',
-      youtubeStateBgColor: 'secondary',
       userAlertDialog: false,
-      userAlertTitle: '',
-      userAlertText: '',
-      userAlertIcon: '',
-      userAlertIconColor: '',
-      userAlertSeverity: ['info', 'warning', 'error', 'fatal'
-      ],
-      localTextColor1: '',
-      localTextColor2: '',
       progressValue: 0,
       uiEnableDeveloperMode: false,
       uiEnableLogEntryBadge: false,
       uiUnreadChatMessageCount: 0,
-      uiUnresolvedLogEntryCount: 0,
-      showIndeterminateProgress: false
+      uiUnresolvedLogEntryCount: 0
     }
   },
-  mounted () { // This allows you to do stuff 'on page load'
-    this.$root.$on('userAlert', this.showUserAlert)
-    this.$root.$on('userNotify', this.showUserNotify)
-    this.$root.$on('themeChange', this.changeTheme)
+  mounted () {
+    // This allows you to do stuff 'on page load'
     this.$root.$on('showProgress', this.showProgress)
-    this.$root.$on('showIndeterminateProgress', this.toggleIndeterminateProgress)
     this.$root.$on('developerMode', this.enableDevMode)
     this.$root.$on('unresolvedLogEntries', this.setUnresolvedLogEntryCount)
     this.uiEnableLogEntryBadge = this.$q.localStorage.getItem('uiEnableLogEntryBadge')
@@ -219,6 +177,9 @@ export default {
     }
   },
   computed: {
+    shouldShowProgressSpinner () {
+      return this.$store.getters['ui/progressSpinner']
+    },
     isUsernameValid () {
       if (this.newUsername) {
         return this.newUsername.length >= 3
@@ -268,7 +229,7 @@ export default {
         this.$q.electron.remote.BrowserWindow.getFocusedWindow().close()
       }
     },
-    keyListener: function (e) {
+    keyListener (e) {
       // DEBUG: This is for debugging purposes only
       if (e.key === '1' && (e.ctrlKey || e.metaKey)) {
         this.$root.$emit('userAlert', 'fatal', 'A message from the president', 'Obey the president!')
@@ -280,81 +241,42 @@ export default {
         this.$root.$emit('showProgress', 0.70)
       } else if (e.key === '5' && (e.ctrlKey || e.metaKey)) {
         this.$root.$emit('showProgress', 1.00)
-      } else if (e.key === '6' && (e.ctrlKey || e.metaKey)) {
-        this.$root.$emit('showIndeterminateProgress')
       }
     },
-    showUserAlert: function (severity, title, message) {
-      this.userAlertSeverity = severity
-      this.userAlertTitle = title
-      this.userAlertText = message
-      if (severity === 'warning') {
-        this.userAlertIcon = 'warning'
-        this.userAlertIconColor = getComputedStyle(document.documentElement).getPropertyValue('--q-color-warning')
-      } else if (severity === 'error') {
-        this.userAlertIcon = 'error_outline'
-        this.userAlertIconColor = getComputedStyle(document.documentElement).getPropertyValue('--q-color-negative')
-      } else if (severity === 'fatal') {
-        this.userAlertIcon = 'error'
-        this.userAlertIconColor = getComputedStyle(document.documentElement).getPropertyValue('--q-color-negative')
-      } else {
-        this.userAlertIcon = 'info'
-        this.userAlertIconColor = getComputedStyle(document.documentElement).getPropertyValue('--q-color-info')
-      }
-      this.userAlertDialog = true
-    },
-    showUserNotify: function (text, caption, icon) {
-      this.$q.notify({
-        message: text,
-        caption: caption,
-        icon: icon,
-        color: 'notifyBg',
-        textColor: 'black'
-      })
-    },
-    showProgress: function (progress) {
+    showProgress (progress) {
       this.progressValue = progress
     },
     toggleIndeterminateProgress: function (val) {
-      this.showIndeterminateProgress = val
-      console.log('indeterminate indicator: ' + this.showIndeterminateProgress)
+      console.log({ val })
+      if (val) {
+        this.showProgressSpinner()
+      } else {
+        this.hideProgressSpinner()
+      }
     },
 
-    enableDevMode: function (devMode) {
-      if (devMode) {
-        this.uiEnableDeveloperMode = true
-      } else {
-        this.uiEnableDeveloperMode = false
-      }
+    enableDevMode (devMode) {
+      this.uiEnableDeveloperMode = !!devMode
     },
-    enableChatMessageBadge: function (showBadge) {
-      if (showBadge) {
-        this.uiEenableChatMessageBadge = true
-      } else {
-        this.uiEenableChatMessageBadge = false
-      }
+    enableChatMessageBadge (showBadge) {
+      this.uiEenableChatMessageBadge = !!showBadge
     },
-    enableLogEntryBadge: function (showBadge) {
-      if (showBadge) {
-        this.uiEnableLogEntryBadge = true
-      } else {
-        this.uiEnableLogEntryBadge = false
-      }
+    enableLogEntryBadge (showBadge) {
+      this.uiEnableLogEntryBadge = !!showBadge
     },
-    setUnreadMessageCount: function (noOfMessages) {
+    setUnreadMessageCount (noOfMessages) {
       // TODO: Implement
       this.uiUnreadChatMessageCount = noOfMessages
     },
-    setUnresolvedLogEntryCount: function (noOfReports) {
+    setUnresolvedLogEntryCount (noOfReports) {
       // TODO: Implement
       this.uiUnresolvedLogEntryCount = noOfReports
     },
-    getCurrentRoute: function () {
+    getCurrentRoute () {
       // console.log('ROUTE: ' + this.$router.currentRoute.path)
       return this.$router.currentRoute.path
     }
   }
-
 }
 </script>
 

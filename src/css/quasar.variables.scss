@@ -1,3 +1,5 @@
+@import '~quasar/src/css/variables';
+
 // Quasar Sass (& SCSS) Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -14,11 +16,14 @@
 
 // NX custom colors
 
-$primary   : #364552
-$secondary : #6A7C89
-$accent    : #ad2bc4
+$primary   : #364552;
+$secondary : #6A7C89;
+$accent    : #ad2bc4;
 
-$positive  : #21BA45
-$negative  : #e84a3f
-$info      : #31CCEC
-$warning   : #F2C037
+$positive  : #21BA45;
+$negative  : #e84a3f;
+$info      : #31CCEC;
+$warning   : #F2C037;
+
+
+$site-bg: $grey-1;

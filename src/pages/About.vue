@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bg-secondary">
+  <q-page class="site-bg">
     <div style="width:100%" class="q-pa-sm flex items-center justify-center" :style="{ color: localTextColor1 }">
         <q-card
         class="col q-ma-sm bg-grey-10"

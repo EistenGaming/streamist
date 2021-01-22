@@ -2,12 +2,14 @@
 
 export const state = {
   layout: 'MainLayout',
-  dark: false
+  dark: false,
+  progressSpinner: false
 
 }
 export const getters = {
   theme: state => state.theme,
-  darkMode: state => state.dark
+  darkMode: state => state.dark,
+  progressSpinner: state => state.progressSpinner
 }
 
 export const mutations = {
@@ -18,6 +20,14 @@ export const mutations = {
 
   toggleDarkMode (state) {
     state.dark = !state.dark
+  },
+
+  showProgressSpinner (state) {
+    state.progressSpinner = true
+  },
+
+  hideProgressSpinner (state) {
+    state.progressSpinner = false
   }
 }
 
