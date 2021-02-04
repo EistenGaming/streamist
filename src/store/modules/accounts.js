@@ -1,30 +1,43 @@
 import { LocalStorage } from 'quasar'
 
 export const state = {
-  twitch: null,
-  youtube: null,
-  facebook: null
+	twitch: null,
+	youtube: null,
+	facebook: null
 }
 export const getters = {
-  twitch: state => state.twitch,
-  youtube: state => state.youtube,
-  facebook: state => state.facebook,
-  all: state => state,
-  any: state => {
-    return state.twitch || state.youtube || state.facebook
-  }
+	twitch: state => state.twitch,
+	youtube: state => state.youtube,
+	facebook: state => state.facebook,
+	all: state => state,
+	any: state => {
+		return state.twitch || state.youtube || state.facebook
+	}
 }
 
 export const mutations = {
-  initialize (state) {
-    const accounts = JSON.parse(LocalStorage.getItem('accounts'))
-    if (!accounts) { return }
-    accounts.forEach(acct => {
-      if (acct.type === 'Twitch') {
-        state.twitch = acct
-      }
-    })
-  }
+	initialize (state) {
+		const accounts = LocalStorage.getItem('accounts')
+		if (!accounts) {
+			return
+		}
+		Object.keys(accounts).forEach(key => {
+			if (key === 'twitch') {
+				state.twitch = accounts[key]
+			}
+		})
+	},
+
+	set (state, payload) {
+		state[payload.type] = payload.value
+
+		LocalStorage.set('accounts', state)
+	}
 }
 
-export const actions = {}
+export const actions = {
+
+	set ({ commit }, payload) {
+		commit('set', payload)
+	}
+}

@@ -30,24 +30,24 @@
 
 <script>
 export default {
-  name: 'Appearance',
-  data () {
-    return {
-      uiEnableDeveloperMode: false
-    }
-  },
-  computed: {
-    darkMode: {
-      get () {
-        return this.$store.getters['ui/darkMode']
-      },
-      set (val) {
-        this.$q.dark.set(val)
-        this.$store.commit('ui/toggleDarkMode')
-      }
-    }
-  },
-  methods: {}
+	name: 'Appearance',
+	data () {
+		return {
+			uiEnableDeveloperMode: false
+		}
+	},
+	computed: {
+		darkMode: {
+			get () {
+				return this.$store.getters['ui/darkMode']
+			},
+			set (val) {
+				this.$q.dark.set(val)
+				this.$store.commit('ui/toggleDarkMode')
+			}
+		}
+	},
+	methods: {}
 }
 </script>
 

@@ -48,40 +48,40 @@ Vue.prototype.$lightTextColor2 = '#364552'
 /** Global vars end */
 
 export default {
-  name: 'App',
-  created () {
-    this.getLayouts()
-  },
-  mounted () { // This allows you to do stuff 'on page load'
-    if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
-      Vue.prototype.$textColor1 = Vue.prototype.$darkTextColor1
-      Vue.prototype.$textColor2 = Vue.prototype.$darkTextColor2
-    } else {
-      Vue.prototype.$textColor1 = Vue.prototype.$lightTextColor1
-      Vue.prototype.$textColor2 = Vue.prototype.$lightTextColor2
-    }
-  },
-  data () {
-    return {
-      layouts: []
-    }
-  },
-  computed: {
-    ...mapState({
-      layout: state => state.ui.layout
-    })
-  },
-  methods: {
-    getLayouts () {
-      this.layouts = requireContext.keys()
-        .map(file =>
-          [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file)]
-        )
-        .reduce((components, [name, component]) => {
-          components[name] = component.default
-          return components
-        }, {})
-    }
-  }
+	name: 'App',
+	created () {
+		this.getLayouts()
+	},
+	mounted () { // This allows you to do stuff 'on page load'
+		if (this.$q.localStorage.getItem('uiEnableDarkMode')) {
+			Vue.prototype.$textColor1 = Vue.prototype.$darkTextColor1
+			Vue.prototype.$textColor2 = Vue.prototype.$darkTextColor2
+		} else {
+			Vue.prototype.$textColor1 = Vue.prototype.$lightTextColor1
+			Vue.prototype.$textColor2 = Vue.prototype.$lightTextColor2
+		}
+	},
+	data () {
+		return {
+			layouts: []
+		}
+	},
+	computed: {
+		...mapState({
+			layout: state => state.ui.layout
+		})
+	},
+	methods: {
+		getLayouts () {
+			this.layouts = requireContext.keys()
+				.map(file =>
+					[file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file)]
+				)
+				.reduce((components, [name, component]) => {
+					components[name] = component.default
+					return components
+				}, {})
+		}
+	}
 }
 </script>
