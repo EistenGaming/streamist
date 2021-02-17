@@ -1,76 +1,76 @@
 <template>
-	<q-page class="flex items-center justify-center">
-		<q-scroll-area class="full-width fill-window">
-			<div class="q-px-md" v-if="hasConnectedAnyAccount">
-				<h1 class="text-center">Twitch Helix API works !!</h1>
-				<div class="row q-col-gutter-md">
-					<div
-						class="col-12 col-sm-6 col-md-3"
-						v-for='( infoBlock, index ) in infoBlocks'
-						:key='index'>
-						<q-card
+	<q-page padding>
+		<div class="q-px-md" v-if="hasConnectedAnyAccount">
+			<h3 class="">Top Games</h3>
+			<div class="row q-col-gutter-lg">
+				<div
+					class="col-12 col-sm-6 col-md-2"
+					v-for='(gameCard,index) in api.games.top'
+					:key='index'>
+					<q-card
+						class="bg-transparent shadow-10 game-card full-height"
+					>
+						<q-card-section class="q-pa-none bg-transparent">
+							<div class="game-card-image-wrapper bg-transparent">
+								<q-img class="game-card-image bg-transparent" :src="gameCard.image"></q-img>
+								<h4 class="q-px-sm q-py-sm">{{ gameCard.name }}</h4>
 
-							class="bg-blue-grey-8 shadow-5 text-white"
-						>
-							<div class="" v-if="infoBlock.title.length > 3">
-								<q-card-section>
-									<div class="text-h6">
-										{{ infoBlock.title }}
-									</div>
-								</q-card-section>
-								<div v-if="infoBlock.channelUrl !== '' ">
-									<q-card-section class="q-ma-xs cursor-pointer infoBlock">
-										<q-img
-											:src='infoBlock.image'
-											basic
-											@click='imgClicked(infoBlock.channelUrl)'
-										>
-										</q-img>
-									</q-card-section>
-								</div>
-								<div v-else>
-									<q-card-section class="q-ma-xs">
-										<q-img
-											:src='infoBlock.image'
-											basic
-											@click='imgClicked(infoBlock.channelUrl)'
-										>
-										</q-img>
-									</q-card-section>
-								</div>
-								<q-card-section class="q-pa-xs q-pl-md">
-									<div class="text-h6">
-										{{ infoBlock.subTitle }}
-									</div>
-									<span v-html="infoBlock.text"></span>
-								</q-card-section>
 							</div>
-						</q-card>
-					</div>
+						</q-card-section>
+					</q-card>
+				</div>
+			</div>
+			<q-separator class="q-my-lg"></q-separator>
+			<h3 class="">Top Streams</h3>
+			<div class="row q-col-gutter-lg">
+				<div
+					class="col-12 col-sm-6 col-md-3"
+					v-for='(gameCard,index) in api.streams.top'
+					:key='index'>
+					<q-card
+						class="bg-transparent shadow-10 game-card full-height"
+					>
+						<q-card-section class="q-pa-none bg-transparent">
+							<div class="game-card-image-wrapper bg-transparent">
+								<q-img class="game-card-image bg-transparent" :src="gameCard.image"></q-img>
+								<h4 class="q-px-sm q-my-xs">{{ gameCard.name }}</h4>
+								<h5 class="q-px-sm q-py-sm">
+									<q-icon name="mdi-eye"></q-icon>
+									{{ gameCard.viewer_count }}
+								</h5>
 
+							</div>
+						</q-card-section>
+					</q-card>
 				</div>
 			</div>
-			<div v-else>
-				<div class="text-center full-height flex justify-center">
-					<h4>No account attached</h4>
-				</div>
+		</div>
+		<div v-else>
+			<div class="text-center full-height flex justify-center">
+				<h4>No account attached</h4>
 			</div>
-		</q-scroll-area>
+		</div>
 	</q-page>
 </template>
 
 <script>
-import Twitch from 'src/utils/twitch'
-import { openURL } from 'quasar'
+import Twitch from 'src/app/api/twitch'
+import GameCard from 'src/app/models/GameCard'
+import Youtube from 'src/app/api/youtube'
 
 export default {
 	name: 'PageIndex',
 	data () {
 		return {
-			topGamesInfo: [],
-			topStreamsInfo: [],
-			featuredStreamsInfo: [],
-			infoBlocks: []
+			youtube: null,
+			api: {
+				games: {
+					top: []
+				},
+				streams: {
+					top: []
+				}
+			}
 		}
 	},
 	computed: {
@@ -78,48 +78,50 @@ export default {
 			return this.$store.getters['accounts/any']
 		}
 	},
-	created () {
-		const account = this.$store.getters['accounts/twitch']
-		console.log(account);
-		const twitch = new Twitch(account.token)
-		twitch.getChannels()
-			.then((response) => {
-				console.log(response.data)
-			})
-			.catch(() => {})
-			.finally(() => {})
+	mounted () {
+		this.initTwitch()
+		this.initYT()
+		this.youtube.getTopGames()
 	},
 	methods: {
-		imgClicked: function (url) {
-			if (url !== '') {
-				openURL(url)
-			}
+		initTwitch () {
+			const account = this.$store.getters['accounts/twitch']
+			const twitch = new Twitch(account.token)
+			twitch.getTopGames({ limit: 6 })
+				.then((response) => {
+					const responseData = response.data.data
+					responseData.forEach(item => {
+						this.api.games.top.push(new GameCard(item, {
+							source: 'twitch',
+							type: 'top-games'
+						}))
+					})
+				})
+
+			twitch.getTopStreams({ limit: 8 })
+				.then((response) => {
+					const responseData = response.data.data
+					responseData.forEach(item => {
+						this.api.streams.top.push(new GameCard(item, {
+							source: 'twitch',
+							type: 'top-streams'
+						}))
+					})
+				})
+		},
+		initYT () {
+			this.youtube = new Youtube(process.env.YOUTUBE_API_KEY)
 		}
 	}
 }
 </script>
 <style lang="scss">
-.fill-window {
-	height: calc(100vh - 100px);
-}
+.game-card {
+	transition: all 0.1s;
+	box-sizing: border-box;
 
-.logoPosition {
-	position: absolute;
-	text-align: center;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 0;
+	&:hover {
+		transform: scale(1.1);
+	}
 }
-
-.infoBlock:hover {
-	background-color: (var(--q-color-accent))
-}
-
-/** The css code below would highlight the image itself */
-/* .infoBlock {
-    background-color:(var(--q-color-primary))
-    &:hover {
-      background:rgba($color: #ad2bc4, $alpha: 0.4)
-    }
-} */
 </style>

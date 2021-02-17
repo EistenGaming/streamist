@@ -25,7 +25,10 @@ export default {
 			}
 
 			this.$store.dispatch('accounts/set', payload)
-			console.log({ token })
+				.then(() => {
+					this.$toasted.success('Logged in successfully')
+					this.$router.push({ name: 'dashboard' })
+				})
 		}
 	}
 }

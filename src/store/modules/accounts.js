@@ -32,6 +32,11 @@ export const mutations = {
 		state[payload.type] = payload.value
 
 		LocalStorage.set('accounts', state)
+	},
+
+	logout (state, { service }) {
+		state[service] = null
+		LocalStorage.set('accounts', state)
 	}
 }
 
@@ -39,5 +44,9 @@ export const actions = {
 
 	set ({ commit }, payload) {
 		commit('set', payload)
+	},
+
+	logout ({ commit }, payload) {
+		commit('logout', payload)
 	}
 }
