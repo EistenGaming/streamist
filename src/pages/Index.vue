@@ -34,10 +34,14 @@
 							<div class="game-card-image-wrapper bg-transparent">
 								<q-img class="game-card-image bg-transparent" :src="gameCard.image"></q-img>
 								<h4 class="q-px-sm q-my-xs">{{ gameCard.name }}</h4>
-								<h5 class="q-px-sm q-py-sm">
-									<q-icon name="mdi-eye"></q-icon>
-									{{ gameCard.viewer_count }}
-								</h5>
+								<div class="q-px-sm q-py-sm">
+									<span>
+										<q-icon name="mdi-eye"></q-icon>
+										{{ gameCard.viewer_count }}
+									</span>
+
+									<q-icon name="fab fa-twitch" color="accent" size="lg"></q-icon>
+								</div>
 
 							</div>
 						</q-card-section>
@@ -80,8 +84,20 @@ export default {
 	},
 	mounted () {
 		this.initTwitch()
-		this.initYT()
-		this.youtube.getTopGames()
+		// this.initYT()
+		const youtube = new Youtube(process.env.YOUTUBE_API_KEY)
+		youtube.getTopGames().then(response => {
+			const responseData = response.data.items
+			responseData.forEach(item => {
+				this.api.streams.top.push(new GameCard(item, {
+					source: 'youtube'
+				}))
+			})
+		})
+		// youtube.get('/videoCategories', { id: 20 }).then((response) => {
+		// 	const id = response.data.items[0].snippet.channelId
+		// 	youtube.get('/channels', { id })
+		// })
 	},
 	methods: {
 		initTwitch () {
@@ -110,7 +126,7 @@ export default {
 				})
 		},
 		initYT () {
-			this.youtube = new Youtube(process.env.YOUTUBE_API_KEY)
+
 		}
 	}
 }

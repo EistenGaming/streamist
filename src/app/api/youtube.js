@@ -11,6 +11,12 @@ export default class Youtube {
 		})
 	}
 
+	get (url, params = {}) {
+		return this.axios.get(url, {
+			params
+		})
+	}
+
 	getTopGames () {
 		return this.axios.get('/search', {
 			params: {
